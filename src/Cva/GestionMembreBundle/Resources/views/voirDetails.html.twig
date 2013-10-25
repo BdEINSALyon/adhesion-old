@@ -1,0 +1,48 @@
+
+			  <p><span class="label label-info">N° Etudiant</span><br />{{ etu.numEtudiant }}</p>
+			  <p><span class="label label-info">Nom</span><br />{{ etu.name }}</p>
+			  <p><span class="label label-info">Prénom</span><br />{{ etu.firstName }}</p>
+			  <p><span class="label label-info">Etudes</span><br />{{ etu.annee }}{{ etu.departement }}</p>
+			  <p><span class="label label-info">Téléphone</span><br />{{ etu.tel }}</p>
+			  <p><span class="label label-info">Email</span><br />{{ etu.mail }}</p>
+			  <p><span class="label label-info">Civilité</span><br />{{ etu.civilite }}</p>
+			  <p><span class="label label-info">Naissance</span><br />{{ etu.birthday|date('d-m-Y') }}</p>
+			  <p><span class="label label-info">Remarque</span><br />{{ etu.remarque }}</p>
+			<p><span class="label label-info">Produits</span><br />
+			  	{% for prod in produits %}
+			  		<li>{{ prod.description }}</li>
+			  	{% endfor %}
+			  </p>
+			<td>
+				<form action="editetudiant" class="text-center btModifierEtudiant">
+					<input type="hidden" name="id" value="{{ etu.id }}" />
+					{% if is_granted('ROLE_PERM') %}
+					<button type="submit" class="btn">Modifier</button>
+					{% endif %}
+					{% if is_granted('ROLE_MODO') %}
+						<a href="#myModal{{ etu.id }}" role="button" class="btn" data-toggle="modal">Supprimer</a>
+					{% endif %}
+					{% if (is_granted('ROLE_COWEI') and not(is_granted('ROLE_ADMIN')))%}
+						<a href="{{path('cva_gestion_membre_ajoutDetailsWEI')}}?id={{ etu.id }}" role="button" class="btn" data-toggle="modal">Details WEI</a>
+					{% endif %}
+					{% if is_granted('ROLE_PERM') %}
+						<a href="{{path('cva_gestion_membre_editPaiement')}}?id={{ etu.id }}" role="button" class="btn" data-toggle="modal">Produits</a>
+					{% endif %}
+				</form>
+				
+				
+				
+			</td>
+			<div id="myModal{{ etu.id }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					  <div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+							<h3 id="myModalLabel">Confirmation</h3>
+					  </div>
+					  <div class="modal-body">
+							<p>Voulez-vous vraiment supprimer cet utilisateur ?</p>
+					  </div>
+					  <div class="modal-footer">
+							<button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
+							<a role="button" href="{{path('cva_gestion_membre_deleteAdherent')}}?id={{ etu.id }}" class="btn btn-primary">Oui</a>
+					  </div>
+			</div>

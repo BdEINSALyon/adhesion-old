@@ -1,0 +1,61 @@
+{% extends '::base.html.twig' %}
+
+{% import '::navbar.html.twig' as navbar %}
+
+	{% block title %} Modif d'Utilisateur{% endblock %}
+
+	{% block navbar %}
+		{{ navbar.input('','','','active') }}
+	{% endblock %}
+
+	{% block content  %}
+
+		<div class="container well">
+				<fieldset>
+				    <legend>Formulaire de modification d'utilisateur</legend>
+				    
+					    <form action="{{ path('cva_gestion_membre_modifUser') }}?id={{ id }}" method="post" {{ form_enctype(form) }}> 
+					    {{ form_errors(form) }}
+					    <div class="row">
+
+					    <div class="span3">
+						    {{ form_row(form.username, {'label': 'Nom :', 'read_only' : 'true' } ) }}
+					    </div>
+						{%if is_granted('ROLE_SUPER_ADMIN') %}	
+						<div class="span3">				   
+						{{ form_row(form.password, {'label': 'Mot de Passe :'} ) }}
+						</div>	
+						{% else %}
+{{ form_widget(form.password, {'label': 'Mot de Passe :', 'attr' : { 'style':'display:none;width:0px' }} ) }}	
+{% endif %}			    
+					    <div class="span3">
+					    	{{ form_row(form.roles, {'label': 'Roles :' } ) }}
+					    </div>
+
+
+					    {{ form_rest(form) }}
+					    <div class="span3">
+							<br/>
+							<br/>
+							<input type="hidden" name="id" value="<?php echo $_GET['id'] ?>" />
+						    <input class="btn btn-large btn-primary" type="submit" />
+					    </div>
+
+					    </div>
+					    </form>
+					
+					{% for flashMessage in app.session.flashbag.get('notice') %}
+						<div class="row">
+							<div class="span4 alert alert-success">
+							  <button type="button" class="close" data-dismiss="alert">&times;</button>
+							  <strong>{{ flashMessage }}</strong>
+							</div>
+						</div>
+    					{% endfor %}
+
+				    
+				</fieldset>
+			
+		</div>
+
+{% endblock %}

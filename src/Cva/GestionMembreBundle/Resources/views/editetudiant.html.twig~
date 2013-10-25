@@ -1,0 +1,81 @@
+{% extends '::base.html.twig' %}
+
+{% import '::navbar.html.twig' as navbar %}
+
+	{% block title %} Modification d'adherent{% endblock %}
+
+	{% block navbar %}
+		{{ navbar.input() }}
+	{% endblock %}
+
+	{% block content  %}
+
+		<div class="container well">
+				<fieldset>
+				    <legend>Formulaire de modification d'adhérent</legend>
+				    
+					    <form action="{{ path('cva_gestion_membre_edit') }}?id={{ id }}" method="post" {{ form_enctype(form) }}> 
+					    {{ form_errors(form) }}
+					    <div class="row">
+
+					    <div class="span3">
+							{{ form_row(form.name, {'label': 'Nom :', 'attr' : { 'placeholder' : 'Nom' }} ) }}
+						</div>
+
+						<div class="span3">
+							{{ form_row(form.firstName, {'label': 'Prenom :', 'attr' : { 'placeholder' : 'Prenom' }} ) }}
+						</div>
+
+						<div class="span1">
+							{{ form_row(form.civilite, {'label': 'Civilite :', 'attr' : { 'placeholder' : 'Civilite' }} ) }}
+						</div>
+						<div class="span2">
+							{{ form_row(form.annee, {'label': 'Annee :', 'attr' : { 'style':'width:80px' }} ) }}
+							{{ form_row(form.departement, {'label': 'Departement :', 'attr' : { 'style':'width:80px' }} ) }}
+						</div>
+
+						<div class="span3">
+							{{ form_row(form.birthday, {'label': 'Date de Naissance :' } ) }}
+						</div>
+
+
+					   <div class="span3">
+					    	{{ form_row(form.numEtudiant, {'label': 'Numéro étudiant :', 'attr' : { 'placeholder' : 'Numéro étudiant' }} ) }}
+					    </div>
+
+					    
+					    <div class="span3">
+					    	{{ form_row(form.mail, {'label': 'Mail :', 'attr' : { 'placeholder' : 'Mail' }} ) }}
+					<button class="btn btn-mini" type="button" onclick="mailINSA();"> Mail INSA </button>
+					    </div>
+
+					    
+
+					    <div class="span3">
+						    {{ form_row(form.tel, {'label': 'Téléphone :', 'attr' : { 'placeholder' : 'Téléphone' }} ) }}
+					    </div>
+						
+					    {{ form_rest(form) }}
+
+
+					    <div class="span5 offset5">
+							<br/>
+							<input type="hidden" name="id" value="<?php echo $_GET['id'] ?>" />
+						    <input class="btn btn-large btn-primary" type="submit" />
+					    </div>
+
+					    </div>
+					    </form>
+					
+				    
+				</fieldset>
+			
+		</div>
+{% endblock %}
+ {% block javascripts %}
+{{ parent() }}
+			{% javascripts
+				'@CvaGestionMembreBundle/Resources/views/js/ajout.js'  %}				
+				<script type="text/javascript" src="{{ asset_url }}"></script>
+			{% endjavascripts %}
+{% endblock %}

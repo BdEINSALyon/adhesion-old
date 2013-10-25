@@ -1,0 +1,45 @@
+{% extends '::base.html.twig' %}
+
+{% import '::navbar.html.twig' as navbar %}
+
+	{% block title %} Modification de Produit{% endblock %}
+
+	{% block navbar %}
+		{{ navbar.input('','','','active') }}
+	{% endblock %}
+
+	{% block content  %}
+
+		<div class="container well">
+				<fieldset>
+				    <legend>Formulaire de modification de produit</legend>
+				    
+					    <form action="{{ path('cva_gestion_membre_editProduit') }}?id={{ id }}" method="post" {{ form_enctype(form) }}> 
+					    {{ form_errors(form) }}
+					    <div class="row">
+
+					    <div class="span3">
+						    {{ form_row(form.description, {'label': 'Description :', 'attr' : { 'placeholder' : 'Description' }} ) }}
+					    </div>
+						
+						<div class="span3">
+						    {{ form_row(form.price, {'label': 'Prix :', 'attr' : { 'placeholder' : 'Prix' }} ) }} €
+					    </div>
+
+<div class="span2 offset1">
+							{{ form_row(form.disponibilite, {'label': 'Disponibilite :','attr' : { 'placeholder' : 'Disponibilite' } } ) }}
+						</div>
+					    
+					    {{ form_rest(form) }}
+					    <div class="span3 offset1">
+							<br/>
+							<input type="hidden" name="id" value="<?php echo $_GET['id'] ?>" />
+						    <input class="btn btn-large btn-primary" type="submit" />
+					    </div>
+
+					    </div>
+					    </form>				    
+				</fieldset>			
+		</div>
+
+{% endblock %}

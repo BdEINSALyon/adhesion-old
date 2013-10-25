@@ -1,0 +1,10 @@
+services:
+    cva_gestion_membre:
+        class: Cva\GestionMembreBundle\Service\ServiceMembre
+        arguments:
+          em: "@doctrine.orm.entity_manager"
+    login_listener:
+        class: 'Cva\GestionMembreBundle\EventListener\LoginListener'
+        arguments: ['@security.context', '@session']
+        tags:
+            - { name: 'kernel.event_listener', event: 'security.interactive_login' }

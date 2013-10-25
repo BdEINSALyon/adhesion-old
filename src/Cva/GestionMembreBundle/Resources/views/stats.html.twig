@@ -1,0 +1,89 @@
+{% extends '::base.html.twig' %}
+
+{% import '::navbar.html.twig' as navbar %}
+
+	{% block title %} Statistiques {% endblock %}
+
+	{% block navbar %}
+		{{ navbar.input('','','','','active') }}
+	{% endblock %}
+	
+	{% block content %}
+	
+		<div class = container>
+			<div class="row">
+				<div class="span4">
+					<table class="table table-bordered">
+					  <thead>
+ 						<tr>
+							<th>Produit</th>
+							<th>Vendus</th>
+							<th>Magot</th>
+						</tr> 
+					  </thead>					  
+					  <tbody>
+					  	{% for prod in venteProds %}
+						<tr>
+							<td>{{ prod['prod'].description}}</td>
+							<td>{{ prod['vendus']}}</td>
+							<td>{{ prod['magot']}}€</td>						
+						</tr>
+						{% endfor %}							
+					  </tbody>
+					</table>
+				</div>
+
+				<div class="span4">
+					<table class="table table-bordered">
+					  <thead>
+ 						<tr>
+							<th>
+								Année
+							</th>
+							<th>
+								Adhésions VA
+							</th>
+						</tr> 
+					  </thead>					  
+					  <tbody>
+					  	{% for key,value in venteAnnee %}
+						<tr>
+							<td>{{ key }}</td>
+							<td>{{ value }}</td>
+						</tr>
+						{% endfor %}							
+					  </tbody>
+					</table>
+				<div class="well">{{ ventesMois }} adhesions depuis le début du mois.<br />{{ message}}</div>
+				</div>
+
+				<div class="span4">
+					<table class="table table-bordered">
+					  <thead>
+ 						<tr>
+							<th>
+								Département
+							</th>
+							<th>
+								Adhésions VA
+							</th>
+						</tr> 
+					  </thead>					  
+					  <tbody>
+					  	{% for key,value in venteDepart %}
+						<tr>
+							<td>{{ key }}</td>
+							<td>{{ value }}</td>
+						</tr>
+						{% endfor %}
+							
+					  </tbody>
+					</table>
+				</div>
+			
+				
+			</div>
+		</div>
+		
+{% endblock %}
+		

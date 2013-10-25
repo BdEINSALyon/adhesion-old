@@ -1,0 +1,13 @@
+cva_gestion_membre:
+    resource: "@CvaGestionMembreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+login:
+    pattern:  /login
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:login }
+
+login_check:
+    pattern:   /login_check
+ 
+logout:
+    pattern:   /logout
