@@ -1,0 +1,69 @@
+{% extends '::base.html.twig' %}
+
+{% import '::navbar.html.twig' as navbar %}
+
+{% block title %} Profil {% endblock %}
+
+{% block navbar %}
+	{{ navbar.input('','','', '', '','active') }}
+{% endblock %}
+
+{% block content  %}
+
+<div class="container well">
+				<fieldset>
+				    <legend>Modification du profil</legend>
+							    
+					    <form action="{{ path('cva_gestion_membre_profil') }}" method="post" {{ form_enctype(form) }}> 
+					    {{ form_errors(form) }}
+					    <div class="row">
+
+					    <div class="span3">
+						    {{ form_row(form.username, {'label': 'Nom d\'utilisateur :'} ) }}
+					    </div>
+	
+						<br/>
+				
+						<div class="span3 offset6">
+							<input class="btn btn-large btn-primary" type="submit" />
+						</div>
+
+					    </div>
+
+					   <br/>
+					   <br/>
+
+					   <fieldset>
+				   		 <legend>Modification du mot de passe</legend>
+
+					    <div class="row">
+
+					    <div class="span3">
+						    {{ form_row(form.oldPassword, {'label': 'Mot de Passe actuel :' } ) }}
+					    </div>
+
+					    <div class="span3">
+					    	{{ form_row(form.newPassword) }}
+					    </div>
+						
+					   <br/>
+					   <br/>
+	
+						<div class="span3 offset3">
+							<input class="btn btn-large btn-primary" type="submit" />
+							{{ form_rest(form) }}
+						</div>
+
+					     </div>
+					 
+					    </fieldset>					   
+
+					    
+					    </form>
+				    
+				</fieldset>
+			
+		</div>
+
+
+{% endblock %}

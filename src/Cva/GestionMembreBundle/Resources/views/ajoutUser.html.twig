@@ -1,0 +1,52 @@
+{% extends '::base.html.twig' %}
+
+{% import '::navbar.html.twig' as navbar %}
+
+	{% block title %} Ajout d'Utilisateur{% endblock %}
+
+	{% block navbar  %}
+
+		{{ navbar.input('','','','active') }}
+
+	{% endblock %}
+
+	{% block content  %}					
+
+		<div class="container well">
+				<fieldset>
+				    <legend>Formulaire d'ajout d'utilisateur</legend>
+				    
+					    <form action="{{ path('cva_gestion_membre_addUser') }}" method="post" {{ form_enctype(form) }}> 
+					    {{ form_errors(form) }}
+					    <div class="row">
+
+							<div class="span3">
+								{{ form_row(form.username, {'label': 'Nom :', 'attr' : { 'placeholder' : 'Nom' }} ) }}
+							</div>
+
+							<div class="span3">
+								{{ form_row(form.password, {'label': 'Mot de Passe :', 'attr' : { 'placeholder' : 'Mot de Passe' }} ) }}
+							</div>
+
+							<div class="span3">
+								{{ form_row(form.roles, {'label': 'Roles :' } ) }}
+							</div>
+
+
+							{{ form_rest(form) }}
+							<div class="span3">
+								<br/>
+								<br/>
+								<input class="btn btn-large btn-primary" type="submit" />
+							</div>
+
+					    </div>
+					    </form>
+
+
+				    
+				</fieldset>
+			
+		</div>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends '::base.html.twig' %}
+
+{% import '::navbar.html.twig' as navbar %}
+
+	{% block title %} Gestion des Utilisateurs {% endblock %}
+
+	{% block navbar %}
+		{{ navbar.input('','','','active') }}
+	{% endblock %}
+	
+	{% block content %}
+	
+		<div class ="container">
+			<div class="row">
+				<div class="span12">
+					<table class="table table-bordered">
+					  <thead>
+ 						<tr>
+							<th>
+								Utilisateur
+							</th>
+							<th>
+								Rôle
+							</th>
+							<th>
+							</th>
+						</tr> 
+					  </thead>					  
+					  <tbody id="users">
+					  
+						{% for us in user %}
+								<tr id="{{ us.id }}">
+									  <td>{{ us.username}}</td>
+									  <td>{{ us.roles[0] }}</td>
+									  <td>
+									  <a class="btn" href="modifUser?id={{ us.id }}">Editer</a >
+									  <a href="#id{{ us.id }}" role="button" class="btn" data-toggle="modal">Supprimer</a>
+									  </td>
+								</tr>	
+								<div id="id{{ us.id }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										  <div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+												<h3 id="myModalLabel">Confirmation</h3>
+										  </div>
+										  <div class="modal-body">
+												<p>Voulez-vous vraiment supprimer cet utilisateur ?</p>
+										  </div>
+										  <div class="modal-footer">
+												<button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
+												<a role="button" href="deleteUser?id={{ us.id }}" class="btn btn-primary">Oui</a>
+										  </div>
+								</div>
+						{% endfor %}	
+					  </tbody>
+					</table>
+				</div>
+			</div>
+		</div>		
+{% endblock %}

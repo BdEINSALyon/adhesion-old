@@ -1,0 +1,65 @@
+{% extends '::base.html.twig' %}
+
+	{% block title %} Accueil {% endblock %}
+
+	{% block navbar %} 
+		<div class="container">
+			<div class="navbar">
+	  			<div class="navbar-inner">
+	    			<a class="brand" href="#">Bienvenue sur le site de gestion des adhérents de la VA</a>
+	 			</div>
+			</div>
+		</div>
+	{% endblock %}
+	
+	{% block content %}
+
+		
+
+		<div class="container">  
+		
+			<div class="row">
+				<div class="span6 offset3">
+					<form class="form-horizontal" action="{{ path('login_check') }}" method="post" >
+
+					 	<div class="control-group">
+					    	<label class="control-label" for="username">Identifiant :</label>
+					    	<div class="controls">
+					     		<input type="text" id="username"  placeholder="Identifiant" name="_username" 			value="{{ last_username }}" />
+					    	</div>
+					 	</div>
+
+						
+					  	<div class="control-group">
+					    	<label class="control-label" for="password">Mot de Passe :</label>
+					    	<div class="controls">
+					      		<input name="_password" type="password" id="password" placeholder="Mot de Passe">
+					    	</div>
+					  	</div>
+
+					  	<div class="control-group">
+					    	<div class="controls">
+					      		{% if error %}
+										<div class="alert alert-error">{{ error.message }}</div>
+								{% endif %}								
+								
+								<label for="remember_me"><input type="checkbox" id="remember_me" name="_remember_me" checked />  Rester connecté</label>
+								</br>
+								<input type="submit" value="Connexion" />
+					    	</div>
+					  	</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<div class="container text-center">
+				Contactez nous : <A HREF="mailto:mael.ogier.38@gmail.com?subject=Probleme avec le site VA&cc=leo.vetter@insa-lyon.fr">Par ici</A>
+			</div>
+		</footer>
+
+	{% endblock %}
+ 
+
+ 
+  

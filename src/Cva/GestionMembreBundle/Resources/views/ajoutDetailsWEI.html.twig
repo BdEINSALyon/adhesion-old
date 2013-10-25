@@ -1,0 +1,45 @@
+{% extends '::base.html.twig' %}
+
+{% import '::navbar.html.twig' as navbar %}
+
+	{% block title %} Details WEI {% endblock %}
+
+	{% block navbar %}
+		{{ navbar.input('','','active') }}
+	{% endblock %}
+
+	{% block content  %}					
+
+		<div class="container well">
+				<fieldset>
+				    <legend>Ajout des Details WEI</legend>
+				    
+					    <form action="{{ path('cva_gestion_membre_ajoutDetailsWEI') }}" method="post" {{ form_enctype(form) }}> 
+					    {{ form_errors(form) }}
+					    <div class="row">
+
+					    <div class="span3">
+						    {{ form_row(form.bus, {'label': 'Bus :', 'attr' : { 'placeholder' : 'Bus' }} ) }}
+					    </div>
+						
+						<div class="span3">
+							{{ form_row(form.bungalow, {'label': 'Bungalow :', 'attr' : { 'placeholder' : 'Bungalow' }} ) }}
+						</div>
+					    
+					    {{ form_rest(form) }}
+					    <div class="span3 offset1">
+								<br/>
+								<input type="hidden" name="id" value="{{ id }}" />
+								<input class="btn btn-large btn-primary" type="submit" />
+							</div>
+
+					    </div>
+					    </form>
+					
+
+				    
+				</fieldset>
+			
+		</div>
+
+{% endblock %}

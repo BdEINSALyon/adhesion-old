@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		{% block stylesheets %}
+			<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+		{% endblock %}
+
+		<title>{% block title %} {% endblock %}</title>
+    </head>
+    <body>
+
+	{% block navbar %} {% endblock %}
+
+	{% block error %} 
+		<div class="container">
+			<div class="row">
+				{% for flashMessage in app.session.flashbag.get('notice') %}
+				
+								<div class="span4 alert alert-success">
+									<button type="button" class="close" data-dismiss="alert">&times;</button>
+									<strong>{{ flashMessage }}</strong>
+								</div>
+							
+				{% endfor %}
+				{% for flashMessage in app.session.flashbag.get('warning') %}
+				
+								<div class="span4 alert alert-error">
+									<button type="button" class="close" data-dismiss="alert">&times;</button>
+									<strong>{{ flashMessage }}</strong>
+								</div>
+							
+				{% endfor %}
+		</div>
+			</div>
+
+	{% endblock %}
+
+	{% block content %} {% endblock %}
+
+        {% block javascripts %}
+			<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+			<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+	{% endblock %}
+    </body>
+</html>

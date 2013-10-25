@@ -1,0 +1,38 @@
+Cva\GestionMembreBundle\Entity\Etudiant:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: mail
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: numEtudiant
+    properties:
+        numEtudiant:
+            - Regex:
+                pattern: "/^[0-9]{7}$/"
+                match: true
+                message: Le numéro d'étudiant contient uniquement des chiffres
+        tel:
+            - Regex:
+                pattern: "/^[0-9]{2}([.-\s]?[0-9]{2}){4}$|^\+[0-9]{2}[.-\s]?[0-9]([.-\s]?[0-9]{2}){4}$/"
+                match: true
+                message: Le téléphone est incorrect
+        mail:
+            - Regex:
+                pattern: "/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/"
+                match: true
+                message: Le mail est incorrect
+        name:
+            - Regex:
+                pattern: "/[0-9]/"
+                match: false
+                message: Le nom ne contient pas de chiffres
+        firstName:
+            - Regex:
+                pattern: "/[0-9]/"
+                match: false
+                message: Le prénom ne contient pas de chiffres
+        civilite:
+            - NotNull: ~
+        birthday:
+            - NotNull: ~
+
+Cva\GestionMembreBundle\Entity\User:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: { fields: username, message: Ce nome d'utilisateur est déjà pris}

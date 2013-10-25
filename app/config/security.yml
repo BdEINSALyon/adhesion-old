@@ -1,0 +1,50 @@
+security:
+    encoders:
+        #Symfony\Component\Security\Core\User\User: plaintext
+        Cva\GestionMembreBundle\Entity\User: sha512
+
+    role_hierarchy:
+        ROLE_SOIREE:      ROLE_CONSULT
+        ROLE_PERM:        ROLE_SOIREE
+        ROLE_MODO:        ROLE_PERM
+        ROLE_COWEI:       ROLE_PERM
+        ROLE_ADMIN:       [ROLE_MODO, ROLE_COWEI]
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+         main:
+            entity: { class: Cva\GestionMembreBundle\Entity\User, property: username }
+
+    firewalls:
+        dev:
+            pattern:  ^/(_profiler|_wdt|css|js)
+            security:  false 
+        login_firewall:
+            pattern: ^/login$
+            anonymous: true
+        api:
+            pattern: ^/api
+            anonymous: true	
+        main:
+            pattern:   ^/
+            anonymous: false
+            provider:  main
+            form_login:
+                login_path: login
+                check_path: login_check
+                always_use_default_target_path: true
+                default_target_path: /adherent
+            logout:
+                path:   logout
+                target: /ajoutAdherent
+            remember_me:
+                key:      "%secret%"
+                lifetime: 3600 # 1h en secondes
+                path:     /
+                domain:   ~
+
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/wei, roles: ROLE_COWEI }
+        - { path: ^/ajoutAdherent, roles: ROLE_SOIREE }
+        - { path: ^/profil, roles: ROLE_PERM }
