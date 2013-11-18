@@ -89,7 +89,7 @@ class GestionMembreController extends Controller
 	//Adherents
 	
 	 public function ajoutAdherentAction(Request $request)
-    	{
+	{
 		$em = $this->getDoctrine()->getManager();
 		$etudiant = new Etudiant();
 		$etudiant->setDepartement('PC');
@@ -97,25 +97,28 @@ class GestionMembreController extends Controller
 
 		if($request->isMethod('POST'))
 		{
+			//die(var_dump('coucou'));
 			$form->bind($request);
 
 			if ($form->isValid()) 
 			{
-				$em->persist($etudiant);
-				$em->flush();
-				$this->get('session')->getFlashBag()->add('notice', 'Etudiant ajouté');
-				
-				//Affichage mineur
-				$anniv = $etudiant->getBirthday();
-				$inter = $anniv->diff(new DateTime());
-				$age = $inter->format('%y');
-				if($age<18)
+				if($form->get('Valider')->isClicked())
 				{
-					$this->get('session')->getFlashBag()->add('warning', 'Cet etudiant est mineur !');
+					$em->persist($etudiant);
+					$em->flush();
+					$this->get('session')->getFlashBag()->add('notice', 'Etudiant ajouté');
+				
+					//Affichage mineur
+					$anniv = $etudiant->getBirthday();
+					$inter = $anniv->diff(new DateTime());
+					$age = $inter->format('%y');
+					if($age<18)
+					{
+						$this->get('session')->getFlashBag()->add('warning', 'Cet etudiant est mineur !');
+					}			
+				
+					return $this->redirect('paiement?id=' . $etudiant->getId());
 				}
-
-
-				return $this->redirect('paiement?id=' . $etudiant->getId());
 			}
 		}
 
@@ -229,8 +232,15 @@ return $this->redirect($this->generateUrl('cva_gestion_membre_ajoutAdherent'));
 				{
 					$this->get('session')->getFlashBag()->add('warning', 'Cet etudiant est mineur !');
 				}
-
-				return $this->redirect($this->generateUrl('cva_gestion_membre_adherent'));
+				
+				if($form->get('Prod')->isClicked())
+				{
+					return $this->redirect($this->generateUrl('cva_gestion_membre_editPaiement',array('id'=>$etudiant->getId())));
+				}
+				else
+				{
+					return $this->redirect($this->generateUrl('cva_gestion_membre_adherent'));
+				}
 			}
 		}
 		

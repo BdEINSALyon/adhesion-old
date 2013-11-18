@@ -59,14 +59,17 @@
 					{{ form_row(form.remarque, {'label': 'Remarque :', 'attr' : { 'placeholder' : 'Remarque' }} ) }}
 				</div>
 			</div>
+			
+			<br/>
 			<div class="row">
-				<div class="span2 offset5">
-					<br/>
-					<br/>				
-						{{ form_rest(form) }}
-						<input class="btn btn-large btn-primary" type="submit" />
-				</div>
-			</div>
+				<div class="span1 offset5">
+					    {{ form_row(form.Valider, {'label': 'Valider', 'attr' : { 'class' : 'btn btn-large btn-primary'}} ) }}
+					    
+			    	</div>			    	
+			    	<div class="span3">
+			    		{{ form_row(form.Prod, {'label': 'Valider + Produits', 'attr' : { 'class' : 'hidden'}} ) }}		    		</div>
+		    	</div>
+		    	{{ form_rest(form) }}
 		</div>
 	</form>
 </fieldset>

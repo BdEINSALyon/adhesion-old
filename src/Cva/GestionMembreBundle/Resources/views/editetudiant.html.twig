@@ -10,7 +10,7 @@
 
 	{% block content  %}
 
-		<div class="container well">
+		<div id="formulaire" class="container well">
 				<fieldset>
 				    <legend>Formulaire de modification d'adhérent</legend>
 				    
@@ -55,17 +55,32 @@
 					    <div class="span3">
 						    {{ form_row(form.tel, {'label': 'Téléphone :', 'attr' : { 'placeholder' : 'Téléphone' }} ) }}
 					    </div>
+					    
+					    <div class="span3">
+						    {{ form_row(form.remarque, {'label': 'Remarque :', 'attr' : { 'placeholder' : 'Remarque' }} ) }}
+					    </div>
+					    </div>
+					    <br/>
+					    
+						<div class="row">
+							<div class="span1 offset4">
+								    {{ form_row(form.Valider, {'label': 'Valider', 'attr' : { 'class' : 'btn btn-large btn-primary'}} ) }}
+								    
+						    	</div>			    	
+						    	<div class="span3">
+						    		{{ form_row(form.Prod, {'label': 'Modifier les produits', 'attr' : { 'class' : 'btn btn-large btn-primary'}} ) }}		    		</div>
+					    	</div>
+				    	{{ form_rest(form) }}
 						
-					    {{ form_rest(form) }}
+					    
 
 
 					    <div class="span5 offset5">
 							<br/>
-							<input type="hidden" name="id" value="<?php echo $_GET['id'] ?>" />
-						    <input class="btn btn-large btn-primary" type="submit" />
+							<input type="hidden" name="id" value="<?php echo $_GET['id'] ?>" /> 
 					    </div>
 
-					    </div>
+					    
 					    </form>
 					
 				    
