@@ -20,18 +20,29 @@ $(function() {
 
 });
 
-function voir(idEtu) {
+function voir(idEtu,remplacerToken) {
 
-	$.get("voirDetails?idEtu=" + idEtu,
-	function(msg){
-		$("#voirEtudiant").html(msg);
-	});
+	if(!remplacerToken)
+	{
+		$.get("voirDetails?idEtu=" + idEtu,
+		function(msg){
+			$("#voirEtudiant").html(msg);
+		});		
+	}
+	else
+	{
+		$.get("voirDetails?remplacer=yes&idEtu=" + idEtu,
+		function(msg){
+			$("#voirEtudiant").html(msg);
+		});	
+	}
 }
 
 function createCSV(obj,colUseless){
+	var titre=$("#nomEcran").html();
 	var tab=document.getElementById(obj);
 	var TabLignes=tab.getElementsByTagName('tr');
-	var csvText="";
+	var csvText=titre + '\n';
 	var ArrLine=new Array();
 
 	//Les en-têtes

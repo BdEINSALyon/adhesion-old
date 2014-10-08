@@ -1,0 +1,207 @@
+{% extends '::base.html.twig' %}
+
+{% import '::navbar.html.twig' as navbar %}
+
+{% block title %} Config {% endblock %}
+
+{% block navbar %}
+{{ navbar.input('','','','','active','') }}
+{% endblock %}
+
+{% block content %}
+{% if is_granted('ROLE_ADMIN') %}
+<div class="container well">
+	<h3>Config Générale</h3>
+	<div class="row">
+		<div class="span12">
+			<form id="formGenerale" name="input" action="{{path('cva_gestion_membre_writeJSONGeneral')}}" method="get">
+				Produits VA courants : </br>
+					{% for prod in allProduits %}
+							<input type="checkbox" name="produitsVA[] "value="{{ prod.id }}" {% if  prod.id in produitsVA %}checked="checked" {% endif %} > {{ prod.description }} </br>
+					{% endfor %}
+				<input class="btn" type="submit" value="Go !">
+			</form>
+		</div>
+	</div>
+
+</div>
+{% endif %}
+{% if is_granted('ROLE_COWEI') %}
+<div class="container well">
+	<h3>Config WEI</h3>
+	<div class="row"> 
+		<form id="formWEI" name="input" action="{{path('cva_gestion_membre_writeJSONWEI')}}" method="get">
+			<div class="span6"> 
+				Nombre Max de Bizuths : <input style="width:15%" type="text" name="nbBizuths" value="{{ nbMaxBizuths }}">
+			</br>
+				Date du WEI : <input style="width:30%" type="text" name="dateWEI" placeholder="YYYY-MM-DD" value="{{ dateWEI }}"> 
+			</br>
+				
+				Bungalows mixtes :
+				<select required = "required" name="bungMixtes" form="formWEI">
+						<option value="OUI" {% if  bungMixtes  == "OUI" %} selected="selected" {% endif %}> Oui</option>
+						<option value="NON" {% if  bungMixtes  == "NON" %} selected="selected" {% endif %}> Non</option>
+				</select>
+			</div>
+			<div class="span6">
+				Produit Pré-Inscription WEI : 
+				<select required = "required" name="produitPreInscritsWEI" form="formWEI">
+					{% for prod in allProduits %}
+						<option value="{{ prod.id }}" {% if  prod.id  == produitPreInscritsWEI %} selected="selected" {% endif %}> {{ prod.description }}</option>
+					{% endfor %}
+				</select>
+			</br>
+
+				Produit Inscription WEI : 
+				<select required = "required" name="produitInscriptionWEI" form="formWEI">
+					{% for prod in allProduits %}
+						<option value="{{ prod.id }}" {% if  prod.id  == produitInscriptionWEI %} selected="selected" {% endif %}> {{ prod.description }}</option>
+					{% endfor %}
+				</select>
+			</br>
+
+				Produit Liste d'attente Pré-Inscrits : 
+					<select required = "required" name="produitListePreWEI" form="formWEI">
+						{% for prod in allProduits %}
+							<option value="{{ prod.id }}" {% if  prod.id  == produitListePreWEI %} selected="selected" {% endif %}> {{ prod.description }}</option>
+						{% endfor %}
+					</select>
+				</br>
+				Produit Liste d'attente Inscrits : 
+				<select required = "required" name="produitListeWEI" form="formWEI">
+					{% for prod in allProduits %}
+						<option value="{{ prod.id }}" {% if  prod.id  == produitListeWEI %} selected="selected" {% endif %}> {{ prod.description }}</option>
+					{% endfor %}
+				</select>
+			</br>
+				Produit Remboursement WEI : 
+				<select required = "required" name="produitRemboursementWEI" form="formWEI">
+					{% for prod in allProduits %}
+						<option value="{{ prod.id }}" {% if  prod.id  == produitRemboursementWEI %} selected="selected" {% endif %}> {{ prod.description }}</option>
+					{% endfor %}
+				</select>
+				
+			</div>	
+			<div class="span4 offset4">
+				<input class="btn" type="submit" value="Go !">
+			</div>
+		</form>
+	</div>
+	<div class="row">
+		<div class="span5">
+			<legend>Bus</legend>
+			<form name="input" action="{{path('cva_gestion_membre_createMultipleBus')}}" method="get">
+				Générer un nombre fixe de bus : <input style="width:25px" type="text" name="nbBus">
+				<input class="btn" type="submit" value="Go !">
+			</form>
+
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th style="width:35%">Nom</th>
+						<th style="width:15%">Places</th>
+						<th style="width:15%">Prises</th>
+						<th style="width:35%"> </th>
+					</tr> 
+				</thead>					  
+				<tbody>
+					{% for bus in allBus %}
+					<tr id="{{ bus[0].id }}">
+						<td>{{ bus[0].nom }}</td>
+						<td>{{ bus[0].nbPlaces }}</td>	
+						<td>{{ bus[1] }}</td>	
+						<td> 
+							<span> 
+								<a class="btn" onclick="insertEditBus({{ bus[0].id }});">Edit</a >
+									<a class="btn" href="deleteBus?id={{ bus[0].id }}">Suppr</a >
+									</span> 
+								</td>				
+							</tr>
+							{% endfor %}							
+						</tbody>
+					</table>
+					<input class="btn btn-large btn-primary offset1" value="Ajouter un Bus" onclick="insertAjoutBus();" />
+
+				</div>
+				<div class="span7" id="insertBus">
+				</div>
+			</div>
+		</br>
+	</br>
+	<div class="row">
+		<div class="span5">
+			<legend>Bungalow</legend>
+			<form name="input" action="{{path('cva_gestion_membre_createMultipleBung')}}" method="get">
+				Générer un nombre fixe de bungalow : <input style="width:25px" type="text" name="nbBung">
+				<input class="btn" type="submit" value="Go !">
+			</form>
+
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th style="width:25%">Nom</th>
+						<th style="width:5%">Sexe</th>
+						<th style="width:15%">Places</th>
+						<th style="width:20%">Prises</th>
+						<th style="width:35%"> </th>
+					</tr> 
+				</thead>					  
+				<tbody>
+					{% for bung in allBung %}
+					<tr id="{{ bung[0].id }}">
+						<td>{{ bung[0].nom }}</td>
+						<td>{{ bung[0].sexe }}</td>
+						<td>{{ bung[0].nbPlaces }}</td>
+						<td>{{ bung[1]}}</td>		
+						<td> 
+							<span> 
+								<a class="btn" onclick="insertEditBung({{ bung[0].id }});">Edit</a >
+									<a class="btn" href="deleteBung?id={{ bung[0].id }}">Suppr</a >
+									</span> 
+								</td>				
+							</tr>
+							{% endfor %}
+
+						</tbody>
+					</table>
+					<input class="btn btn-large btn-primary offset1" value="Ajouter un Bungalow" onclick="insertAjoutBung();" />
+
+				</div>
+				<div class="span7" id="insertBung">
+				</div>
+			</div>
+		</br>
+			<div class="row">
+				<div class="span4 offset4">
+					<a href="#myModal" role="button" class="btn btn-large btn-warning" data-toggle="modal">Réinitialiser les données WEI</a>
+				</div>
+			</div>
+		</div>
+{% endif %}
+
+			<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					  <div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+							<h3 id="myModalLabel">Confirmation</h3>
+					  </div>
+					  <div class="modal-body">
+							<p>Voulez vous vraiment réinitialiser les données WEI ?</br>							
+								Cela implique :</br>						
+									- Desafectation de chaque bizuth de son bus/bungalow</br>
+									- Suppression des bus/bungalows
+							</p>
+					  </div>
+					  <div class="modal-footer">
+							<button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
+							<a role="button" href="{{path('cva_gestion_membre_clearWEI')}}" class="btn btn-primary">Oui</a>
+					  </div>
+			</div>
+		{% endblock %}
+
+		{% block javascripts %}
+		{{ parent() }}
+		{% javascripts
+		'@CvaGestionMembreBundle/Resources/views/js/config.js'  %}				
+		<script type="text/javascript" src="{{ asset_url }}"></script>
+		{% endjavascripts %}
+		{% endblock %}

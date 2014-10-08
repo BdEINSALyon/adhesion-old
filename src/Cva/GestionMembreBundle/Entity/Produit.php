@@ -110,4 +110,9 @@ class Produit
     {
         return $this->disponibilite;
     }
+
+    public function __toString()
+    {
+        return strval($this->getId());
+    }
 }

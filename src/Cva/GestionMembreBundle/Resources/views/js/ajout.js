@@ -26,6 +26,10 @@ function mailINSA(){
 	document.getElementById('etudiant_mail').value=accentsTidy(prenom)+'.'+accentsTidy(nom)+'@insa-lyon.fr';
 }
 
+function mailInconnu(){
+	document.getElementById('etudiant_mail').value='inconnu@inconnu.fr';
+}
+
 function disableDeparts(annee){
 
 	var options = document.getElementById('etudiant_departement').options;

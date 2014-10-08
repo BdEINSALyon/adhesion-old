@@ -33,7 +33,7 @@ security:
                 login_path: login
                 check_path: login_check
                 always_use_default_target_path: true
-                default_target_path: /adherent
+                default_target_path: /ajoutAdherent
             logout:
                 path:   logout
                 target: /ajoutAdherent
@@ -46,5 +46,6 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/wei, roles: ROLE_COWEI }
+        - { path: ^/config, roles: ROLE_COWEI }
         - { path: ^/ajoutAdherent, roles: ROLE_SOIREE }
         - { path: ^/profil, roles: ROLE_PERM }
