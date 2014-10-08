@@ -8,6 +8,7 @@ use Cva\GestionMembreBundle\Entity\Etudiant;
 use Cva\GestionMembreBundle\Entity\Produit;
 
 /**
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity
  * @ORM\Table(name="Paiement")
  */
@@ -44,6 +45,14 @@ class Paiement
      * @ORM\Column(type="text")
      */
     protected $moyenPaiement;
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setDateAchatValue()
+    {
+        $this->dateAchat = new \DateTime();
+    }
 	
     /**
      * Constructor

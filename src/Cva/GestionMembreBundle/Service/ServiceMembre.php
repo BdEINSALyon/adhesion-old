@@ -6,37 +6,124 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Cva\GestionMembreBundle\Form\EtudiantType;
 use Cva\GestionMembreBundle\Entity\Etudiant;
 use Cva\GestionMembreBundle\Entity\Paiement;
+use Cva\GestionMembreBundle\Entity\Bus;
+use Cva\GestionMembreBundle\Entity\Bungalow;
+use Cva\GestionMembreBundle\Entity\DetailsWEI;
 use \DateTime;
 
 
 class ServiceMembre {
 
 	private $em;
+	private $fileConfigWEI = "../app/config/configWEI.txt";
+	private $fileConfigGeneral = "../app/config/configGeneral.txt";
+
 
 	function __construct(\Doctrine\ORM\EntityManager $em) {
 		
-		 $this->em = $em;
+		$this->em = $em;
 	}
 
 	
 	public function GetAllEtudiant() {
-	
+
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:Etudiant');
 		$etudiants = $repository->findAll();
 		return $etudiants;
 	}
 
-	public function GetAllProduitDispo() {
-	
+	public function GetAllBus() {
+
+		$repository = $this->em->getRepository('CvaGestionMembreBundle:Bus');
+
+		$query = $repository->createQueryBuilder('b')->orderBy('b.nom', 'ASC')->getQuery();
+		
+		return $query->getResult();
+	}
+
+	public function GetAllBusAvecPlacesPrises() {
+
+		$allBus = $this->GetAllBus();
+		$result = array();
+
+		foreach ($allBus as &$b)  {
+			$query = $this->em->createQuery(
+				'SELECT COUNT(d)
+				FROM CvaGestionMembreBundle:DetailsWEI d
+				WHERE d.bus = (?1) ')
+			->setParameter(1 , $b);
+			$totalCourant = $query->getSingleScalarResult();
+			$result[] = array($b,$totalCourant);
+		}
+		return $result;
+	}
+
+	public function GetAllBungAvecPlacesPrises() {
+
+		$allBung = $this->GetAllBung();
+		$result = array();
+
+		foreach ($allBung as &$b)  {
+			$query = $this->em->createQuery(
+				'SELECT COUNT(d)
+				FROM CvaGestionMembreBundle:DetailsWEI d
+				WHERE d.bungalow = (?1) ')
+			->setParameter(1 , $b);
+			$totalCourant = $query->getSingleScalarResult();
+			$result[] = array($b,$totalCourant);
+		}
+		return $result;
+	}
+
+	public function GetAllBung() {
+
+		$repository = $this->em->getRepository('CvaGestionMembreBundle:Bungalow');
+
+		$query = $repository->createQueryBuilder('b')->orderBy('b.nom', 'ASC')->getQuery();
+		
+		return $query->getResult();
+
+	}
+
+	public function GetAllBungBySexe($idEtu) {
+
+		$repository = $this->em->getRepository('CvaGestionMembreBundle:Bungalow');
+
+		$etudiant = $this->GetEtudiantById($idEtu);
+
+		if($etudiant->getCivilite()=="M")
+		{
+			$sexe="M";
+		}
+		else
+		{
+			$sexe="F";
+		}
+
+		$bungalow = $repository->findBySexe($sexe);
+		return $bungalow;
+	}
+
+	public function GetAllProduit() {
+
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:Produit');
-	
+
+		$query = $repository->createQueryBuilder('p')->orderBy('p.description', 'ASC')->getQuery();
+		
+		return $query->getResult();
+	}
+
+	public function GetAllProduitDispo() {
+
+		$repository = $this->em->getRepository('CvaGestionMembreBundle:Produit');
+
 		$query = $repository->createQueryBuilder('p')
-	    ->where('p.disponibilite=:disponibilite')
-	    ->setParameter('disponibilite', 'OUI')
-	    ->getQuery();
+		->where('p.disponibilite=:disponibilite')
+		->setParameter('disponibilite', 'OUI')
+		->getQuery();
 		$produits = $query->getResult();
 
-	return $produits;
+		return $produits;
 	}
 	
 	public function GetPaiementEtudiant($idEtudiant) {	
@@ -54,6 +141,46 @@ class ServiceMembre {
 		return $repository->findOneByNumEtudiant($numEtu);
 	}
 
+	public function GetEtudiantByCivilite($civilite) {	
+		$repository = $this->em->getRepository('CvaGestionMembreBundle:Etudiant');
+		return $repository->findByCivilite($civilite);
+	}
+
+	public function GetRemplacantsWEI($civilite) //TODO Changer la méthode de récupération
+	{
+		$bungMixtes="";
+		$produitInscritWEI="";
+		if(file_exists($this->fileConfigWEI))
+		{
+			$json = json_decode(file_get_contents($this->fileConfigWEI),true);
+			$bungMixtes=$json["bungMixtes"];
+			$produitInscritWEI=$json["produitInscriptionWEI"];
+		}
+
+		$stringQuery = 'SELECT e
+				FROM CvaGestionMembreBundle:Etudiant e
+				WHERE e IN (
+					SELECT etu
+					FROM  CvaGestionMembreBundle:Paiement p
+					LEFT JOIN p.produits pr
+					LEFT JOIN p.idEtudiant etu';
+		if($bungMixtes=="OUI")
+		{
+			$stringQuery.= ' WHERE pr.id IN (?1) ) ORDER BY e.name';
+			$query = $this->em->createQuery($stringQuery)->setParameter(1 , $produitInscritWEI);
+		}
+		else
+		{
+			$stringQuery.= ' WHERE pr.id IN (?1) AND etu.civilite = (?2)) ORDER BY e.name';
+			$query = $this->em->createQuery($stringQuery)
+				->setParameter(1 , $produitInscritWEI)
+				->setParameter(2 , $civilite);
+		}
+
+		$etudiants = $query->getResult();
+		return $etudiants;
+	}
+
 	public function GetEtudiantByAnnee($annee) {	
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:Etudiant');
 		return $repository->findByAnnee($annee);
@@ -63,9 +190,19 @@ class ServiceMembre {
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:Etudiant');
 		return $repository->findByDepartement($depart);
 	}
-		
+
 	public function GetUserById($id) {	
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:User');
+		return $repository->findOneById($id);
+	}
+
+	public function GetBusById($id) {	
+		$repository = $this->em->getRepository('CvaGestionMembreBundle:Bus');
+		return $repository->findOneById($id);
+	}
+
+	public function GetBungById($id) {	
+		$repository = $this->em->getRepository('CvaGestionMembreBundle:Bungalow');
 		return $repository->findOneById($id);
 	}
 	
@@ -78,59 +215,61 @@ class ServiceMembre {
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:Paiement');
 		return $repository->findOneById($id);
 	}
+
+	public function GetProduitsVA()
+	{
+		$produitsVA=array();
+		if(file_exists($this->fileConfigGeneral))
+		{
+			$json = json_decode(file_get_contents($this->fileConfigGeneral),true);
+			$produitsVA=$json["produitsVA"];
+		}
+		return $produitsVA;
+
+	}
 	
 	public function VentesMoisCourant()
 	{
 
-		$VAs=$this->GetProduitsLikeDesc('VA2013%');
-
-		$repository = $this->em->getRepository('CvaGestionMembreBundle:Paiement');
+		$produitsVA=$this->GetProduitsVA();
 		$today = getdate();
 		$todayOk = $today['year'].'-0'.$today['mon'].'-'.$today['mday'].' '.$today['hours'].':'.$today['minutes'].':'.$today['seconds'];
 		$debutMois = $today['year'].'-0'.$today['mon'].'-01';
 
-		$qb=$repository->createQueryBuilder('p');
-		$query = $qb	->where('p.dateAchat BETWEEN :debut AND :auj')
-			->setParameter('debut', $debutMois)
-			->setParameter('auj', $todayOk)	
-			->getQuery();
-		
-		$paiements = $query->getResult();
+		$query = $this->em->createQuery(
+				'SELECT COUNT(e)
+				FROM CvaGestionMembreBundle:Etudiant e
+				WHERE e IN (
+					SELECT etu
+					FROM  CvaGestionMembreBundle:Paiement p
+					LEFT JOIN p.produits pr
+					LEFT JOIN p.idEtudiant etu
+					WHERE p.dateAchat BETWEEN (?1) AND (?2) 
+					AND pr.id IN (?3) )')
+		->setParameter(1 , $debutMois)
+		->setParameter(2 , $todayOk)
+		->setParameter(3 , $produitsVA);
 
-		$total=0;
-		foreach($paiements as &$paiement)
-		{	
-			foreach($VAs as &$VA)
-			{
-				if(in_array($VA,$paiement->getProduits()->toArray()))
-				{	
-					$total++;
-				}
-			}		
-		}
+		$nbVentes = $query->getSingleScalarResult();
 
-		return $total;
+		return $nbVentes;
 	}
 
 	public function GetEtudiantByProduit($idProd)
 	{
-		//On recupere les paiements des Etudiant ayant achete ce produit
-		$repository = $this->em->getRepository('CvaGestionMembreBundle:Paiement');
-		$query = $repository->createQueryBuilder('p') 
-			->where(':idProd MEMBER OF p.produits')
-			->setParameter('idProd', $idProd)
-			->getQuery();
-		$paiements = $query->getResult();
-		
-		//On recupere les etudiants associés
-		$etudiant=array();
+		$query = $this->em->createQuery(
+				'SELECT e
+				FROM CvaGestionMembreBundle:Etudiant e
+				WHERE e IN (
+					SELECT etu
+					FROM  CvaGestionMembreBundle:Paiement p
+					LEFT JOIN p.produits pr
+					LEFT JOIN p.idEtudiant etu
+					WHERE pr.id IN (?1) )')
+		->setParameter(1 , $idProd);
 
-		foreach ($paiements as &$id) {
-			$etud=$this->GetEtudiantById($id->getIdEtudiant());
-			$etudiant[]=$etud;
-		}
-		return $etudiant;
-	
+		$etudiants = $query->getResult();
+		return $etudiants;
 	}
 
 	public function EtudiantAlreadyGotProduct($idEtudiant, $produit)
@@ -146,40 +285,161 @@ class ServiceMembre {
 		return false;
 	}
 	
+	public function GetAllDetails()
+	{
+		$repository = $this->em->getRepository('CvaGestionMembreBundle:DetailsWEI');
+		$details = $repository->findAll();
+		return $details;
+	}
+	
 	public function GetDetailsByIdEtudiant($idEtudiant)
 	{
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:DetailsWEI');
 		return $repository->findOneBy(array('idEtudiant' => $idEtudiant));
 	}
 
-	public function GetProduitsLikeDesc($desc)
+	public function GetNbDetailsByIdBus($idBus)
 	{
-		$repository = $this->em->getRepository('CvaGestionMembreBundle:Produit');
-		$query = $repository->createQueryBuilder('p') 
-			->where('p.description LIKE :desc')
-			->setParameter('desc', $desc)
-			->getQuery();
-		$produits = $query->getResult();
-		
-		return $produits;
+		$query = $this->em->createQuery(
+			'SELECT COUNT(d.id) 
+			FROM CvaGestionMembreBundle:DetailsWEI d
+			WHERE d.bus=:idBus')
+		->setParameter('idBus',$idBus);
+		$nb = $query->getSingleScalarResult();
+
+		return $nb;
+	}
+
+	public function GetNbDetailsByIdBung($idBung)
+	{
+		$query = $this->em->createQuery(
+			'SELECT COUNT(d.id) 
+			FROM CvaGestionMembreBundle:DetailsWEI d
+			WHERE d.bungalow=:idBung')
+		->setParameter('idBung',$idBung);
+		$nb = $query->getSingleScalarResult();
+
+		return $nb;
+	}
+
+	public function GetMaxListeAttente()
+	{
+		$query = $this->em->createQuery(
+			'SELECT MAX(d.placeListeAttente) 
+			FROM CvaGestionMembreBundle:DetailsWEI d');
+		$max = $query->getSingleResult();
+
+		return $max;
 	}
 	
 	public function GetProduitEtudiant($numEtu)
 	{
-		$query = $this->em->createQuery('SELECT Produit.description FROM Etudiant LEFT JOIN Paiement ON Etudiant.id=Paiement.etudiant_id LEFT JOIN paiement_produits ON Paiement.id=paiement_produits.paiement_id LEFT JOIN Produit ON paiement_produits.produit_id=Produit.id WHERE Etudiant.numEtudiant=:numEtu')->setParameter('numEtu' , $numEtu);
+		$query = $this->em->createQuery(
+			'SELECT Produit.description 
+			FROM Etudiant 
+			LEFT JOIN Paiement ON Etudiant.id=Paiement.etudiant_id 
+			LEFT JOIN paiement_produits ON Paiement.id=paiement_produits.paiement_id 
+			LEFT JOIN Produit ON paiement_produits.produit_id=Produit.id 
+			WHERE Etudiant.numEtudiant=:numEtu')
+		->setParameter('numEtu' , $numEtu);
 
 		$prodEtu = $query->getResult();
 
 		return $prodEtu;
 	}
 
-	public function GetBizuthWEIAvecDetails()
+	public function GetActuelsAdherents()
 	{
-		$bizuths = $this->GetEtudiantByAnnee(1);
+		$produitsVA=$this->GetProduitsVA();
+
+		$query = $this->em->createQuery(
+				'SELECT e
+				FROM CvaGestionMembreBundle:Etudiant e, CvaGestionMembreBundle:Produit prod
+				WHERE e IN (
+					SELECT etu
+					FROM  CvaGestionMembreBundle:Paiement p
+					LEFT JOIN p.produits pr
+					LEFT JOIN p.idEtudiant etu
+					WHERE pr.id IN (?1) )')
+		->setParameter(1 , $produitsVA);
+
+		$etudiant = $query->getResult();
+
+		return $etudiant;
+	}
+
+	public function IsCurrentAdherent($numEtu)
+	{
+		$produitsVA=$this->GetProduitsVA();
+
+		$query = $this->em->createQuery(
+				'SELECT e
+				FROM CvaGestionMembreBundle:Etudiant e, CvaGestionMembreBundle:Produit prod
+				WHERE e IN (
+					SELECT etu
+					FROM  CvaGestionMembreBundle:Paiement p
+					LEFT JOIN p.produits pr
+					LEFT JOIN p.idEtudiant etu
+					WHERE pr.id IN (?1) AND etu.numEtudiant = (?2) )')
+		->setParameter(1 , $produitsVA)
+		->setParameter(2 , $numEtu);
+
+		$etudiant = $query->getResult();
+
+		return $etudiant;
+	}
+
+	public function GetAnciensAdherents()
+	{
+		$produitsVA=$this->GetProduitsVA();
+		
+		$query = $this->em->createQuery(
+			'SELECT e
+			FROM CvaGestionMembreBundle:Etudiant e
+			WHERE e NOT IN (
+				SELECT etu
+				FROM  CvaGestionMembreBundle:Paiement p
+				LEFT JOIN p.produits pr
+				LEFT JOIN p.idEtudiant etu
+				WHERE pr.id IN (?1) )')
+		->setParameter(1 , $produitsVA);
+
+		$etudiant = $query->getResult();
+
+		return $etudiant;
+
+	}
+
+	public function EnvoiMailAdherent($adherent)
+	{
+		$message = \Swift_Message::newInstance()
+		->setSubject('Adhésion Vie Associative')
+		->setFrom(array('va@va.com'=> 'Appli VA'))
+		->setTo($adherent->getMail())
+		->setBody($this->renderView(
+                'Cva:GestionMembreBundle:mail.html',
+                array('name' => $adherent->getName())
+            ));
+		$this->get('mailer')->send($message);
+	}
+
+	public function GetBizuthWEIAvecDetails($idProduit)
+	{
+		$bizuths = $this->GetEtudiantByProduit($idProduit);
 		$details=array();
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:DetailsWEI');
 
-		$dateWEI = new DateTime('2013-09-20');
+		//Tout le monde était mineur, full images -18
+		$stringDateWEI="2005-01-01";
+
+		if(file_exists($this->fileConfigWEI))
+		{
+			$json = json_decode(file_get_contents($this->fileConfigWEI),true);
+			$stringDateWEI=$json["dateWEI"];
+
+		}
+
+		$dateWEI = new DateTime($stringDateWEI);
 		
 		foreach ($bizuths as &$biz)
 		{
@@ -191,11 +451,15 @@ class ServiceMembre {
 			//On récupère le bus et le bung du bizuth
 			$bus="";
 			$bungalow="";
+			$placeListeAttente="";
 			$allproducts=array();
 			if($this->GetDetailsByIdEtudiant($biz->getId())<>null)
 			{
-				$bus= $repository->findOneByIdEtudiant($biz)->GetBus();
-				$bungalow= $repository->findOneByIdEtudiant($biz)->GetBungalow();
+				if($repository->findOneByIdEtudiant($biz)->GetBus()!=NULL)
+					$bus= $repository->findOneByIdEtudiant($biz)->GetBus()->GetNom();
+				if($repository->findOneByIdEtudiant($biz)->GetBungalow()!=NULL)
+					$bungalow= $repository->findOneByIdEtudiant($biz)->GetBungalow()->GetNom();
+				$placeListeAttente= $repository->findOneByIdEtudiant($biz)->GetPlaceListeAttente();
 			}
 			
 			//On récupère les produits achetés par le bizuth
@@ -206,12 +470,12 @@ class ServiceMembre {
 			{
 				foreach ($paiements as &$paie)
 				{
-					$allproducts[]=$paie->getProduits();
+					$allproducts[]=array($paie->getProduits(),$paie->getDateAchat(),$paie->getMoyenPaiement());
 				}
 			}
 			
 			//On met tout dans le tableau
-			$details[]=array("bizuth" => $biz,"bus" => $bus, "bung" => $bungalow, "prods" => $allproducts, "majeur" => ($age>=18?"Majeur":"Mineur"));
+			$details[]=array("bizuth" => $biz,"bus" => $bus, "bung" => $bungalow, "placeListeAttente" => $placeListeAttente, "prods" => $allproducts, "majeur" => ($age>=18?"Majeur":"Mineur"));
 		}
 		return $details;
 	}

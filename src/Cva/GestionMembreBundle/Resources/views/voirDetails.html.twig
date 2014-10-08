@@ -22,8 +22,11 @@
 					{% if is_granted('ROLE_MODO') %}
 						<a href="#myModal{{ etu.id }}" role="button" class="btn" data-toggle="modal">Supprimer</a>
 					{% endif %}
-					{% if (is_granted('ROLE_COWEI') and not(is_granted('ROLE_ADMIN')))%}
+					{% if is_granted('ROLE_COWEI')%}
 						<a href="{{path('cva_gestion_membre_ajoutDetailsWEI')}}?id={{ etu.id }}" role="button" class="btn" data-toggle="modal">Details WEI</a>
+						{% if remplacer == "yes" %}
+							<a href="#myModalRemplacer{{ etu.id }}" role="button" class="btn" data-toggle="modal">Remplacer</a>
+						{% endif %}
 					{% endif %}
 					{% if is_granted('ROLE_PERM') %}
 						<a href="{{path('cva_gestion_membre_editPaiement')}}?id={{ etu.id }}" role="button" class="btn" data-toggle="modal">Produits</a>
@@ -44,5 +47,25 @@
 					  <div class="modal-footer">
 							<button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
 							<a role="button" href="{{path('cva_gestion_membre_deleteAdherent')}}?id={{ etu.id }}" class="btn btn-primary">Oui</a>
+					  </div>
+			</div>
+
+
+			<div id="myModalRemplacer{{ etu.id }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					  <div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+							<h3 id="myModalLabel">Choix du remplaçé</h3>
+					  </div>
+					  <div class="modal-body">
+							<p>Quel inscrit voulez vous remplacer ?</p>
+							<form id="formRemplacer" name="input" action="{{path('cva_gestion_membre_remplacer')}}" method="get">
+								<select required = "required" name="idRemplace" form="formRemplacer">
+									{% for remplacant in remplacantsWEI %}
+										<option value="{{ remplacant.id }}" >{{ remplacant.name }} {{ remplacant.firstName }}</option>
+									{% endfor %}
+								</select>
+								<input type="hidden" name="idRemplacant" value="{{ etu.id }}">
+								<input class="btn" type="submit" value="Go !">
+							</form>
 					  </div>
 			</div>

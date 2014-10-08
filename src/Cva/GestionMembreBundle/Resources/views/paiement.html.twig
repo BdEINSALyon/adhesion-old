@@ -23,6 +23,9 @@
 								Produit deja achete
 							</th>
 							<th>
+								Moyen de paiement
+							</th>
+							<th>
 							</th>
 						</tr> 
 					  </thead>					  
@@ -32,6 +35,7 @@
 							{% for prod in paiement.produits %}
 								<tr id="{{ prod.id }}">
 									  <td>{{ prod.description}}</td>
+									  <td>{{ paiement.moyenPaiement}}</td>
 									  <td> <a href="#id{{ paiement.id }}" role="button" class="btn" data-toggle="modal">Supprimer</a> </td>
 								</tr>
 								<div id="id{{ paiement.id }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

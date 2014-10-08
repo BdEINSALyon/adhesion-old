@@ -49,7 +49,7 @@ class Etudiant
     protected $birthday;
 	
 	/**
-     * @ORM\Column(type="string", length=100, unique=false)
+     * @ORM\Column(type="string", length=40, unique=false)
      */
     protected $mail;
 	
@@ -374,51 +374,5 @@ class Etudiant
     public function getDepartement()
     {
         return $this->departement;
-    }
-
-    /**
-     * Set dateCreation
-     *
-     * @param \DateTime $dateCreation
-     * @return Etudiant
-     */
-    public function setDateCreation($dateCreation)
-    {
-        $this->dateCreation = $dateCreation;
-    
-        return $this;
-    }
-
-    /**
-     * Get dateCreation
-     *
-     * @return \DateTime 
-     */
-    public function getDateCreation()
-    {
-        return $this->dateCreation;
-    }
-
-    /**
-     * Set dateModification
-     *
-     * @param \DateTime $dateModification
-     * @return Etudiant
-     */
-    public function setDateModification($dateModification)
-    {
-        $this->dateModification = $dateModification;
-    
-        return $this;
-    }
-
-    /**
-     * Get dateModification
-     *
-     * @return \DateTime 
-     */
-    public function getDateModification()
-    {
-        return $this->dateModification;
     }
 }

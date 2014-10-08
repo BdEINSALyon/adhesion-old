@@ -50,6 +50,7 @@
 				<div class="span3">
 					{{ form_row(form.mail, {'label': 'Mail :', 'attr' : { 'placeholder' : 'Mail' }} ) }}
 					<button class="btn btn-mini" type="button" onclick="mailINSA();"> Mail INSA </button>
+					<a href="#myModal" role="button" class="btn btn-mini" data-toggle="modal">Mail inconnu</a>
 				</div>
 
 				<div class="span3">
@@ -73,6 +74,19 @@
 		</div>
 	</form>
 </fieldset>
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					  <div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+							<h3 id="myModalLabel">Confirmation</h3>
+					  </div>
+					  <div class="modal-body">
+							Voulez vous vraiment renseigner un e-mail inconnu ?</br>							
+					  </div>
+					  <div class="modal-footer">
+							<button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
+							<button class="btn" data-dismiss="modal" type="button" onclick="mailInconnu();"> Oui </button>
+					  </div>
+			</div>
 
 </div>
 {% endblock %}

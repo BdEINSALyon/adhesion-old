@@ -2,7 +2,7 @@
 
 {% import '::navbar.html.twig' as navbar %}
 
-	{% block title %} Partants WEI {% endblock %}
+	{% block title %} Desinscrits WEI {% endblock %}
 
 	{% block navbar %}
 		{{ navbar.input('','','active') }}
@@ -13,8 +13,8 @@
 	
 		<div class ="container">
 		<div class="row">
-				<div class="span4 offset4">
-					<h3 id="nomEcran">Partants au WEI</h3>
+			<div class="span4 offset4">
+					<h3 id="nomEcran">Désinscrits du WEI</h3>
 				</div>
 				<div class="span9">
 					<table class="table table-bordered table-hover table-striped" id="table_adherent">
@@ -23,9 +23,8 @@
 							<th>Nom</th>
 							<th>Prénom</th>
 							<th>Date de Naissance</th>
-							<th>Bus</th>
-							<th>Bungalow</th>
-							<th>Téléphone</th>
+							<th>Date Desincription</th>
+							<th>Moyen Paiement</th>
 							<th class="hidden">Majeur ?</th>
 							<th >Majeur ?</th>
 							<th class="hidden">Remarque</th>
@@ -39,9 +38,24 @@
 									  <td>{{ adh.bizuth.name}}</td>
 									  <td>{{ adh.bizuth.firstName }}</td>
 									<td>{{ adh.bizuth.birthday|date('d-m-Y') }}</td>
-									  <td>{{ adh.bus }}</td>
-									  <td>{{ adh.bung }}</td>
-									  <td>{{ adh.bizuth.tel }}</td>
+									  <td>
+									  	{% for paiement in adh.prods %} 
+											{% for prod in paiement[0] %}
+												{% if prod.id == produitRemboursementWEI %}
+													{{ paiement[1]|date('d-m-Y') }}
+												{% endif %}
+											{% endfor %} 
+										{% endfor %}
+									  </td>
+									  <td>
+										{% for paiement in adh.prods %} 
+											{% for prod in paiement[0] %}
+												{% if prod.id == produitRemboursementWEI %}
+													{{ paiement[2] }}
+												{% endif %}
+											{% endfor %} 
+										{% endfor %}
+									  </td>
 									<td class="hidden"> {{ adh.majeur }} </td>
 									<td style="text-align:center;">{% if adh.majeur == 'Mineur' %}<img src={{ asset('img/18.jpg') }} height="20" width="20"> {% endif %}</td>
 									<td class="hidden"> {{ adh.bizuth.remarque }} </td>
