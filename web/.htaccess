@@ -8,6 +8,7 @@ DirectoryIndex app.php
 <Files ~ "\_dev.php$">
   Order allow,deny
   Deny from all
+  Allow from localhost
 </Files>
 
 <IfModule mod_rewrite.c>
