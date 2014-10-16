@@ -5,12 +5,10 @@
 # to each configured DirectoryIndex file (e.g. index.php, index.html, index.pl).
 DirectoryIndex app.php
 
-<LocationMatch ^/app_dev.php>
-    Order Allow,Deny
-    Deny from all
-    Allow from localhost
-    Allow from 127.0.0.1
-</LocationMatch>
+<Files ~ "\_dev.php$">
+  Order allow,deny
+  Deny from all
+</Files>
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
