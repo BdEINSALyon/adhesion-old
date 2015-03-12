@@ -89,6 +89,14 @@
 	</div>
 	<div class="row">
 		<div class="span5">
+			<legend>Export des données WEI</legend>
+			<form name="input" action="{{path('cva_gestion_membre_exportAllWEI')}}" method="get">
+				<input class="btn btn-large btn-success offset1" value="Exporter (CSV)" type="submit" />
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="span5">
 			<legend>Bus</legend>
 			<form name="input" action="{{path('cva_gestion_membre_createMultipleBus')}}" method="get">
 				Générer un nombre fixe de bus : <input style="width:25px" type="text" name="nbBus">

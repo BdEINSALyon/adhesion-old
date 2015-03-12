@@ -1006,6 +1006,52 @@ class GestionMembreController extends Controller
 			return $this->redirect($this->generateUrl('cva_gestion_membre_config'));
 		}
 
+		public function exportAllWEIAction()
+		{
+			$adherent=array();
+			$enTetesExport = array('Numero etudiant','Raison sociale','Nom','Prenom','Date de naissance','Majeur','Mail', 'Tel','Bus','Bungalow','Remarque');
+			$exportCSV = "";
+			if(file_exists($this->fileConfigWEI))
+			{
+				$json = json_decode(file_get_contents($this->fileConfigWEI),true);
+				$idProduitInscritWEI=$json["produitInscriptionWEI"];
+				$adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails($idProduitInscritWEI);
+				
+				//En-têtes
+				$exportCSV=implode(";", $enTetesExport);
+				$exportCSV.="\r\n";
+
+				//Le contenu
+				foreach ($adherent as &$adh)
+				{
+					$exportCSV.=$adh["bizuth"]->getNumEtudiant().";";
+					$exportCSV.=$adh["bizuth"]->getCivilite().";";
+					$exportCSV.=$adh["bizuth"]->getName().";";
+					$exportCSV.=$adh["bizuth"]->getFirstName().";";
+					$exportCSV.=date_format($adh["bizuth"]->getBirthday(),'d/m/Y').";";
+					$exportCSV.=$adh["majeur"].";";
+					$exportCSV.=$adh["bizuth"]->getMail().";";
+					$exportCSV.=$adh["bizuth"]->getTel().";";
+					$exportCSV.=$adh["bus"].";";
+					$exportCSV.=$adh["bung"].";";
+					$exportCSV.=$adh["bizuth"]->getRemarque()."\r\n";
+				}
+
+
+				$response = new Response();
+				$response->setContent($exportCSV);
+				$response->headers->set('Content-Type','application/force-download');
+				$response->headers->set('Content-disposition','filename="export.csv"');
+				
+				return $response;
+			}
+			else
+			{
+				$this->get('session')->getFlashBag()->add('warning', 'Renseignez le produit WEI avant export.');
+				return $this->redirect($this->generateUrl('cva_gestion_membre_config'));
+			}
+		}
+
 		public function writeJSONGeneralAction()
 		{
 			
