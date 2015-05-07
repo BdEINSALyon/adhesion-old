@@ -1,0 +1,5 @@
+/app/config/config*
+/app/config/parameters*
+/vendor/*
+/app/cache/*
+/app/logs/*
