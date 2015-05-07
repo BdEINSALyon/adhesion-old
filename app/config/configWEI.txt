@@ -1,1 +1,0 @@
-{"nbMaxBizuths":"447","dateWEI":"2014-09-27","produitPreInscritsWEI":"9","produitInscriptionWEI":"10","produitListeWEI":"15","produitListePreWEI":"16","produitRemboursementWEI":"11","bungMixtes":"OUI"}
