@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+{% import '::navbar.html.twig' as navbar %}
+
+{% block navbar %}
+	{{ navbar.input('','active','','','','') }}
+{% endblock %}
+
+{% block title %} Check Adherent {% endblock %}
+
+{% block content %}
+	<div class="container well">	
+		<div class="row">
+			<div class="span12">
+					<legend>Recherche rapide par numéro étudiant</legend>
+				</div>
+			<div class="span4 offset4">
+				<form name="myform" action="javascript:checkAsso()()">
+					<input name="numEtu" type="text" class="form-control" id="numEtu" placeholder="Numéro étudiant" aria-describedby="basic-addon2">
+					<input class="btn" type="submit" value="Rechercher">
+			    </form>
+				<span id="result">
+				</span>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{% javascripts
+	'@CvaGestionMembreBundle/Resources/views/js/asso.js'  %}				
+	<script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+{% endblock %}
