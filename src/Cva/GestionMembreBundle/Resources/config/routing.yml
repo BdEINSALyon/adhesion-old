@@ -105,6 +105,10 @@ cva_gestion_membre_isMember:
     pattern:  /api/is_member
     defaults: { _controller: CvaGestionMembreBundle:GestionMembre:is_member }
 
+cva_gestion_membre_assoCheck:
+    pattern:  /asso/is_member
+    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:assoCheck }
+
 cva_gestion_membre_get:
     pattern:  /get
     defaults: { _controller: CvaGestionMembreBundle:GestionMembre:get }

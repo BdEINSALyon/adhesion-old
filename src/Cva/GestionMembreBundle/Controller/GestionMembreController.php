@@ -1344,7 +1344,11 @@ class GestionMembreController extends Controller
 			'member' => $adh==null ? false : true)
 		);
 		return $response;
+	}
 
+	public function assoCheckAction(Request $request)
+	{
+		return $this->render('CvaGestionMembreBundle::checkAsso.html.twig', array() );
 	}
 
 

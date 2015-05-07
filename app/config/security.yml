@@ -33,10 +33,10 @@ security:
                 login_path: login
                 check_path: login_check
                 always_use_default_target_path: true
-                default_target_path: /ajoutAdherent
+                default_target_path: /asso/is_member
             logout:
                 path:   logout
-                target: /ajoutAdherent
+                target: /asso/is_member
             remember_me:
                 key:      "%secret%"
                 lifetime: 3600 # 1h en secondes
@@ -47,5 +47,8 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/wei, roles: ROLE_COWEI }
         - { path: ^/config, roles: ROLE_COWEI }
+        - { path: ^/adherent, roles: ROLE_SOIREE }
+        - { path: ^/anciens, roles: ROLE_SOIREE }
         - { path: ^/ajoutAdherent, roles: ROLE_SOIREE }
         - { path: ^/profil, roles: ROLE_PERM }
+        - { path: ^/asso, roles: ROLE_CONSULT}
