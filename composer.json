@@ -1,8 +1,19 @@
 {
-    "name": "symfony/framework-standard-edition",
-    "license": "MIT",
+    "name": "BdEINSALyon/adhesion",
+    "license": "GPL-3.0",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
+    "version": "v1.1",
+    "description": "CVA Adhesion Management App",
+    "authors": [
+        {
+            "name": "Mael Ogier",
+            "email": "mael.ogier@insa-lyon.fr",
+            "role": "developer"
+        }
+    ],
+    "support": {
+        "email": "support@bde-insa-lyon.fr"
+    },
     "autoload": {
         "psr-0": { "": "src/" }
     },
