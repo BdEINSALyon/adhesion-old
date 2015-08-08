@@ -1,3 +1,7 @@
+wei:
+    resource: "@BdEWeiBundle/Resources/config/routing.yml"
+    prefix:   /wei
+
 cva_gestion_membre:
     resource: "@CvaGestionMembreBundle/Resources/config/routing.yml"
     prefix:   /
