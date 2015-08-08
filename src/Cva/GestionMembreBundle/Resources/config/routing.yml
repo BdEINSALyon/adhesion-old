@@ -117,70 +117,8 @@ cva_gestion_membre_exportCSV:
     pattern:  /exportCSV
     defaults: { _controller: CvaGestionMembreBundle:GestionMembre:exportCSV }
 
-cva_gestion_membre_ajoutBus:
-    pattern:  /ajoutBus
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:ajoutBus }
-
-cva_gestion_membre_editBus:
-    pattern:  /editBus
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:editBus }
-
-cva_gestion_membre_deleteBus:
-    pattern:  /deleteBus
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:deleteBus }
-
-cva_gestion_membre_createMultipleBus:
-    pattern:  /createMultipleBus
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:createMultipleBus }
-
-cva_gestion_membre_ajoutBung:
-    pattern:  /ajoutBung
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:ajoutBung }
-
-cva_gestion_membre_editBung:
-    pattern:  /editBung
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:editBung }
-
-cva_gestion_membre_deleteBung:
-    pattern:  /deleteBung
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:deleteBung }
-
-cva_gestion_membre_createMultipleBung:
-    pattern:  /createMultipleBung
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:createMultipleBung }
-
-cva_gestion_membre_writeJSONWEI:
-    pattern:  /writeJSONWEI
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:writeJSONWEI }
 
 #Zone CoWEI
-cva_gestion_membre_ajoutBizuthWEI:
-    pattern:  /wei/ajoutBizuthWEI
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:ajoutBizuthWEI }
-
-cva_gestion_membre_préInscrits:
-    pattern:  /wei/preInscrits
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:preInscrits }
-
-cva_gestion_membre_rechercheBizuthWEI:
-    pattern:  /wei/partants
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:rechercheBizuthWEI }
-
-cva_gestion_membre_listeAttente:
-    pattern:  /wei/listeAttente
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:listeAttente }
-
-cva_gestion_membre_listeAttentePre:
-    pattern:  /wei/listeAttentePre
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:listeAttentePre }
-
-cva_gestion_membre_remboursements:
-    pattern:  /wei/remboursements
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:remboursements }
-
-cva_gestion_membre_remplacer:
-    pattern:  /wei/remplacer
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:remplacer }
 
 cva_gestion_membre_editBizuthWEI:
     pattern:  /wei/editetudiant
@@ -190,18 +128,6 @@ cva_gestion_membre_paiementBizuthWEI:
     pattern:  /wei/paiement
     defaults: { _controller: CvaGestionMembreBundle:GestionMembre:paiement }
 
-cva_gestion_membre_ajoutDetailsWEI:
-    pattern:  /wei/ajoutDetailsWEI
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:ajoutDetailsWEI }
-
 cva_gestion_membre_voirDetails2:
     pattern:  /wei/voirDetails
     defaults: { _controller: CvaGestionMembreBundle:GestionMembre:voirDetails }
-
-cva_gestion_membre_clearWEI:
-    pattern:  /wei/clearWEI
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:clearWEI }
-
-cva_gestion_membre_exportAllWEI:
-    pattern:  /wei/exportWEI
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:exportAllWEI }

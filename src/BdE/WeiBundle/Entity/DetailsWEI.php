@@ -1,12 +1,11 @@
 <?php
-// src/Cva/GestionMembreBundle/Entity/DetailsWEI.php
-namespace Cva\GestionMembreBundle\Entity;
+namespace BdE\WeiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Cva\GestionMembreBundle\Entity\Etudiant;
-use Cva\GestionMembreBundle\Entity\Bus;
-use Cva\GestionMembreBundle\Entity\Bungalow;
+use BdE\WeiBundle\Entity\Bus;
+use BdE\WeiBundle\Entity\Bungalow;
 
 /**
  * @ORM\Entity
@@ -22,7 +21,7 @@ class DetailsWEI
     protected $id;
 	
 	 /**
-     * @ORM\OneToOne(targetEntity="Etudiant")
+     * @ORM\OneToOne(targetEntity="Cva\GestionMembreBundle\Entity\Etudiant")
      */
     private $idEtudiant;
 	

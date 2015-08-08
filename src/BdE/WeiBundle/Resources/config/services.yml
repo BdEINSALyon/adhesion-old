@@ -1,0 +1,7 @@
+parameters:
+#    bd_e_wei.example.class: BdE\WeiBundle\Example
+
+services:
+#    bd_e_wei.example:
+#        class: %bd_e_wei.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

@@ -290,7 +290,7 @@ class Etudiant
      * @param \Cva\GestionMembreBundle\Entity\Paiement $paiement
      * @return Etudiant
      */
-    public function setPaiement(\Cva\GestionMembreBundle\Entity\Paiement $paiement = null)
+    public function setPaiement(Paiement $paiement = null)
     {
         $this->paiement = $paiement;
     

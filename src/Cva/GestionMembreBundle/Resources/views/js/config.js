@@ -1,17 +1,14 @@
-function insertAjoutBus() {
-
-	$.get("ajoutBus",
-	function(msg){
-		$("#insertBus").html(msg);
-	});
-}
-
-function insertEditBus(idBus) {
-
-	$.get("editBus?idBus=" + idBus,
-	function(msg){
-		$("#insertBus").html(msg);
-	});
+/**
+ * Load data from an url to an content in the nodes.
+ * @param editUrl The url which has to be opened
+ * @param id	  The id where this data should be loaded
+ */
+function load(editUrl,id){
+	$.get(editUrl,
+		function(msg){
+			$(document.getElementById(id)).html(msg);
+		}
+	);
 }
 
 function insertAjoutBung() {
