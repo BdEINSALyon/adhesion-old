@@ -3,6 +3,7 @@
 namespace BdE\MainBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -16,7 +17,7 @@ class ConfigRepository extends EntityRepository{
     /**
      * @var string[]
      */
-    private $cachedConfig;
+    private $cachedConfig = array();
 
     /**
      * Get all config stored as a mapped array.
@@ -35,6 +36,48 @@ class ConfigRepository extends EntityRepository{
             $this->cachedConfig = $config;
         }
         return $this->cachedConfig;
+    }
+
+    /**
+     * Read a config element.
+     * @param string $string The config element to find
+     * @param string $default_value Default value to use if there is no config for this element
+     * @return string The value in the config for this key
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function get($string, $default_value="")
+    {
+        if(array_key_exists($string, $this->cachedConfig))
+            return $this->cachedConfig[$string];
+        try{
+            /** @var Config $element */
+            $element = $this->createQueryBuilder('c')->where('c.name = ?1')->setParameter(1, $string)->getQuery()->getSingleResult();
+            return $element->getValue();
+        } catch(NoResultException $e){
+            return $default_value;
+        }
+    }
+
+    /**
+     * Update a config in the database.
+     * @param string $key The config element to update (or create)
+     * @param string $value The value to put
+     * @return string The old value from this config
+     */
+    public function set($key, $value){
+        $element = new Config();
+        $element->setName($key);
+        try{
+            /** @var Config $element */
+            $element = $this->createQueryBuilder('c')->where('c.name = ?1')->setParameter(1, $key)->getQuery()->getSingleResult();
+        } catch(NoResultException $e){
+            // Just ignore, we will create a new element
+        }
+        $oldValue = $element->getValue();
+        $element->setValue($value);
+        $this->getEntityManager()->persist($element);
+        $this->getEntityManager()->flush($element);
+        return $oldValue;
     }
 
 }
