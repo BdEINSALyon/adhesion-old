@@ -10,14 +10,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ExecutionContextInterface;
 
 /**
- * Bus
+ * Bus Entity.
+ * A Bus is something design to contains Etudiants but with a max gap specified by nbPlace. Its name is used because
+ * humans need one to distinct buses.
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="BusRepository")
+ * @Assert\Callback(methods={"checkNbPlacesIsMoreThanEtudiants"})
  */
 class Bus
 {
     /**
+     * Because we need one ;-)
+     *
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -27,6 +32,8 @@ class Bus
     private $id;
 
     /**
+     * It's better to give it a human name.
+     *
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
@@ -34,6 +41,8 @@ class Bus
     private $nom;
 
     /**
+     * This is the max number of Etudiant that this bus should contains.
+     *
      * @var integer
      *
      * @ORM\Column(name="nbPlaces", type="integer")
@@ -61,7 +70,6 @@ class Bus
     {
         $this->etudiants = new ArrayCollection();
     }
-
 
     public function __toString()
     {
