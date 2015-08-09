@@ -3,6 +3,7 @@
 namespace BdE\WeiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
@@ -14,11 +15,6 @@ class DefaultController extends Controller
     public function ajoutDetailsWEIAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $bungMixtes = "";
-        if (file_exists($this->fileConfigWEI)) {
-            $json = json_decode(file_get_contents($this->fileConfigWEI), true);
-            $bungMixtes = $json["bungMixtes"];
-        }
 
         if ($request->isMethod('POST')) {
             $id = $_POST['id'];
@@ -33,7 +29,7 @@ class DefaultController extends Controller
         }
 
         $etu = $this->serviceMembre->GetEtudiantById($id);
-        if ($bungMixtes == "OUI") {
+        if (boolval($em->getRepository("BdEMainBundle:Config")->get("wei.bungMixtes"))) {
             $sexeEtu = -1;
         } elseif ($etu->getCivilite() == "M") {
             $sexeEtu = "M";
@@ -52,7 +48,7 @@ class DefaultController extends Controller
                 $em->persist($detailsWEI);
                 $em->flush();
                 $this->get('session')->getFlashBag()->add('notice', 'Details enregistres');
-                return $this->redirect($this->generateUrl('cva_gestion_membre_rechercheBizuthWEI'));
+                return $this->redirect($this->generateUrl('bde_wei_inscription_rechercheBizuthWEI'));
             }
         }
 
