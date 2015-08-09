@@ -69,18 +69,7 @@ bde_wei_bus:
 #######################################
 ###    Gestion des Bungalows
 
-bde_wei_bungalow_ajout:
-    pattern:  /bungalows/ajout
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:ajoutBung }
-
-bde_wei_bungalow_edit:
-    pattern:  /bungalows/edit
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:editBung }
-
-bde_wei_bungalow_delete:
-    pattern:  /bungalows/delete
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:deleteBung }
-
-bde_wei_bungalow_createMultiple:
-    pattern:  /bungalows/createMultiple
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:createMultipleBung }
+bde_wei_bungalow:
+  resource: "@BdEWeiBundle/Controller/BungalowController.php"
+  type: annotation
+  prefix: /bungalows

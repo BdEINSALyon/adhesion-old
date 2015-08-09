@@ -45,11 +45,11 @@ class BusController extends Controller
     {
         $bus = new Bus();
         $form = $this->createForm(new BusType(), $bus);
-        return $this->render('BdEWeiBundle:Bus:ajoutBus.html.twig', array('form' => $form->createView(),));
+        return $this->render('BdEWeiBundle:Bus:add.html.twig', array('form' => $form->createView(),));
     }
 
     /**
-     * @Route("/{id}",name="bde_wei_bus_edit")
+     * @Route("/{id}", requirements={"id" = "\d+"},name="bde_wei_bus_edit")
      * @Method({"GET","POST"})
      * @param $id mixed Params for request which describe id of bus
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -81,7 +81,7 @@ class BusController extends Controller
     }
 
     /**
-     * @Route("/{id}/delete",name="bde_wei_bus_delete")
+     * @Route("/{id}/delete", requirements={"id" = "\d+"},name="bde_wei_bus_delete")
      * @Method({"GET","DELETE"})
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
@@ -104,18 +104,26 @@ class BusController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/addMany",name="bde_wei_bus_add_many")
+     * @Method({"GET"})
      */
-    public function createMultipleAction(Request $request, $amount)
-    {
+    public function createMultipleAction(){
+        // Get data from Form
+        // The way to use a get from the request is bad but on one side you can't use symfony form on GET request
+        // And on the other way you can't put it as url param because it comes from a form and JS is bad !
+        $amount = $this->getRequest()->get("nbBus");
+
         $em = $this->getDoctrine()->getManager();
         $nbBus = intval($amount);
 
+        if($nbBus <= 0){
+            throw new \InvalidArgumentException("The amount of bus should not be null or negative");
+        }
+
         for ($i = 0; $i < $nbBus; $i++) {
             $bus = new Bus();
-            $bus->setNom("ChangeMoi");
+            $bus->setNom("Bus ".$i);
             $bus->setNbPlaces(1000);
             $em->persist($bus);
             $em->flush();

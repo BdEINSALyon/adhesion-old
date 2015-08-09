@@ -4,7 +4,7 @@
 				<fieldset>
 				    <legend>Modif Bungalow</legend>
 				    
-					    <form action="{{ path('cva_gestion_membre_editBung') }}?idBung={{ idBung }}" method="post" {{ form_enctype(form) }}> 
+					    <form action="{{ path('bde_wei_bungalow_edit', {id: form.vars.value.id}) }}" method="post" {{ form_enctype(form) }}>
 					    {{ form_errors(form) }}
 					    <div class="row">
 
