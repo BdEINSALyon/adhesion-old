@@ -18,6 +18,7 @@ class Bungalow
 {
     const BOYS = "M";
     const GIRLS = "F";
+    const NOT_DETERMINED = "ND";
 
     /**
      * @var integer
@@ -39,7 +40,7 @@ class Bungalow
      * @var string
      *
      * @ORM\Column(name="sexe", type="string", length=2, nullable=true)
-     * @Assert\Choice(choices = {"M", "F"}, message = "La valeur doit être M ou F")
+     * @Assert\Choice(choices = {"M", "F", "ND"}, message = "La valeur doit être M, F ou ND")
      */
     private $sexe;
 

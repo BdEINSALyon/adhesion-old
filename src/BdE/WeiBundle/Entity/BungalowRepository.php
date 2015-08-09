@@ -27,7 +27,7 @@ class BungalowRepository extends EntityRepository
     }
 
     public function getAllNotFullByGender($sex){
-        if($sex!=Bungalow::BOYS&&$sex!=Bungalow::GIRLS){
+        if($sex!=Bungalow::BOYS&&$sex!=Bungalow::GIRLS&&$sex!=Bungalow::NOT_DETERMINED){
             throw new \InvalidArgumentException("Sex should be a valid value from Bungalow::BOYS or Bungalow::GIRLS");
         }
         $qb = $this->createQueryBuilder('b');

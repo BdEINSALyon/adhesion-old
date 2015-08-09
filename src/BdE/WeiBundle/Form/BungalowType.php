@@ -17,7 +17,7 @@ class BungalowType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'Cva\GestionMembreBundle\Entity\Bungalow'));
+        $resolver->setDefaults(array('data_class' => 'BdE\WeiBundle\Entity\Bungalow'));
     }
 
     public function getName()

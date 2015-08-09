@@ -99,7 +99,7 @@
 		<div class="span5">
 			<legend>Bus</legend>
 			<form name="input" action="{{path('bde_wei_bus_add_many')}}" method="get">
-				Générer un nombre fixe de bus : <input style="width:25px" type="text" name="amount">
+				Générer un nombre fixe de bus : <input style="width:25px" type="text" name="nbBus">
 				<input class="btn" type="submit" value="Go !">
 			</form>
 
@@ -139,7 +139,7 @@
 	<div class="row">
 		<div class="span5">
 			<legend>Bungalow</legend>
-			<form name="input" action="{{path('bde_wei_bungalow_createMultiple')}}" method="get">
+			<form name="input" action="{{path('bde_wei_bungalow_add_many')}}" method="get">
 				Générer un nombre fixe de bungalow : <input style="width:25px" type="text" name="nbBung">
 				<input class="btn" type="submit" value="Go !">
 			</form>
@@ -164,7 +164,7 @@
 						<td> 
 							<span> 
 								<a class="btn" onclick="load('{{ path('bde_wei_bungalow_edit',{id:bung[0].id})}}','insertBung');">Edit</a >
-									<a class="btn" href="deleteBung?id={{ bung[0].id }}">Suppr</a >
+									<a class="btn" href="{{ path('bde_wei_bungalow_delete',{id:bung[0].id}) }}">Suppr</a >
 									</span> 
 								</td>				
 							</tr>
@@ -172,7 +172,7 @@
 
 						</tbody>
 					</table>
-					<input class="btn btn-large btn-primary offset1" value="Ajouter un Bungalow" onclick="load('{{ path('bde_wei_bungalow_ajout')}}','insertBung');" />
+					<input class="btn btn-large btn-primary offset1" value="Ajouter un Bungalow" onclick="load('{{ path('bde_wei_bungalow_add')}}','insertBung');" />
 
 				</div>
 				<div class="span7" id="insertBung">
