@@ -1,70 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="41bda258-a244-4b82-a012-d710e1d18e49" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/phpunit.phar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Utils/Affectation.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Utils/BasicEnum.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/BdEWeiBundle.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/DependencyInjection/BdEWeiExtension.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Controller/BungalowController.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Tests/BungalowRepositoryTest.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Controller/BusController.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/DependencyInjection/Configuration.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Controller/DefaultController.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Tests/Controller/DefaultControllerTest.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Controller/InscriptionController.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/Philippe_Vienne.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/runConfigurations/Symfony_Console.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Resources/views/Inscription/ajoutBizuthWei.html.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Resources/views/Default/ajoutDetailsWEI.html.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/composerJson.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/config/config.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/config/configGeneral.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/config/configWEI.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/config/config_dev.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/config/config_prod.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/config/config_test.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Resources/views/Bus/edit.html.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Resources/views/Bungalow/editBung.html.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/frameworkRootSettings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Resources/views/Default/index.html.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Resources/doc/index.rst" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Resources/views/Inscription/listeAttentePreWEI.html.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Resources/views/Inscription/listeAttenteWEI.html.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Resources/translations/messages.fr.xlf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/config/parameters.yml.dist" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/php.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Resources/views/Inscription/preInscritsWEI.html.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Resources/views/Inscription/rechercheBizuthWEI.html.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Resources/views/Inscription/remboursementsWEI.html.twig" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Resources/config/routing.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Resources/config/services.yml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="MOVED" beforePath="C:\Users\Philippe Vienne\PhpstormProjects\adhesion\src\Cva\GestionMembreBundle\Entity\Bungalow.php" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Entity/Bungalow.php" />
-      <change type="MOVED" beforePath="C:\Users\Philippe Vienne\PhpstormProjects\adhesion\src\Cva\GestionMembreBundle\Entity\BungalowRepository.php" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Entity/BungalowRepository.php" />
-      <change type="MOVED" beforePath="C:\Users\Philippe Vienne\PhpstormProjects\adhesion\src\Cva\GestionMembreBundle\Entity\Bus.php" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Entity/Bus.php" />
-      <change type="MOVED" beforePath="C:\Users\Philippe Vienne\PhpstormProjects\adhesion\src\Cva\GestionMembreBundle\Entity\BusRepository.php" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Entity/BusRepository.php" />
-      <change type="MOVED" beforePath="C:\Users\Philippe Vienne\PhpstormProjects\adhesion\src\Cva\GestionMembreBundle\Entity\DetailsWEI.php" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Entity/DetailsWEI.php" />
-      <change type="MOVED" beforePath="C:\Users\Philippe Vienne\PhpstormProjects\adhesion\src\Cva\GestionMembreBundle\Form\BungalowType.php" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Form/BungalowType.php" />
-      <change type="MOVED" beforePath="C:\Users\Philippe Vienne\PhpstormProjects\adhesion\src\Cva\GestionMembreBundle\Form\BusType.php" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Form/BusType.php" />
-      <change type="MOVED" beforePath="C:\Users\Philippe Vienne\PhpstormProjects\adhesion\src\Cva\GestionMembreBundle\Form\DetailsWEIType.php" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Form/DetailsWEIType.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/AppKernel.php" afterPath="$PROJECT_DIR$/app/AppKernel.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Controller/Controller.php" afterPath="$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Controller/Controller.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Cva/GestionMembreBundle/Entity/Etudiant.php" afterPath="$PROJECT_DIR$/src/Cva/GestionMembreBundle/Entity/Etudiant.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Cva/GestionMembreBundle/Controller/GestionMembreController.php" afterPath="$PROJECT_DIR$/src/Cva/GestionMembreBundle/Controller/GestionMembreController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Cva/GestionMembreBundle/Service/ServiceMembre.php" afterPath="$PROJECT_DIR$/src/Cva/GestionMembreBundle/Service/ServiceMembre.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Cva/GestionMembreBundle/Resources/views/config.html.twig" afterPath="$PROJECT_DIR$/src/Cva/GestionMembreBundle/Resources/views/config.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Cva/GestionMembreBundle/Resources/views/js/config.js" afterPath="$PROJECT_DIR$/src/Cva/GestionMembreBundle/Resources/views/js/config.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/navbar.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/navbar.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/routing.yml" afterPath="$PROJECT_DIR$/app/config/routing.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Cva/GestionMembreBundle/Resources/config/routing.yml" afterPath="$PROJECT_DIR$/src/Cva/GestionMembreBundle/Resources/config/routing.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/security.yml" afterPath="$PROJECT_DIR$/app/config/security.yml" />
+    <list default="true" id="41bda258-a244-4b82-a012-d710e1d18e49" name="Default" comment="Made a new package for WEI&#10;Improve database scheme">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/BdE/WeiBundle/Entity/Bus.php" afterPath="$PROJECT_DIR$/src/BdE/WeiBundle/Entity/Bus.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="adhesion.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -93,7 +32,7 @@
       <file leaf-file-name="BungalowController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/BdE/WeiBundle/Controller/BungalowController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.8846154">
+            <state vertical-scroll-proportion="-0.0">
               <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding />
             </state>
@@ -103,7 +42,7 @@
       <file leaf-file-name="BusController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/BdE/WeiBundle/Controller/BusController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.346154">
+            <state vertical-scroll-proportion="0.0">
               <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding>
                 <element signature="e#2757#2785#0#PHP" expanded="true" />
@@ -115,12 +54,9 @@
       <file leaf-file-name="config.html.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Cva/GestionMembreBundle/Resources/views/config.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-20.923077">
+            <state vertical-scroll-proportion="0.0">
               <caret line="174" column="143" selection-start-line="174" selection-start-column="143" selection-end-line="174" selection-end-column="143" />
-              <folding>
-                <element signature="e#12#28#0#Twig" expanded="false" />
-                <element signature="e#45#63#0#Twig" expanded="false" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -128,7 +64,7 @@
       <file leaf-file-name="error404.html.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Resources/TwigBundle/views/Exception/error404.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.615385">
+            <state vertical-scroll-proportion="0.0">
               <caret line="30" column="42" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
               <folding />
             </state>
@@ -138,7 +74,7 @@
       <file leaf-file-name="error403.html.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Resources/TwigBundle/views/Exception/error403.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
+            <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
@@ -148,8 +84,8 @@
       <file leaf-file-name="Bus.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/BdE/WeiBundle/Entity/Bus.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.1437994">
-              <caret line="178" column="48" selection-start-line="178" selection-start-column="48" selection-end-line="178" selection-end-column="48" />
+            <state vertical-scroll-proportion="0.4298169">
+              <caret line="29" column="43" selection-start-line="29" selection-start-column="43" selection-end-line="29" selection-end-column="43" />
               <folding>
                 <element signature="e#40#76#0#PHP" expanded="true" />
               </folding>
@@ -160,8 +96,8 @@
       <file leaf-file-name="Callback.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Component/Validator/Constraints/Callback.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.807693">
-              <caret line="22" column="6" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
+            <state vertical-scroll-proportion="-26.153847">
+              <caret line="47" column="32" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -170,7 +106,7 @@
       <file leaf-file-name="Bungalow.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/BdE/WeiBundle/Entity/Bungalow.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.038462">
+            <state vertical-scroll-proportion="0.0">
               <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
               <folding>
                 <element signature="e#40#76#0#PHP" expanded="true" />
@@ -332,6 +268,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -712,8 +650,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -745,7 +681,7 @@
       <recent name="C:\Users\Philippe Vienne\PhpstormProjects\adhesion\src\BdE\WeiBundle\Resources\views" />
     </key>
   </component>
-  <component name="RunManager" selected="PHPUnit.BungalowRepositoryTest">
+  <component name="RunManager" selected="PHP Built-in Web Server.Server (8080)">
     <configuration default="false" name="BungalowRepositoryTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
       <TestRunner class="BdE\WeiBundle\Tests\BungalowRepositoryTest" file="$PROJECT_DIR$/src/BdE/WeiBundle/Tests/BungalowRepositoryTest.php" scope="Class" />
       <method />
@@ -851,12 +787,11 @@
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3225539" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3048264" sideWeight="0.5046809" order="13" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32967034" sideWeight="0.49786097" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3048264" sideWeight="0.49531916" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30431178" sideWeight="0.49531916" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14416666" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Symfony2" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -875,6 +810,7 @@
       <window_info id="SonarQube" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3225539" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32853514" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -908,13 +844,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/BdE/WeiBundle/Controller/InscriptionController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.1923075">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Cva/GestionMembreBundle/DependencyInjection/CvaGestionMembreExtension.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
@@ -1109,7 +1038,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.18630137">
           <caret line="17" column="36" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1125,7 +1053,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1148,7 +1075,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.769231">
           <caret line="751" column="0" selection-start-line="751" selection-start-column="0" selection-end-line="751" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1156,7 +1082,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-10.076923">
           <caret line="111" column="0" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1164,7 +1089,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-20.923077">
           <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1191,9 +1115,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.95538056">
           <caret line="56" column="64" selection-start-line="56" selection-start-column="64" selection-end-line="56" selection-end-column="64" />
-          <folding>
-            <marker date="1439049526643" expanded="true" signature="-1:-1" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1201,7 +1123,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.69160104">
           <caret line="31" column="54" selection-start-line="31" selection-start-column="54" selection-end-line="31" selection-end-column="54" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1217,7 +1138,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
       <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
@@ -1234,7 +1154,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/BdE/WeiBundle/Controller/BungalowController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.8846154">
+        <state vertical-scroll-proportion="0.0">
           <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding />
         </state>
@@ -1242,19 +1162,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/BdE/WeiBundle/Entity/Bungalow.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.038462">
+        <state vertical-scroll-proportion="0.0">
           <caret line="26" column="22" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
           <folding>
             <element signature="e#40#76#0#PHP" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Component/Validator/Constraints/Callback.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.807693">
-          <caret line="22" column="6" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1268,7 +1180,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Resources/TwigBundle/views/Exception/error404.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.615385">
+        <state vertical-scroll-proportion="0.0">
           <caret line="30" column="42" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
           <folding />
         </state>
@@ -1276,18 +1188,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Cva/GestionMembreBundle/Resources/views/config.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-20.923077">
+        <state vertical-scroll-proportion="0.0">
           <caret line="174" column="143" selection-start-line="174" selection-start-column="143" selection-end-line="174" selection-end-column="143" />
-          <folding>
-            <element signature="e#12#28#0#Twig" expanded="false" />
-            <element signature="e#45#63#0#Twig" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/BdE/WeiBundle/Controller/BusController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.346154">
+        <state vertical-scroll-proportion="0.0">
           <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding>
             <element signature="e#2757#2785#0#PHP" expanded="true" />
@@ -1295,10 +1204,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Component/Validator/Constraints/Callback.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-26.153847">
+          <caret line="47" column="32" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/cache/dev/doctrine/orm/Proxies/__CG__BdEWeiBundleEntityBus.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.10374891">
+          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/BdE/WeiBundle/Entity/Bus.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1437994">
-          <caret line="178" column="48" selection-start-line="178" selection-start-column="48" selection-end-line="178" selection-end-column="48" />
+        <state vertical-scroll-proportion="0.4298169">
+          <caret line="29" column="43" selection-start-line="29" selection-start-column="43" selection-end-line="29" selection-end-column="43" />
           <folding>
             <element signature="e#40#76#0#PHP" expanded="true" />
           </folding>
