@@ -9,6 +9,12 @@
             "name": "Mael Ogier",
             "email": "mael.ogier@insa-lyon.fr",
             "role": "developer"
+        },
+        {
+            "name": "Philippe Vienne",
+            "email": "philippe.vienne@bde-insa-lyon.fr",
+            "role": "developer",
+            "homepage": "http://www.philippe-vienne.fr"
         }
     ],
     "support": {
@@ -19,17 +25,23 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "2.3.*",
-        "doctrine/orm": ">=2.2.3,<2.4-dev",
-        "doctrine/doctrine-bundle": "1.2.*",
-        "twig/extensions": "1.0.*",
-        "symfony/assetic-bundle": "2.3.*",
-        "symfony/swiftmailer-bundle": "2.3.*",
-        "symfony/monolog-bundle": "2.3.*",
-        "sensio/distribution-bundle": "2.3.*",
-        "sensio/framework-extra-bundle": "2.3.*",
-        "sensio/generator-bundle": "2.3.*",
-        "incenteev/composer-parameter-handler": "~2.0"
+        "symfony/symfony": "2.3.31",
+        "doctrine/orm": "2.3.6",
+        "doctrine/doctrine-bundle": "1.2.0",
+        "twig/extensions": "1.0.1",
+        "symfony/assetic-bundle": "2.3.1",
+        "symfony/swiftmailer-bundle": "2.3.8",
+        "symfony/monolog-bundle": "2.3.0",
+        "sensio/distribution-bundle": "2.3.22",
+        "sensio/framework-extra-bundle": "2.3.4",
+        "sensio/generator-bundle": "2.3.5",
+        "incenteev/composer-parameter-handler": "2.1.1",
+        "twbs/bootstrap": "v3.3.5",
+        "braincrafted/bootstrap-bundle": "2.1.2",
+        "knplabs/knp-menu-bundle": "2.0.0",
+        "knplabs/knp-paginator-bundle": "2.4.2",
+        "oyejorge/less.php": "1.7.0.5",
+        "jquery/jquery":  "1.11.1"
     },
     "scripts": {
         "post-install-cmd": [
@@ -37,14 +49,16 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Braincrafted\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::install"
         ],
         "post-update-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Braincrafted\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::install"
         ]
     },
     "config": {
@@ -60,5 +74,18 @@
         "branch-alias": {
             "dev-master": "2.3-dev"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "jquery/jquery",
+                "version": "1.11.1",
+                "dist": {
+                    "url": "http://code.jquery.com/jquery-1.11.1.js",
+                    "type": "file"
+                }
+            }
+        }
+    ]
 }
