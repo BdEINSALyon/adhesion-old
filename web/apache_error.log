@@ -1,0 +1,5 @@
+[Sun Aug 09 11:53:34.021474 2015] [authz_core:error] [pid 11160:tid 1124] [client 127.0.0.1:55181] AH01630: client denied by server configuration: C:/Users/Philippe Vienne/PhpstormProjects/adhesion/web/
+[Sun Aug 09 11:54:01.168355 2015] [authz_core:error] [pid 11160:tid 1104] [client 127.0.0.1:55205] AH01630: client denied by server configuration: C:/Users/Philippe Vienne/PhpstormProjects/adhesion/web/
+[Sun Aug 09 11:57:53.434133 2015] [authz_core:error] [pid 11160:tid 1104] [client 127.0.0.1:55428] AH01630: client denied by server configuration: C:/Users/Philippe Vienne/PhpstormProjects/adhesion/web/
+[Sun Aug 09 11:57:53.546208 2015] [authz_core:error] [pid 11160:tid 1104] [client 127.0.0.1:55428] AH01630: client denied by server configuration: C:/Users/Philippe Vienne/PhpstormProjects/adhesion/web/favicon.ico
+[Sun Aug 09 11:57:53.557214 2015] [authz_core:error] [pid 11160:tid 1104] [client 127.0.0.1:55428] AH01630: client denied by server configuration: C:/Users/Philippe Vienne/PhpstormProjects/adhesion/web/favicon.ico
