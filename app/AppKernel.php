@@ -19,6 +19,7 @@ class AppKernel extends Kernel
 	        new Cva\GestionMembreBundle\CvaGestionMembreBundle(),
             new BdE\WeiBundle\BdEWeiBundle(),
             new BdE\MainBundle\BdEMainBundle(),
+            new Davidstutz\BootstrapMultiselectBundle\DavidstutzBootstrapMultiselectBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
