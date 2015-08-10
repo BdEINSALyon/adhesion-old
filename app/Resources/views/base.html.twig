@@ -6,6 +6,8 @@
 			<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
 		{% endblock %}
 
+
+
 		<title>{% block title %} {% endblock %}</title>
     </head>
     <body>
@@ -38,9 +40,9 @@
 
 	{% block content %} {% endblock %}
 
-        {% block javascripts %}
-			<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-			<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+	{% block javascripts %}
+		<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+		<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 	{% endblock %}
     </body>
 </html>
