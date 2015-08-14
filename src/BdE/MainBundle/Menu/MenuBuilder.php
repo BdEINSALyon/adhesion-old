@@ -66,11 +66,11 @@ class MenuBuilder
         }
         if($this->acl->isGranted("ROLE_ADMIN")) {
             $admin = $menu->addChild('Zone Admin');
-            $admin->addChild("Créer Utilisateur", array('route' => ''));
-            $admin->addChild("Modifier Utilisateur", array('route' => ''));
+            $admin->addChild("Créer Utilisateur", array('route' => 'cva_gestion_membre_addUser'));
+            $admin->addChild("Modifier Utilisateur", array('route' => 'cva_gestion_membre_editUser'));
             $this->addDivider($admin);
-            $admin->addChild("Créer Produit", array('route' => ''));
-            $admin->addChild("Modifier Produit", array('route' => ''));
+            $admin->addChild("Créer Produit", array('route' => 'cva_gestion_membre_addProduit'));
+            $admin->addChild("Modifier Produit", array('route' => 'cva_gestion_membre_tableauProduits'));
         }
 
         return $menu;
