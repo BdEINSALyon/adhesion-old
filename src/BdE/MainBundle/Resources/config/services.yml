@@ -2,6 +2,13 @@ parameters:
 #    bd_e_main.example.class: BdE\MainBundle\Example
 
 services:
-#    bd_e_main.example:
-#        class: %bd_e_main.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+  app.menu_builder:
+    class: BdE\MainBundle\Menu\MenuBuilder
+    arguments: ["@knp_menu.factory"]
+
+  app.main_menu:
+    class: Knp\Menu\MenuItem
+    factory: ["@app.menu_builder", createMainMenu]
+    arguments: ["@request_stack"]
+    tags:
+      - { name: knp_menu.menu, alias: main } # The alias is what is used to retrieve the menu
