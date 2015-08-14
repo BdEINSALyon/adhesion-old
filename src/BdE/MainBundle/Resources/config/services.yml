@@ -2,6 +2,20 @@ parameters:
 #    bd_e_main.example.class: BdE\MainBundle\Example
 
 services:
-#    bd_e_main.example:
-#        class: %bd_e_main.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+  bde.main.menu_builder:
+    class: BdE\MainBundle\Menu\MenuBuilder
+    arguments: ["@security.token_storage","@security.authorization_checker","@knp_menu.factory"]
+
+  bde.main.main_menu:
+    class: Knp\Menu\MenuItem
+    factory: ["@bde.main.menu_builder", createMainMenu]
+    arguments: ["@request_stack"]
+    tags:
+      - { name: knp_menu.menu, alias: main } # The alias is what is used to retrieve the menu
+
+  bde.main.user_menu:
+    class: Knp\Menu\MenuItem
+    factory: ["@bde.main.menu_builder", createUserMenu]
+    arguments: ["@request_stack"]
+    tags:
+      - { name: knp_menu.menu, alias: user } # The alias is what is used to retrieve the menu

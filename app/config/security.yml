@@ -4,10 +4,11 @@ security:
         Cva\GestionMembreBundle\Entity\User: plaintext
 
     role_hierarchy:
+        ROLE_CONSULT:     ROLE_USER
         ROLE_SOIREE:      ROLE_CONSULT
         ROLE_PERM:        ROLE_SOIREE
         ROLE_MODO:        ROLE_PERM
-        ROLE_COWEI:       ROLE_PERM
+        ROLE_COWEI:       [ROLE_PERM, ROLE_EDIT_CONFIG]
         ROLE_ADMIN:       [ROLE_MODO, ROLE_COWEI]
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
@@ -46,9 +47,9 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/wei, roles: ROLE_COWEI }
-        - { path: ^/config, roles: ROLE_COWEI }
+        - { path: ^/config, roles: ROLE_EDIT_CONFIG }
         - { path: ^/adherent, roles: ROLE_SOIREE }
         - { path: ^/anciens, roles: ROLE_SOIREE }
         - { path: ^/ajoutAdherent, roles: ROLE_SOIREE }
-        - { path: ^/profil, roles: ROLE_PERM }
+        - { path: ^/profil, roles: ROLE_USER }
         - { path: ^/asso, roles: ROLE_CONSULT}
