@@ -47,9 +47,9 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/wei, roles: ROLE_COWEI }
-        - { path: ^/config, roles: ROLE_COWEI }
+        - { path: ^/config, roles: ROLE_EDIT_CONFIG }
         - { path: ^/adherent, roles: ROLE_SOIREE }
         - { path: ^/anciens, roles: ROLE_SOIREE }
         - { path: ^/ajoutAdherent, roles: ROLE_SOIREE }
-        - { path: ^/profil, roles: ROLE_PERM }
+        - { path: ^/profil, roles: ROLE_USER }
         - { path: ^/asso, roles: ROLE_CONSULT}
