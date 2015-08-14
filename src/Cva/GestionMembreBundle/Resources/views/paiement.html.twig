@@ -5,80 +5,80 @@
 {% block title %} Paiement {% endblock %}
 
 {% block navbar %}
-	{{ navbar.input('active') }}
+    {{ navbar.input('active') }}
 {% endblock %}
 
 
-{% block content %} 
+{% block content %}
 
-{% if paiementsEtud is defined %}
-<div class="container well">
-<div class = container>
-			<div class="row">
-				<div class="span8">
-					<table class="table table-bordered">
-					  <thead>
- 						<tr>
-							<th>
-								Produit deja achete
-							</th>
-							<th>
-								Moyen de paiement
-							</th>
-							<th>
-							</th>
-						</tr> 
-					  </thead>					  
-					  <tbody id="products">
-					  
-						{% for paiement in paiementsEtud %}
-							{% for prod in paiement.produits %}
-								<tr id="{{ prod.id }}">
-									  <td>{{ prod.description}}</td>
-									  <td>{{ paiement.moyenPaiement}}</td>
-									  <td> <a href="#id{{ paiement.id }}" role="button" class="btn" data-toggle="modal">Supprimer</a> </td>
-								</tr>
-								<div id="id{{ paiement.id }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-										  <div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-												<h3 id="myModalLabel">Confirmation</h3>
-										  </div>
-										  <div class="modal-body">
-												<p>Voulez-vous vraiment supprimer le produit de cet adherent ?</p>
-										  </div>
-										  <div class="modal-footer">
-												<button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
-												<a role="button" href="{{path('cva_gestion_membre_deletePaiement')}}?idPaiement={{ paiement.id }}&idProduit={{prod.id}}&idEtu={{paiement.idEtudiant.id}}" class="btn btn-primary">Oui</a>
-										  </div>
-								</div>
-							{% endfor %}								
-						{% endfor %}	
-					  </tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-{% endif %}	
-<fieldset>
-	<form action="{{ path('cva_gestion_membre_paiement') }}" method="post" {{ form_enctype(form) }}> 
-		<div class="container well">	
-			<div class="row">
-			<div class="span12">
-					<legend>Ajout paiement</legend>
-				</div>
-				<div class="span4">
-					{{ form_row(form.Produits, {'label': 'Produits Disponibles :' } ) }}
-				</div>
-				<div class="span4">
-					{{ form_row(form.moyenPaiement, {'label': 'Moyen de paiement :' } ) }}
-				</div>
-				<div class="span4">
-					<br/>
-					<br/>
-					{{ form_rest(form) }}
-					<input type="hidden" name ="id" value="{{ id }}" />
-					<input class="btn btn-large btn-primary" type="submit" />
-				</div>
-			</div>
+    {% if paiementsEtud is defined %}
+        <div class="container" xmlns="http://www.w3.org/1999/html">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>
+                        Produit deja achete
+                    </th>
+                    <th>
+                        Moyen de paiement
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="products">
+
+                {% for paiement in paiementsEtud %}
+                    {% for prod in paiement.produits %}
+                        <tr id="{{ prod.id }}">
+                            <td>{{ prod.description }}</td>
+                            <td>{{ paiement.moyenPaiement }}</td>
+                            <td><a href="#id{{ paiement.id }}" role="button" class="btn"
+                                   data-toggle="modal">Supprimer</a>
+                            </td>
+                        </tr>
+                        <div id="id{{ paiement.id }}" class="modal hide fade" tabindex="-1" role="dialog"
+                             aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                                <h3 id="myModalLabel">Confirmation</h3>
+                            </div>
+                            <div class="modal-body">
+                                <p>Voulez-vous vraiment supprimer le produit de cet adherent ?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
+                                <a role="button"
+                                   href="{{ path('cva_gestion_membre_deletePaiement') }}?idPaiement={{ paiement.id }}&idProduit={{ prod.id }}&idEtu={{ paiement.idEtudiant.id }}"
+                                   class="btn btn-primary">Oui</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+    <form action="{{ path('cva_gestion_membre_paiement') }}" method="post" {{ form_enctype(form) }}>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <legend>Ajout paiement</legend>
+                </div>
+                <div class="col-md-4">
+                    {{ form_row(form.Produits, {'label': 'Produits Disponibles :' } ) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_row(form.moyenPaiement, {'label': 'Moyen de paiement :' } ) }}
+                </div>
+                <div class="col-md-4">
+                    <br/>
+                    <br/>
+                    {{ form_rest(form) }}
+                    <input type="hidden" name="id" value="{{ id }}"/>
+                    <input class="btn btn-large btn-primary" type="submit"/>
+                </div>
+            </div>
+        </div>
+    </form>
 {% endblock %}
