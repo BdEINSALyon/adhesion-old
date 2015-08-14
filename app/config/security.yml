@@ -1,10 +1,13 @@
 security:
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
-        Cva\GestionMembreBundle\Entity\User: plaintext
+        BdE\MainBundle\Entity\User:
+            algorithm:           sha512
+            encode_as_base64:    true
+            iterations:          %password.iterations%
 
     role_hierarchy:
-        ROLE_CONSULT:     ROLE_USER
+        ROLE_USER:        ROLE_CONSULT
         ROLE_SOIREE:      ROLE_CONSULT
         ROLE_PERM:        ROLE_SOIREE
         ROLE_MODO:        ROLE_PERM
@@ -13,31 +16,23 @@ security:
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
-        main:
-            entity: { class: Cva\GestionMembreBundle\Entity\User, property: username }
+        fos_userbundle:
+            id: fos_user.user_provider.username
 
     firewalls:
         dev:
             pattern:  ^/(_profiler|_wdt|css|js)
-            security:  false 
-        login_firewall:
-            pattern: ^/login$
-            anonymous: true
-        api:
-            pattern: ^/api
-            anonymous: true	
+            security:  false
         main:
             pattern:   ^/
-            anonymous: false
+            anonymous: true
             provider:  main
             form_login:
-                login_path: login
-                check_path: login_check
+                provider: fos_userbundle
+                csrf_provider: security.csrf.token_manager # Use form.csrf_provider instead for Symfony <2.4
                 always_use_default_target_path: true
                 default_target_path: /asso/is_member
-            logout:
-                path:   logout
-                target: /asso/is_member
+            logout: true
             remember_me:
                 key:      "%secret%"
                 lifetime: 3600 # 1h en secondes

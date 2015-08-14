@@ -2,6 +2,7 @@
 
 namespace Cva\GestionMembreBundle\Controller;
 
+use BdE\MainBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,7 +19,6 @@ use Cva\GestionMembreBundle\Form\DetailsWEIType;
 use Cva\GestionMembreBundle\Entity\Etudiant;
 use Cva\GestionMembreBundle\Entity\Produit;
 use Cva\GestionMembreBundle\Entity\Paiement;
-use Cva\GestionMembreBundle\Entity\User;
 use Cva\GestionMembreBundle\Entity\DetailsWEI;
 use Cva\GestionMembreBundle\Entity\Bus;
 use Cva\GestionMembreBundle\Entity\Bungalow;

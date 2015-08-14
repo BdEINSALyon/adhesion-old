@@ -6,6 +6,9 @@ bd_e_main:
     resource: "@BdEMainBundle/Resources/config/routing.yml"
     prefix:   /
 
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
 wei:
     resource: "@BdEWeiBundle/Resources/config/routing.yml"
     prefix:   /wei
