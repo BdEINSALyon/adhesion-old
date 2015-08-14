@@ -32,7 +32,3 @@ Cva\GestionMembreBundle\Entity\Etudiant:
             - NotNull: ~
         birthday:
             - NotNull: ~
-
-Cva\GestionMembreBundle\Entity\User:
-    constraints:
-        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: { fields: username, message: Ce nome d'utilisateur est déjà pris}

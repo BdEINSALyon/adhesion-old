@@ -41,7 +41,8 @@
         "knplabs/knp-menu-bundle": "2.0.*",
         "knplabs/knp-paginator-bundle": "2.4.*",
         "oyejorge/less.php": "1.7.0.*",
-        "jquery/jquery":  "1.11.1"
+        "jquery/jquery":  "1.11.1",
+        "friendsofsymfony/user-bundle": "~2.0@dev"
     },
     "scripts": {
         "post-install-cmd": [

@@ -22,7 +22,7 @@ class UserType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array('data_class' => 'Cva\GestionMembreBundle\Entity\USer'));
+        $resolver->setDefaults(array('data_class' => 'BdE\MainBundle\Entity\User'));
     }
 
     public function getName()

@@ -21,6 +21,12 @@ framework:
     fragments:       ~
     http_method_override: true
 
+# FosUserBundle
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: BdE\MainBundle\Entity\User
+
 # Twig Configuration
 twig:
     debug:            %kernel.debug%

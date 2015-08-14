@@ -5,6 +5,7 @@ parameters:
     database_name:     adhesion
     database_user:     root
     database_password: ***REMOVED***
+    password.iterations: 1337
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
