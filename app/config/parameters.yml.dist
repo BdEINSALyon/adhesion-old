@@ -14,3 +14,8 @@ parameters:
 
     locale:            fr
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    azure.client_id:        SomeIdCLIENTFromAzure
+    azure.client_secret:    HeyThisIsSecret
+    azure.app:              adhesion.bde-insa-lyon.fr
+    azure.resource:         AResource?

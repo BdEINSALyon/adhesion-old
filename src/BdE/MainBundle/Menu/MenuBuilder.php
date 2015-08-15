@@ -104,7 +104,7 @@ class MenuBuilder
         $user = $menu->addChild($this->token->getUsername());
 
         $user->addChild("Profil", array("route"=>"cva_gestion_membre_profil"));
-        $user->addChild("Deconnexion", array("route"=>"logout"));
+        $user->addChild("Deconnexion", array("route"=>"fos_user_security_logout"));
 
         return $menu;
     }
