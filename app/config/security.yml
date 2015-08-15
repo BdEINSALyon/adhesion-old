@@ -26,12 +26,19 @@ security:
         main:
             pattern:   ^/
             anonymous: true
-            provider:  main
             form_login:
                 provider: fos_userbundle
                 csrf_provider: security.csrf.token_manager # Use form.csrf_provider instead for Symfony <2.4
                 always_use_default_target_path: true
                 default_target_path: /asso/is_member
+            oauth:
+                resource_owners:
+                    bde_azure:    "/login/check-azure"
+                login_path:   /login
+                use_forward:  false
+                failure_path: /login
+                oauth_user_provider:
+                    service: bde.main.user_provider
             logout: true
             remember_me:
                 key:      "%secret%"
@@ -48,3 +55,4 @@ security:
         - { path: ^/ajoutAdherent, roles: ROLE_SOIREE }
         - { path: ^/profil, roles: ROLE_USER }
         - { path: ^/asso, roles: ROLE_CONSULT}
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}

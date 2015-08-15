@@ -1,0 +1,10 @@
+hwi_oauth:
+  # name of the firewall in which this bundle is active, this setting MUST be set
+  firewall_name: main
+  resource_owners:
+    bde_azure:
+      type:          azure
+      client_id:     %azure.client_id%
+      client_secret: %azure.client_secret%
+      options:
+        resource:    https://graph.microsoft.com

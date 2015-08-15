@@ -24,9 +24,20 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     * @ORM\Column(type="text")
+     * @var string
+     */
+    protected $azureAccessToken;
+
     public function __construct()
     {
         parent::__construct();
         // your own logic
+    }
+
+    public function setAzureAccessToken($accessToken)
+    {
+        $this->azureAccessToken=$accessToken;
     }
 }

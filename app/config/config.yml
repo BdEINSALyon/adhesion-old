@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: hwioauth.yml }
 
 framework:
     #esi:             ~
@@ -67,6 +68,7 @@ assetic:
                 - %kernel.root_dir%/../vendor/twbs/bootstrap/js/affix.js
                 - %kernel.root_dir%/../vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js
             output: js/bootstrap.js
+
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -80,7 +82,6 @@ doctrine:
         # if using pdo_sqlite as your database driver, add the path in parameters.yml
         # e.g. database_path: %kernel.root_dir%/data/data.db3
         # path:     %database_path%
-
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true

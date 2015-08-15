@@ -1,13 +1,47 @@
-davidstutz_bootstrap_multiselect:
-    resource: "@DavidstutzBootstrapMultiselectBundle/Resources/config/routing.yml"
-    prefix:   /
+########################################################################################################################
+#                                           Routing for Adhesion App                                                   #
+########################################################################################################################
+
+#FosUserBundle Routes
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
+
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile
+
+
+#HWIOAuthBundle routes
+hwi_oauth_security:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix: /login
+
+hwi_oauth_connect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+    prefix: /login
+
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /login
+
+########################################################################################################################
+## Our routes:
 
 bd_e_main:
     resource: "@BdEMainBundle/Resources/config/routing.yml"
     prefix:   /
-
-fos_user:
-    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
 wei:
     resource: "@BdEWeiBundle/Resources/config/routing.yml"
@@ -16,13 +50,3 @@ wei:
 cva_gestion_membre:
     resource: "@CvaGestionMembreBundle/Resources/config/routing.yml"
     prefix:   /
-
-login:
-    pattern:  /login
-    defaults: { _controller: CvaGestionMembreBundle:GestionMembre:login }
-
-login_check:
-    pattern:   /login_check
- 
-logout:
-    pattern:   /logout
