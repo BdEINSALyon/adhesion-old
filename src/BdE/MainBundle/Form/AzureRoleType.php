@@ -19,22 +19,12 @@ class AzureRoleType extends AbstractType
     {
         $builder
             ->add('azureGid','choice',array(
-                'choices'=>$options["azure_groups"]
+                'choices'=>$options["azure_groups"],
+                'label'=>"Groupe Office 365"
             ))
             ->add('roles', 'choice', array(
-                'choices' =>
-                    array(
-                        'ROLE_CONSULT' => 'Consultation',
-                        'ROLE_SOIREE' => 'Entree Soiree',
-                        'ROLE_PERM' => 'Permanencier',
-                        'ROLE_COWEI' => 'CoWEI',
-                        'ROLE_MODO' => 'Moderateur',
-                        'ROLE_ADMIN' => 'Admin'
-                    ),
-                'multiple'  => true)
-            )
-            ->add("send","submit", array(
-                'label' => "Ajouter"
+                'choices' => $options['roles'],
+                'multiple'  => true
             ))
         ;
 
@@ -47,7 +37,15 @@ class AzureRoleType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'BdE\MainBundle\Entity\AzureRole',
-            'azure_groups' => array()
+            'azure_groups' => array(),
+            'roles' => array(
+                'ROLE_CONSULT' => 'Consultation',
+                'ROLE_SOIREE' => 'Entree Soiree',
+                'ROLE_PERM' => 'Permanencier',
+                'ROLE_COWEI' => 'CoWEI',
+                'ROLE_MODO' => 'Moderateur',
+                'ROLE_ADMIN' => 'Admin'
+            )
         ));
     }
 
