@@ -4,7 +4,7 @@ parameters:
 services:
   bde.main.user_provider:
     class: %user_provider.class%
-    arguments: [@fos_user.user_manager]
+    arguments: [@fos_user.user_manager,@security.role_hierarchy,@doctrine.orm.entity_manager,%azure.tenant%]
 
   bde.main.azure:
     class: BdE\MainBundle\Security\Core\Azure

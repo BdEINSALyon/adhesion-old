@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AzureRole
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="BdE\MainBundle\Entity\AzureRoleRepository")
  */
 class AzureRole
 {

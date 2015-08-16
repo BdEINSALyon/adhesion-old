@@ -10,6 +10,7 @@ namespace BdE\MainBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * @ORM\Entity
@@ -66,5 +67,15 @@ class User extends BaseUser
     public function setAzureRenewAccessToken($azureRenewAccessToken)
     {
         $this->azureRenewAccessToken = $azureRenewAccessToken;
+    }
+
+    public function addRole($role){
+        if(is_string($role)){
+            return parent::addRole($role);
+        } elseif($role instanceof Role){
+            return parent::addRole($role->getRole());
+        } else {
+            throw new \InvalidArgumentException("Role must be a string or Role symfony object");
+        }
     }
 }
