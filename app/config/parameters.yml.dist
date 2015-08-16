@@ -5,6 +5,7 @@ parameters:
     database_name:     adhesion
     database_user:     root
     database_password: ***REMOVED***
+    password.iterations: 1337
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
@@ -13,3 +14,9 @@ parameters:
 
     locale:            fr
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    azure.client_id:        SomeIdCLIENTFromAzure
+    azure.client_secret:    HeyThisIsSecret
+    azure.app:              adhesion.bde-insa-lyon.fr
+    azure.resource:         AResource?
+    azure.tenant:           bde-insa-lyon.fr

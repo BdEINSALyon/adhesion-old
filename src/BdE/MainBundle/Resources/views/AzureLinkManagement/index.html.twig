@@ -1,0 +1,78 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Gestion de la relation à Azure{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Azure <small>Gestion des relations entre groupes Office 365 et Adhesion</small></h1>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <table class="table table-hover ">
+                    <thead>
+                        <tr>
+                            <td>Groupe Azure</td>
+                            <td>Roles</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    {% for role in roles %}
+                        <tr>
+                            <td class="">{{ role.azureGroupName }}</td>
+                            <td class="">{{ role.roles|join(', ') }}</td>
+                            <td style="width: 100px">
+                                <a href="{{ url("bde_main_azure_link_delete",{id:role.id}) }}" class="btn btn-danger">{{ icon("remove") }}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col-md-3">
+                <h4>Ajouter un lien</h4>
+                {{ form_start(new_form,{action: url('bde_main_azure_link_new')}) }}
+
+                {{ form_errors(new_form) }}
+
+                <div class="">
+                    {{ form_label(new_form.azureGid) }}
+                    <div>
+                        {{ form_widget(new_form.azureGid) }}
+                    </div>
+                </div>
+                {{ form_row(new_form.roles) }}
+                <input type="submit" value="Ajouter" class="btn btn-primary" style="width: 100%">
+                {{ form_end(new_form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     <script>
+         $(document).ready(function() {
+             $('#bde_mainbundle_azurerole_azureGid').multiselect({
+                 includeSelectAllOption: true,
+                 enableFiltering: true,
+                 enableCaseInsensitiveFiltering: true,
+                 maxHeight: 150,
+                 buttonWidth: '100%'
+             });
+             $('#bde_mainbundle_azurerole_roles').multiselect({
+                 includeSelectAllOption: true,
+                 enableFiltering: true,
+                 enableCaseInsensitiveFiltering: true,
+                 maxHeight: 150,
+                 buttonWidth: '100%'
+             });
+         });
+     </script>
+     <script type="text/javascript" src="{{ asset('bundles/davidstutzbootstrapmultiselect/js/bootstrap-multiselect-collapsible-groups.js') }}"></script>
+     <script type="text/javascript" src="{{ asset('bundles/davidstutzbootstrapmultiselect/js/bootstrap-multiselect.js') }}"></script>
+ {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/davidstutzbootstrapmultiselect/css/bootstrap-multiselect.css') }}" rel="stylesheet" media="screen">
+{% endblock %}

@@ -32,8 +32,8 @@
         "symfony/assetic-bundle": "2.6.*",
         "symfony/swiftmailer-bundle": "2.3.*",
         "symfony/monolog-bundle": "2.7.*",
-        "sensio/distribution-bundle": "2.3.*",
-        "sensio/framework-extra-bundle": "2.3.*",
+        "sensio/distribution-bundle": "4.0.*",
+        "sensio/framework-extra-bundle": "3.0.*",
         "sensio/generator-bundle": "2.5.*",
         "incenteev/composer-parameter-handler": "2.1.*",
         "twbs/bootstrap": "v3.3.5",
@@ -41,7 +41,9 @@
         "knplabs/knp-menu-bundle": "2.0.*",
         "knplabs/knp-paginator-bundle": "2.4.*",
         "oyejorge/less.php": "1.7.0.*",
-        "jquery/jquery":  "1.11.1"
+        "jquery/jquery":  "1.11.1",
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "hwi/oauth-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
@@ -86,6 +88,10 @@
                     "type": "file"
                 }
             }
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/BdEINSALyon/HWIOAuthBundle.git"
         }
     ]
 }

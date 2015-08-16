@@ -1,7 +1,15 @@
 parameters:
-#    bd_e_main.example.class: BdE\MainBundle\Example
+  user_provider.class: BdE\MainBundle\Security\Core\UserProvider
 
 services:
+  bde.main.user_provider:
+    class: %user_provider.class%
+    arguments: [@fos_user.user_manager,@security.role_hierarchy,@doctrine.orm.entity_manager,%azure.tenant%]
+
+  bde.main.azure:
+    class: BdE\MainBundle\Security\Core\Azure
+    arguments: [@security.token_storage, @fos_user.user_manager, %azure.tenant%,%azure.client_id%,%azure.client_secret%]
+
   bde.main.menu_builder:
     class: BdE\MainBundle\Menu\MenuBuilder
     arguments: ["@security.token_storage","@security.authorization_checker","@knp_menu.factory"]
