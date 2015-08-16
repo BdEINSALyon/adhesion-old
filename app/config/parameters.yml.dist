@@ -19,3 +19,4 @@ parameters:
     azure.client_secret:    HeyThisIsSecret
     azure.app:              adhesion.bde-insa-lyon.fr
     azure.resource:         AResource?
+    azure.tenant:           bde-insa-lyon.fr
