@@ -8,9 +8,11 @@
 
 namespace BdE\MainBundle\Security\Core;
 
+use BdE\MainBundle\Entity\AzureRole;
 use Buzz\Browser;
 use Buzz\Client\Curl;
 use Buzz\Message\Request;
+use Doctrine\ORM\EntityManager;
 use HWI\Bundle\OAuthBundle\Connect\AccountConnectorInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\Exception\AccountNotLinkedException;
@@ -19,6 +21,7 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 use Symfony\Component\Security\Core\Role\Role;
 use BdE\MainBundle\Entity\User;
+use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
@@ -26,16 +29,33 @@ use FOS\UserBundle\Model\UserManagerInterface;
 
 class UserProvider implements UserProviderInterface, AccountConnectorInterface, OAuthAwareUserProviderInterface
 {
-    private $domain = "bde-insa-lyon.fr";
+    /**
+     * @var RoleHierarchyInterface
+     */
+    private $roleHierarchy;
+    /**
+     * @var EntityManager
+     */
+    private $entityManager;
+    /**
+     * @var string
+     */
+    private $tenant;
 
     /**
      * Constructor.
      *
      * @param UserManagerInterface $userManager FOSUB user provider.
+     * @param RoleHierarchyInterface $roleHierarchy
+     * @param EntityManager $entityManager
+     * @param string $tenant
      */
-    public function __construct(UserManagerInterface $userManager)
+    public function __construct(UserManagerInterface $userManager, RoleHierarchyInterface $roleHierarchy, EntityManager $entityManager, $tenant)
     {
         $this->userManager = $userManager;
+        $this->roleHierarchy = $roleHierarchy;
+        $this->entityManager = $entityManager;
+        $this->tenant = $tenant;
     }
 
     /**
@@ -62,33 +82,41 @@ class UserProvider implements UserProviderInterface, AccountConnectorInterface, 
         $client = new Browser(new Curl());
         $uid = $response->getResponse()['oid'];
         $uri = "https://graph.microsoft.com".
-            "/beta/bde-insa-lyon.fr/users('".$uid."')/memberOf";
+            "/beta/".$this->tenant."/users('".$uid."')/memberOf";
         $r = ($client->get($uri, array("authorization: Bearer ".$response->getAccessToken())));
         $r = json_decode($r->getContent());
         if(!property_exists($r,'value')){
             throw new \OAuthException("Can not load groups.");
         }
         $groups = $r->value;
-        $role = null;
+        $roleRepo = $this->entityManager->getRepository("BdEMainBundle:AzureRole");
+        /** @var AzureRole[] $azureRoles */
+        $azureRoles = $roleRepo->getAllByGID();
+        /** @var Role[] $roles */
+        $roles = array();
         foreach($groups as $group){
             if($group->objectType=='Group'){
                 if($group->mail) continue;
+                if(array_key_exists($group->objectId, $azureRoles)){
+                    foreach($azureRoles[$group->objectId]->getRoles() as $strRole)
+                        $roles[] = $strRole;
+                }
             } elseif($group->objectType=='Role'){
                 if(!$group->isSystem) continue;
-                if($group->displayName=="Company Administrator"){
+                if($group->displayName=="Company Administrator" && strpos($response->getEmail(),$this->tenant) !== false){
                     // We found an Admin !
-                    $role = "ROLE_SUPER_ADMIN";
+                    $roles[] = new Role("ROLE_SUPER_ADMIN");
                     break;
                 }
             }
         }
-        if($role == null){
+        if(sizeof($roles)==0){
             throw new UsernameNotFoundException(sprintf("User '%s' has no power here!", $response->getRealName()));
         }
         /** @var User $user */
         if($user == null)
             $user = $this->userManager->createUser();
-        $user->addRole($role);
+        $user->setRoles($roles);
         $user->setEmail($response->getEmail());
         $user->setEmailCanonical($response->getEmail());
         $user->setEnabled(true);
