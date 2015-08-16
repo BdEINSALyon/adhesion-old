@@ -37,7 +37,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ CvaGestionMembreBundle, BdEWeiBundle ]
+    bundles:        [ CvaGestionMembreBundle, BdEWeiBundle, DavidstutzBootstrapMultiselectBundle ]
     filters:
         lessphp:
              file: %kernel.root_dir%/../vendor/oyejorge/less.php/lessc.inc.php
