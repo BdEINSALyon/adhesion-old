@@ -80,6 +80,8 @@ class MenuBuilder
             $admin->addChild("Créer Produit", array('route' => 'cva_gestion_membre_addProduit'));
             $admin->addChild("Modifier Produit", array('route' => 'cva_gestion_membre_tableauProduits'));
             $this->addDivider($admin);
+            $admin->addChild("Gestion AzureAD", array('route' => 'bde_main_azure_link_index'));
+            $this->addDivider($admin);
             $admin->addChild("Configuration Général",array("route"=>"cva_gestion_membre_config"));
         }
 

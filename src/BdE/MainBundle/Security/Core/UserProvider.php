@@ -61,11 +61,6 @@ class UserProvider implements UserProviderInterface, AccountConnectorInterface, 
         // Load groups for this user
         $client = new Browser(new Curl());
         $uid = $response->getResponse()['oid'];
-        $request = new Request(
-            Request::METHOD_GET,
-            "/beta/".$this->domain."/".$uid."/Microsoft.Graph.DirectoryObject/Microsoft.Graph.getMemberGroups",
-            "https://graph.microsoft.com");
-        $request->addHeader("authorization: Bearer ".$response->getAccessToken());
         $uri = "https://graph.microsoft.com".
             "/beta/bde-insa-lyon.fr/users('".$uid."')/memberOf";
         $r = ($client->get($uri, array("authorization: Bearer ".$response->getAccessToken())));
@@ -100,6 +95,7 @@ class UserProvider implements UserProviderInterface, AccountConnectorInterface, 
         $user->setUsername($response->getEmail());
         $user->setPlainPassword($response->getAccessToken());
         $user->setAzureAccessToken($response->getAccessToken());
+        $user->setAzureRenewAccessToken($response->getRefreshToken());
         $this->userManager->updateUser($user);
         return $user;
     }

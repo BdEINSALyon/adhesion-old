@@ -30,6 +30,12 @@ class User extends BaseUser
      */
     protected $azureAccessToken;
 
+    /**
+     * @ORM\Column(type="text")
+     * @var string
+     */
+    protected $azureRenewAccessToken;
+
     public function __construct()
     {
         parent::__construct();
@@ -39,5 +45,26 @@ class User extends BaseUser
     public function setAzureAccessToken($accessToken)
     {
         $this->azureAccessToken=$accessToken;
+    }
+
+    public function getAzureAccessToken()
+    {
+        return $this->azureAccessToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAzureRenewAccessToken()
+    {
+        return $this->azureRenewAccessToken;
+    }
+
+    /**
+     * @param string $azureRenewAccessToken
+     */
+    public function setAzureRenewAccessToken($azureRenewAccessToken)
+    {
+        $this->azureRenewAccessToken = $azureRenewAccessToken;
     }
 }
