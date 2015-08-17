@@ -5,7 +5,7 @@ namespace Cva\GestionMembreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Cva\GestionMembreBundle\Entity\EtudiantRepository")
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="Etudiant")
  */
@@ -67,6 +67,11 @@ class Etudiant
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     protected $remarque;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Cva\GestionMembreBundle\Entity\Paiement",mappedBy="idEtudiant", cascade={"remove"})
+     */
+    protected $paiement;
 
     /**
      * @ORM\Column(type="datetime")
@@ -420,5 +425,10 @@ class Etudiant
     public function getDateModification()
     {
         return $this->dateModification;
+    }
+
+    public function __toString()
+    {
+        return strtoupper($this->name)." ".$this->firstName;
     }
 }

@@ -446,19 +446,14 @@ class GestionMembreController extends Controller
 	
 	public function adherentAction(Request $request)
 	{
-		$allAdherents=array();
-		$allAdherents = $this->get('cva_gestion_membre')->GetActuelsAdherents();
-		
-		return $this->render('CvaGestionMembreBundle::rechercheAdherent.html.twig', array('adherent' => $allAdherents, 'type' => 'Actuels') );
+		$q = $this->get('doctrine.orm.entity_manager')->getRepository("CvaGestionMembreBundle:Etudiant")->getMembersQuery();
+		return $this->render('CvaGestionMembreBundle::rechercheAdherent.html.twig', array('adherent' => $q->getResult(), 'type' => 'Actuels') );
 	}
 
 	public function anciensAction(Request $request)
 	{
-		$allAdherents=array();
-
-		$allAdherents = $this->get('cva_gestion_membre')->GetAnciensAdherents();
-		
-		return $this->render('CvaGestionMembreBundle::rechercheAdherent.html.twig', array('adherent' => $allAdherents, 'type' => 'Anciens') );
+		$q = $this->get('doctrine.orm.entity_manager')->getRepository("CvaGestionMembreBundle:Etudiant")->getOldMembersQuery();
+		return $this->render('CvaGestionMembreBundle::rechercheAdherent.html.twig', array('adherent' => $q->getResult(), 'type' => 'Anciens') );
 	}
 	
 	//WEI

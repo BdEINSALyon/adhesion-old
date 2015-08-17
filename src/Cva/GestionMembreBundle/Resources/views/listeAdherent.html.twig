@@ -1,0 +1,83 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+
+    <div class ="container">
+        <div class="row">
+            {# total items count #}
+            <div class="count">
+                {{ pagination.getTotalItemCount }}
+            </div>
+            <div class="col-md-4 col-md-offset-4 offset4">
+                <h3 id="nomEcran">Adhérents</h3>
+            </div>
+            <div class="col-md-9">
+                <table id="table_adherent" class="table table-bordered table-hover table-striped">
+                    <thead>
+                    <tr id="search">
+                        <th>{{ knp_pagination_sortable(pagination, 'N°Etudiant', 'e.numEtudiant') }}</th>
+                        <th{% if pagination.isSorted('a.Title') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Nom', 'e.name') }}</th>
+                        <th>{{ knp_pagination_sortable(pagination, 'Prénom', 'e.firstName') }}</th>
+                        <th>{{ knp_pagination_sortable(pagination, 'EMail', 'e.mail') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody id="etudiants">
+                    {% for etudiant in pagination %}
+                        <tr {% if loop.index is odd %}class="color"{% endif %} id="{{ etudiant.id }}" onclick="return voir({{ etudiant.id }});">
+                            <td>{{ etudiant.numEtudiant }}</td>
+                            <td>{{ etudiant.name }}</td>
+                            <td>{{ etudiant.firstName }}</td>
+                            <td>{{ etudiant.mail }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+
+                <table id ="details_droite" class="table table-bordered detailed-table">
+                    <thead>
+                    <th>
+                        Détails:
+                    </th>
+                    </thead>
+                    <tbody id="detailed-body" class="details">
+                    <tr class="infos">
+                        <td id="voirEtudiant"></td>
+                    </tr>
+
+                    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                            <h3 id="myModalLabel">Confirmation</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p>Voulez-vous vraiment supprimer cet utilisateur ?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
+                            <a role="button" href="" class="btn btn-primary">Oui</a>
+                        </div>
+                    </div>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+    <form action="{{path('cva_gestion_membre_exportCSV')}}" method="post" name="formCSV">
+        <input type="hidden" name="csvText" id="csvText"/>
+    </form>
+
+{% endblock %}
+
+{% block title %}
+Liste des Adhérants
+{% endblock %}
+

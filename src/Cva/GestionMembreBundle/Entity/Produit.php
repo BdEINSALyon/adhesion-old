@@ -31,6 +31,11 @@ class Produit
      * @ORM\Column(type="string", length=10)
      */
     protected $disponibilite;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Cva\GestionMembreBundle\Entity\Paiement", mappedBy="produits")
+     */
+    protected $paiements;
 	
     /**
      * Get id
