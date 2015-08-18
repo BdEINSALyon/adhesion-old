@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="Produit")
  */
 class Produit
 {
@@ -36,6 +35,11 @@ class Produit
      * @ORM\ManyToMany(targetEntity="Cva\GestionMembreBundle\Entity\Paiement", mappedBy="produits")
      */
     protected $paiements;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Cva\GestionMembreBundle\Entity\Payment", mappedBy="product")
+     */
+    protected $payments;
 	
     /**
      * Get id

@@ -43,7 +43,8 @@
         "oyejorge/less.php": "1.7.0.*",
         "jquery/jquery":  "1.11.1",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "hwi/oauth-bundle": "dev-master"
+        "hwi/oauth-bundle": "dev-master",
+        "willdurand/faker-bundle": "1.2.*"
     },
     "scripts": {
         "post-install-cmd": [
@@ -88,10 +89,6 @@
                     "type": "file"
                 }
             }
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/BdEINSALyon/HWIOAuthBundle.git"
         }
     ]
 }

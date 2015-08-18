@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Config
  *
- * @ORM\Table(name="wei_config")
  * @ORM\Entity(repositoryClass="BdE\MainBundle\Entity\ConfigRepository")
  */
 class Config

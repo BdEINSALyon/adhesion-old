@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="Cva\GestionMembreBundle\Entity\EtudiantRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ORM\Table(name="Etudiant")
+ * @ORM\Table(name="Student")
  */
 class Etudiant
 {
@@ -72,6 +72,11 @@ class Etudiant
      * @ORM\OneToMany(targetEntity="Cva\GestionMembreBundle\Entity\Paiement",mappedBy="idEtudiant", cascade={"remove"})
      */
     protected $paiement;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Cva\GestionMembreBundle\Entity\Payment", mappedBy="student")
+     */
+    protected $payments;
 
     /**
      * @ORM\Column(type="datetime")

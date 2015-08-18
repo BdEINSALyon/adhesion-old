@@ -1,6 +1,9 @@
 security:
     encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+        Symfony\Component\Security\Core\User\User:
+            algorithm:           sha512
+            encode_as_base64:    true
+            iterations:          %password.iterations%
         BdE\MainBundle\Entity\User:
             algorithm:           sha512
             encode_as_base64:    true
