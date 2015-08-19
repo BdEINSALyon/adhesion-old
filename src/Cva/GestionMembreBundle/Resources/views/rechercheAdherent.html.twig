@@ -96,9 +96,14 @@
 			
 		{% block javascripts %}
             {{ parent() }}
-            <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.8/js/dataTables.bootstrap.min.js"></script>
             {% javascripts
             '@CvaGestionMembreBundle/Resources/views/js/tableau.js' %}
             <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.datatables.net/1.10.8/css/dataTables.bootstrap.min.css" rel="stylesheet" media="screen">
+{% endblock %}

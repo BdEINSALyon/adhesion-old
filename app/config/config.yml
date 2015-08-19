@@ -68,6 +68,10 @@ assetic:
                 - %kernel.root_dir%/../vendor/twbs/bootstrap/js/affix.js
                 - %kernel.root_dir%/../vendor/braincrafted/bootstrap-bundle/Braincrafted/Bundle/BootstrapBundle/Resources/js/bc-bootstrap-collection.js
             output: js/bootstrap.js
+        sonic:
+            inputs:
+                - %kernel.root_dir%/Resources/views/js/sonic.js
+            output: js/sonic.js
 
 # Doctrine Configuration
 doctrine:

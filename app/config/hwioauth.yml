@@ -8,3 +8,4 @@ hwi_oauth:
       client_secret: %azure.client_secret%
       options:
         resource:    https://graph.microsoft.com
+        application: %azure.tenant%

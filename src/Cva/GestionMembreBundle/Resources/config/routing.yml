@@ -1,3 +1,12 @@
+
+cva_membership_student_controller:
+    resource: @CvaGestionMembreBundle/Controller/StudentsController.php
+    prefix: /students
+    type: annotation
+
+########################################################################################################################
+## Old Routing :
+
 #Bizuths
 cva_gestion_membre_ajoutAdherent:
     pattern:  /ajoutAdherent

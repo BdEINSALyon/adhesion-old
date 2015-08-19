@@ -1,0 +1,82 @@
+{% if etu.numEtudiant != "" %}
+<p><strong>N° Etudiant&nbsp;:&nbsp;</strong>{{ etu.numEtudiant }}</p>
+{% endif %}
+<p><strong>Civilité&nbsp;:&nbsp;</strong>{{ etu.civilite }}</p>
+<p><strong>Nom&nbsp;:&nbsp;</strong>{{ etu.name }}</p>
+<p><strong>Prénom&nbsp;:&nbsp;</strong>{{ etu.firstName }}</p>
+<p><strong>Etudes&nbsp;:&nbsp;</strong>{{ etu.annee }}{{ etu.departement }}</p>
+{% if etu.tel != "" %}
+<p><strong>Téléphone&nbsp;:&nbsp;</strong>{{ etu.tel }}</p>
+{% endif %}
+<p><strong>Email&nbsp;:&nbsp;</strong>{{ etu.mail }}</p>
+<p><strong>Naissance&nbsp;:&nbsp;</strong>{{ etu.birthday|date('d-m-Y') }}</p>
+{% if etu.remarque != "" %}
+<p><strong>Remarque&nbsp;:&nbsp;</strong>{{ etu.remarque }}</p>
+{% endif %}
+<strong>Produits&nbsp;:&nbsp;</strong>
+<ul>
+    {% for p in etu.payments %}
+        <li>{{ p.product.description }}</li>
+    {% endfor %}
+</ul>
+<div style="display: none" id="etuid" data-etu-id="{{ etu.id }}" data-etu-payments-count="{{ etu.payments.count }}"></div>
+<td>
+    <form action="editetudiant" class="text-center btModifierEtudiant">
+        <input type="hidden" name="id" value="{{ etu.id }}"/>
+        {% if is_granted('ROLE_PERM') %}
+            <button type="submit" class="btn">Modifier</button>
+        {% endif %}
+        {% if is_granted('ROLE_MODO') %}
+            <a href="#myModal{{ etu.id }}" role="button" class="btn" data-toggle="modal">Supprimer</a>
+        {% endif %}
+        {% if is_granted('ROLE_COWEI') %}
+            <a href="{{ path('bde_wei_inscription_ajoutDetailsWEI') }}?id={{ etu.id }}" role="button" class="btn"
+               data-toggle="modal">Details WEI</a>
+            {% if remplacer == "yes" %}
+                <a href="#myModalRemplacer{{ etu.id }}" role="button" class="btn" data-toggle="modal">Remplacer</a>
+            {% endif %}
+        {% endif %}
+        {% if is_granted('ROLE_PERM') %}
+            <a href="{{ path('cva_gestion_membre_editPaiement') }}?id={{ etu.id }}" role="button" class="btn"
+               data-toggle="modal">Produits</a>
+        {% endif %}
+    </form>
+
+
+</td>
+<div id="myModal{{ etu.id }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h3 id="myModalLabel">Confirmation</h3>
+    </div>
+    <div class="modal-body">
+        <p>Voulez-vous vraiment supprimer cet utilisateur ?</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
+        <a role="button" href="{{ path('cva_gestion_membre_deleteAdherent') }}?id={{ etu.id }}" class="btn btn-primary">Oui</a>
+    </div>
+</div>
+
+
+<div id="myModalRemplacer{{ etu.id }}" class="modal hide fade" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h3 id="myModalLabel">Choix du remplaçé</h3>
+    </div>
+    <div class="modal-body">
+        <p>Quel inscrit voulez vous remplacer ?</p>
+
+        <form id="formRemplacer" name="input" action="{{ path('bde_wei_inscription_remplacer') }}" method="get">
+            <select required="required" name="idRemplace" form="formRemplacer">
+                {% for remplacant in remplacantsWEI %}
+                    <option value="{{ remplacant.id }}">{{ remplacant.name }} {{ remplacant.firstName }}</option>
+                {% endfor %}
+            </select>
+            <input type="hidden" name="idRemplacant" value="{{ etu.id }}">
+            <input class="btn" type="submit" value="Go !">
+        </form>
+    </div>
+</div>

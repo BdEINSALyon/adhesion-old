@@ -112,7 +112,7 @@ class MenuBuilder
     }
 
     private function showMenu(){
-        return $this->token->isAuthenticated() and $this->acl->isGranted("ROLE_USER");
+        return $this->token && $this->token->isAuthenticated() and $this->acl->isGranted("ROLE_USER");
     }
 
     private function addDivider(ItemInterface $menu){

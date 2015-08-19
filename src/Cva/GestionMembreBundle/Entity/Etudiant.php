@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="Cva\GestionMembreBundle\Entity\EtudiantRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ORM\Table(name="Student")
+ * @ORM\Table
  */
 class Etudiant
 {
@@ -67,11 +67,6 @@ class Etudiant
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     protected $remarque;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Cva\GestionMembreBundle\Entity\Paiement",mappedBy="idEtudiant", cascade={"remove"})
-     */
-    protected $paiement;
 
     /**
      * @ORM\OneToMany(targetEntity="Cva\GestionMembreBundle\Entity\Payment", mappedBy="student")
@@ -295,29 +290,6 @@ class Etudiant
     }
 
     /**
-     * Set paiement
-     *
-     * @param \Cva\GestionMembreBundle\Entity\Paiement $paiement
-     * @return Etudiant
-     */
-    public function setPaiement(Paiement $paiement = null)
-    {
-        $this->paiement = $paiement;
-    
-        return $this;
-    }
-
-    /**
-     * Get paiement
-     *
-     * @return \Cva\GestionMembreBundle\Entity\Paiement 
-     */
-    public function getPaiement()
-    {
-        return $this->paiement;
-    }
-
-    /**
      * Set remarque
      *
      * @param string $remarque
@@ -435,5 +407,21 @@ class Etudiant
     public function __toString()
     {
         return strtoupper($this->name)." ".$this->firstName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPayments()
+    {
+        return $this->payments;
+    }
+
+    /**
+     * @param mixed $payments
+     */
+    public function setPayments($payments)
+    {
+        $this->payments = $payments;
     }
 }

@@ -29,7 +29,7 @@ class EtudiantRepository extends EntityRepository
      */
     public function getMembersQuery(){
         $dql = "SELECT e FROM CvaGestionMembreBundle:Etudiant e".
-            " LEFT JOIN e.paiement p LEFT JOIN p.produits produits WHERE produits IN (?1)";
+            " LEFT JOIN e.payments p WHERE p.product IN (?1)";
         return $this->getEntityManager()->
             createQuery()->setDQL($dql)->setParameter(1, $this->getCurrentMembershipProducts());
     }

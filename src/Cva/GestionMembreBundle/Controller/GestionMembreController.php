@@ -405,6 +405,10 @@ class GestionMembreController extends Controller
 		return $this->redirect($this->generateUrl('cva_gestion_membre_adherent'));
 	}
 
+	/**
+	 * @param Request $request
+	 * @return Response
+	 */
 	public function voirDetailsAction(Request $request)
 	{
 		$idEtu = $request->query->get('idEtu');

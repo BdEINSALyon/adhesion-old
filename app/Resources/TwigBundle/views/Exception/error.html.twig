@@ -1,0 +1,8 @@
+{% extends "::error.html.twig" %}
+
+{% block error %}
+    Erreur n°{{ status_code }} Interne du serveur
+    {% if status_message != "" %}
+       <br> {{ status_message }}
+    {% endif %}
+{% endblock %}

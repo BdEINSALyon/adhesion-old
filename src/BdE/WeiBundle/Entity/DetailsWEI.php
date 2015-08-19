@@ -63,10 +63,10 @@ class DetailsWEI
     /**
      * Set idEtudiant
      *
-     * @param \Cva\GestionMembreBundle\Entity\Etudiant $idEtudiant
+     * @param Etudiant $idEtudiant
      * @return DetailsWEI
      */
-    public function setIdEtudiant(\Cva\GestionMembreBundle\Entity\Etudiant $idEtudiant = null)
+    public function setIdEtudiant(Etudiant $idEtudiant = null)
     {
         $this->idEtudiant = $idEtudiant;
     
@@ -76,7 +76,7 @@ class DetailsWEI
     /**
      * Get idEtudiant
      *
-     * @return \Cva\GestionMembreBundle\Entity\Etudiant 
+     * @return Etudiant 
      */
     public function getIdEtudiant()
     {
@@ -86,10 +86,10 @@ class DetailsWEI
     /**
      * Set bus
      *
-     * @param \Cva\GestionMembreBundle\Entity\Bus $bus
+     * @param Bus $bus
      * @return DetailsWEI
      */
-    public function setBus(\Cva\GestionMembreBundle\Entity\Bus $bus = null)
+    public function setBus(Bus $bus = null)
     {
         $this->bus = $bus;
     
@@ -99,7 +99,7 @@ class DetailsWEI
     /**
      * Get bus
      *
-     * @return \Cva\GestionMembreBundle\Entity\Bus 
+     * @return Bus 
      */
     public function getBus()
     {
@@ -109,10 +109,10 @@ class DetailsWEI
     /**
      * Set bungalow
      *
-     * @param \Cva\GestionMembreBundle\Entity\Bungalow $bungalow
+     * @param Bungalow $bungalow
      * @return DetailsWEI
      */
-    public function setBungalow(\Cva\GestionMembreBundle\Entity\Bungalow $bungalow = null)
+    public function setBungalow(Bungalow $bungalow = null)
     {
         $this->bungalow = $bungalow;
     
@@ -122,7 +122,7 @@ class DetailsWEI
     /**
      * Get bungalow
      *
-     * @return \Cva\GestionMembreBundle\Entity\Bungalow 
+     * @return Bungalow 
      */
     public function getBungalow()
     {
