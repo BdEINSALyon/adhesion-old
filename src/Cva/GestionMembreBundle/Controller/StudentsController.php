@@ -20,6 +20,22 @@ class StudentsController extends Controller
 {
 
     /**
+     * @Route(path="/old", name="cva_membership_students_old")
+     * @param Request $request
+     * @return Response
+     */
+    public function indexOldAction(Request $request){
+
+        $q = $this->get("doctrine.orm.entity_manager")
+            ->getRepository("CvaGestionMembreBundle:Etudiant")->getOldMembersQuery();
+
+        return $this->render("CvaGestionMembreBundle:Students:index_old.html.twig",array(
+            'adherent' => $q->getResult()
+        ));
+
+    }
+
+    /**
      * @Route(path="/", name="cva_membership_students")
      * @param Request $request
      * @return \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -29,7 +45,7 @@ class StudentsController extends Controller
         $q = $this->get("doctrine.orm.entity_manager")
             ->getRepository("CvaGestionMembreBundle:Etudiant")->getMembersQuery();
 
-        return $this->render("CvaGestionMembreBundle:Students:rechercheAdherent.html.twig",array(
+        return $this->render("CvaGestionMembreBundle:Students:index.html.twig",array(
             'adherent' => $q->getResult()
         ));
 
@@ -37,10 +53,9 @@ class StudentsController extends Controller
 
     /**
      * @Route(path="/{id}/sidebar", name="cva_membership_student_sidebar", options={"expose"=true})
-     * @param Request $request
      * @return \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function sidebarAction(Request $request, $id){
+    public function sidebarAction($id){
 
         return $this->render("CvaGestionMembreBundle:Students:sidebar.html.twig",array(
             'etu' => $this->get("doctrine.orm.entity_manager")
@@ -73,7 +88,7 @@ class StudentsController extends Controller
         }
 
 
-        return $this->render("CvaGestionMembreBundle:Students:editModal.html.twig",array(
+        return $this->render("@CvaGestionMembre/Students/edit.html.twig",array(
             'form' => $form->createView(),
             'id' => $id
         ));
@@ -101,19 +116,6 @@ class StudentsController extends Controller
             $this->addFlash("error", "Etudiant ".$id." est introuvable !");
         }
         return $this->redirect($request->headers->get('referer'));
-    }
-
-    /**
-     * @Route(path="/{id}/edit", name="cva_membership_student_edit", options={"expose"=true}, methods={"POST"})
-     * @param Request $request
-     * @return \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
-    public function editPostAction(Request $request, $id){
-
-        $form = $this->createForm(new EtudiantType(), $this->get("doctrine.orm.entity_manager")
-            ->getRepository("CvaGestionMembreBundle:Etudiant")->find($id));
-
-        return new Response("Ok, recived",200);
     }
 
 }

@@ -1,7 +1,7 @@
 
 cva_membership_student_controller:
     resource: @CvaGestionMembreBundle/Controller/StudentsController.php
-    prefix: /students
+    prefix: /members
     type: annotation
 
 cva_membership_payments_controller:

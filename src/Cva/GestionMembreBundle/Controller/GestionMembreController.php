@@ -34,7 +34,7 @@ class GestionMembreController extends Controller
 	//La redirection depuis /
 	public function cacaAction(Request $request)
 	{
-		return $this->redirect($this->generateUrl('cva_gestion_membre_adherent'));
+		return $this->redirect($this->generateUrl('cva_membership_students'));
 	}
 
 	public function exportCSVAction(Request $request)

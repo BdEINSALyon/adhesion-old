@@ -9,9 +9,11 @@
 namespace Cva\GestionMembreBundle\Controller;
 
 use Cva\GestionMembreBundle\Entity\Payment;
+use Cva\GestionMembreBundle\Entity\Produit;
 use Cva\GestionMembreBundle\Form\EtudiantType;
 use Cva\GestionMembreBundle\Form\PaymentType;
 use Cva\GestionMembreBundle\Form\StudentType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,7 +42,28 @@ class PaymentsController extends Controller
     public function registerModalAction(Request $request, $id){
 
         $em = $this->get("doctrine.orm.entity_manager");
-        $form = $this->createForm(new PaymentType());
+        $student = $em->find("CvaGestionMembreBundle:Etudiant", $id);
+
+        // Select only product which has not be bought by this student
+        $boughtProducts = array();
+        /** @var Payment[] $payments */
+        $payments = $student->getPayments();
+        foreach($payments as $payment){
+            $boughtProducts[]=$payment->getProduct()->getId();
+        }
+
+        // The query to achieve what we are looking for
+        $qb = $em->createQueryBuilder()->select("p")->from("CvaGestionMembreBundle:Produit","p")
+            ->where("p.disponibilite = ?1")->setParameter(1,"OUI");
+        if(count($boughtProducts)>0){ // This request bug if $boughtProducts is empty
+            $qb->andWhere("p.id NOT IN (?2)")->setParameter(2,$boughtProducts);
+        }
+        $q = $qb->getQuery();
+
+        // Create the form used for this payment
+        $form = $this->createForm(new PaymentType(),null,array(
+            "products" => $q->getResult()
+        ));
 
         if($request->isMethod("POST")){
             // Handle form
@@ -48,12 +71,35 @@ class PaymentsController extends Controller
             if($form->isValid()){
                 /** @var Payment $payment */
                 $payment = $form->getData();
-                $payment->setStudent($em->find("CvaGestionMembreBundle:Etudiant",$id));
-                $payment->setBillId(Payment::generateUUID());
-                $payment->setDate(new \DateTime());
-                $em->persist($payment);
-                $em->flush();
-                return new Response();
+                /*###############################################################################
+                 * Information about this strange engine: (READ IT)
+                 * The form to input a new payment allows to select multiple Produits
+                 * but for PERFORMANCES reason in SQL requests the model of Payment only
+                 * allow to refer one Produit per Payment so to recognise products which
+                 * has been bought together we use a bill number which is an UUID so
+                 * it's unique.
+                 */
+                if($payment->getProduct() instanceof ArrayCollection){
+                    $billId = Payment::generateUUID();
+                    /** @var Produit $product */
+                    foreach($payment->getProduct() as $product){
+                        $p = new Payment();
+                        $p->setMethod($payment->getMethod());
+                        $p->setProduct($product);
+                        $p->setDate(new \DateTime());
+                        $p->setBillId($billId);
+                        $p->setStudent($student);
+                        $em->persist($p);
+                    }
+                    $em->flush();
+                } else {
+                    $payment->setStudent($student);
+                    $payment->setBillId(Payment::generateUUID());
+                    $payment->setDate(new \DateTime());
+                    $em->persist($payment);
+                    $em->flush();
+                    return new Response();
+                }
             }
         }
 

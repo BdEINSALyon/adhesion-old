@@ -50,8 +50,8 @@ class MenuBuilder
             $membres = $menu->addChild('Gestion des Membres');
             $membres->addChild("CheckVA", array('route' => 'cva_gestion_membre_assoCheck'));
             $this->addDivider($membres);
-            $membres->addChild("Actuels", array('route' => 'cva_gestion_membre_adherent'));
-            $membres->addChild("Anciens", array('route' => 'cva_gestion_membre_anciens'));
+            $membres->addChild("Actuels", array('route' => 'cva_membership_students'));
+            $membres->addChild("Anciens", array('route' => 'cva_membership_students_old'));
         } else if($this->acl->isGranted("ROLE_SOIREE")) {
             $menu->addChild("Verifier N°Etudiant", array('route' => 'cva_gestion_membre_assoCheck'));
             $menu->addChild("Liste Membres Actuels", array('route' => 'cva_gestion_membre_adherent'));

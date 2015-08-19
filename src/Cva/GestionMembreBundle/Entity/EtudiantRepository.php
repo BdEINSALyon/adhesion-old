@@ -19,9 +19,10 @@ class EtudiantRepository extends EntityRepository
      */
     public function getOldMembersQuery(){
         $dql = "SELECT etu FROM CvaGestionMembreBundle:Etudiant etu ".
-            "WHERE etu NOT IN (".$this->getMembersQuery()->getDQL().")";
-        return $this->getEntityManager()->
-            createQuery()->setDQL($dql)->setParameter(1, $this->getCurrentMembershipProducts());
+            "WHERE NOT EXISTS (SELECT p.id FROM CvaGestionMembreBundle:Payment p WHERE p.product IN (?1) AND p.student = etu)";
+        $abstractQuery = $this->getEntityManager()->
+        createQuery()->setDQL($dql)->setParameter(1, $this->getCurrentMembershipProducts());
+        return $abstractQuery;
     }
 
     /**
