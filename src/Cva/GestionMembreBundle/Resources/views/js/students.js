@@ -42,6 +42,30 @@ function sendStudentForm(event) {
 	});
 }
 
+function sendPaymentForm(event) {
+	event.preventDefault();
+	var $form = $(this);
+	console.log("Sending the form ...");
+	var a = new Sonic(loader);
+	$("#submitPaymentForm").html(a.canvas).removeClass("btn-primary").attr("type","button");
+	a.play();
+	console.log("Start anime");
+	$.ajax({
+		type: $form.attr('method'),
+		url: $form.attr('action'),
+		data: $form.serialize(),
+
+		success: function(data, status) {
+			$('#form-payment').off('submit',sendPaymentForm);
+			$('#editPaymentModal').modal('hide');
+			refreshStudentDetails();
+			setTimeout(function () {
+				$('#editPaymentModalContent').html('Loading ...');
+			},500);
+		}
+	});
+}
+
 function refreshStudentDetails(){
 	voir(currentStudentId());
 }
@@ -68,16 +92,52 @@ $(function() {
 		}
 	});
 	$('#editStudent').hide();
-	$('#editStudentModal').on('hide', function(){
-		refreshStudentDetails();
-	});
+	$('#editStudentModal').on('hide', refreshStudentDetails);
+	$('#editPaymentModal').on('hide.bs.modal', refreshStudentDetails);
 });
 
 $(function () {
 	$('#confirm-delete').on('show.bs.modal', function(e) {
-		$(this).find('.btn-ok').attr('href', Routing.generate($(e.relatedTarget).data('route'),{id:currentStudentId()}));
+		var $modal = $(this);
+		var $btn = $(this).find('.btn-ok');
+		var $origin = $(e.relatedTarget);
+        if($origin.data('route') == undefined){
+			$btn.attr('href', "#");
+			var actionOnClick = function (e) {
+				e.preventDefault();
+				$btn.off('click',actionOnClick);
+				var a = new Sonic(loader);
+				var oldContent = $btn.html();
+				$btn.html(a.canvas);
+				a.play();
+				$.get($origin.data('href'), function () {
+					refreshStudentDetails();
+                    $modal.modal('hide');
+                    a.stop();
+                    $btn.html(oldContent);
+                })
+            };
+            $btn.on('click', actionOnClick)
+		} else {
+			$btn.attr('href', Routing.generate($origin.data('route'), {id: currentStudentId()}));
+		}
+	});
+	$('#editPaymentModal').on('show.bs.modal',function(e){
 	});
 });
+
+/**
+ * Open the modal to create a new payment for the selected student
+ */
+function newPayment(elem){
+	$('#editPaymentModal').modal('show');
+	console.log("Open : "+$(elem).data('href'));
+	$.get($(elem).data('href'),function(content){ // The elem params should contains a data-href which is the data to
+												  // display in our modal.
+		$('#editPaymentModalContent').html(content);
+	})
+
+}
 
 function voir(resource) {
 	$.get(Routing.generate("cva_membership_student_sidebar",{id:parseInt(resource)}), function (msg) {

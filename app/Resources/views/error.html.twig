@@ -7,20 +7,20 @@
             <h1>Erreur <small>Le castor a encore cassé le barrage</small></h1>
         </div>
         <div class="row">
-            <div class="col-md-3">
-                <img src="{{ asset('img/error.gif') }}">
-            </div>
             <div class="col-md-9">
                 {% block error_explain %}
                     <p>Bon pas de quoi s'affoler, voici la raison de l'erreur : </p>
                     <div class="well-lg well">
                         {% block error %}{{ error_message|raw }}{% endblock %}
                     </div>
-                    <p>Si jamais tu ne pige rien à l'erreur, contacte l'équipe OrgaIf à <a href="mailto:support@bde-insa-lyon.fr">support@bde-insa-lyon.fr</a></p>
+                    <p>Si jamais tu ne piges rien à l'erreur, contacte l'équipe OrgaIf à <a href="mailto:support@bde-insa-lyon.fr">support@bde-insa-lyon.fr</a></p>
                     <div>
                         <a href="javascript:history.back()" class="btn btn-primary">{{ icon('previous') }}&nbsp;Revenir en arrière</a>
                     </div>
                 {% endblock %}
+            </div>
+            <div class="col-md-3">
+                <img src="{{ asset('img/error.png') }}">
             </div>
         </div>
     </div>

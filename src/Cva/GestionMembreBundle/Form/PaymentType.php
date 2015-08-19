@@ -19,24 +19,14 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class PaymentType extends AbstractType
 {
 
-    /**
-     * @var Produit[]
-     */
-    private $produits;
-
-    function __construct(array $produit)
-    {
-        $this->produits = $produit;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add("product", 'entity', array(
             'query_builder'=>function(EntityRepository $repository){
-                return $repository->findBy(array('disponibilite'=>'OUI'));
+                return $repository->createQueryBuilder('p')->where('p.disponibilite = ?1')->setParameter(1,"OUI");
             },
             'expanded' => true,
-            'class' => 'Cva\GestionMembreBundle\Entity\Payment'
+            'class' => 'Cva\GestionMembreBundle\Entity\Produit'
         ));
         $builder->add('method', 'choice', array('choices' => array('CHQ' => '1. Cheque', 'CB' => '2. Carte Bancaire', 'ESP' => '3. Espèces' ),'mapped' => true, 'required'  => true, 'expanded' => true ));
     }

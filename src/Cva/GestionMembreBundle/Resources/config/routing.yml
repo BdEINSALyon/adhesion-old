@@ -4,6 +4,11 @@ cva_membership_student_controller:
     prefix: /students
     type: annotation
 
+cva_membership_payments_controller:
+    resource: @CvaGestionMembreBundle/Controller/PaymentsController.php
+    prefix: /payments
+    type: annotation
+
 ########################################################################################################################
 ## Old Routing :
 

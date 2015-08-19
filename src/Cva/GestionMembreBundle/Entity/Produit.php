@@ -122,6 +122,6 @@ class Produit
 
     public function __toString()
     {
-        return strval($this->getId());
+        return $this->description." - ".$this->price."€";
     }
 }

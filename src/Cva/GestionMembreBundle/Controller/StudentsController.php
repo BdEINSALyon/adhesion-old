@@ -86,15 +86,20 @@ class StudentsController extends Controller
      */
     public function deleteAction(Request $request, $id){
         $em = $this->get("doctrine.orm.entity_manager");
-        $em->remove($em->find("CvaGestionMembreBundle:Etudiant",$id));
-        try{
-            $em->flush();
-        } catch(ForeignKeyConstraintViolationException $exception){
-            return $this->render("::error.html.twig",array(
-                "error_message"=>"L'étudiant ".$id." a encore des données qui lui sont liés, tu ne peux pas le supprimer !"
-            ));
+        $entity = $em->find("CvaGestionMembreBundle:Etudiant", $id);
+        if($entity) {
+            $em->remove($entity);
+            try {
+                $em->flush();
+            } catch (ForeignKeyConstraintViolationException $exception) {
+                return $this->render("::error.html.twig", array(
+                    "error_message" => "L'étudiant " . $id . " a encore des données qui lui sont liés, tu ne peux pas le supprimer !"
+                ));
+            }
+            $this->addFlash("notice", "Etudiant " . $id . " supprimé avec succès.");
+        } else {
+            $this->addFlash("error", "Etudiant ".$id." est introuvable !");
         }
-        $this->addFlash("notice","Etudiant ".$id." supprimé avec succès.");
         return $this->redirect($request->headers->get('referer'));
     }
 

@@ -21,7 +21,7 @@
                         </thead>
                         <tbody id="etudiants">
                             {% for adh in adherent %}
-                                <tr id="{{ adh.id }}" onclick="return voir({{ adh.id }})">
+                                <tr onclick="voir({{ adh.id }})">
                                     <td>{{ adh.numEtudiant }}</td>
                                     <td>{{ adh.name }}</td>
                                     <td>{{ adh.firstName }}</td>
@@ -30,10 +30,6 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                    <div align="right">
-                        <button class="btn btn-medium btn-info" onclick="createCSV('table_adherent',0)"> Export CSV
-                        </button>
-                    </div>
                 </div>
 
                 <div class="col-md-3">
@@ -44,7 +40,7 @@
                                 {% if is_granted('ROLE_PERM') %}
                                     <a href="#" onclick="editStudent()">{{ icon('pencil') }}</a>
                                 {% endif %}
-                                {% if is_granted('ROLE_PERM') %}
+                                {% if is_granted('ROLE_MODO') %}
                                     <a href="#" style="color:darkred" data-route="cva_membership_student_delete" data-toggle="modal" data-target="#confirm-delete">{{ icon('trash') }}</a>
                                 {% endif %}
                             </div>
@@ -59,6 +55,16 @@
                             <div class="modal-dialog">
                                 <div class="modal-content" id="editStudentModalContent">
                                     Loading ...
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+                        <div class="modal fade" id="editPaymentModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content" id="editPaymentModalContent">
+                                    <div class="modal-body">
+                                        Loading ...
+                                    </div>
                                 </div><!-- /.modal-content -->
                             </div><!-- /.modal-dialog -->
                         </div><!-- /.modal -->
