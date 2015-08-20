@@ -1,12 +1,8 @@
 {% extends '::base.html.twig' %}
 
-{% import '::navbar.html.twig' as navbar %}
+
 
 {% block title %} Config {% endblock %}
-
-{% block navbar %}
-{{ navbar.input('','','','','active','') }}
-{% endblock %}
 
 {% block content %}
 {% if is_granted('ROLE_ADMIN') %}

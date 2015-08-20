@@ -6,3 +6,4 @@ sonata_block:
 
 sonata_admin:
     title: Adhésion
+    title_logo: img/bde_black_24.png

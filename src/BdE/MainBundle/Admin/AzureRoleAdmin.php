@@ -1,6 +1,6 @@
 <?php
 
-namespace BdE\AdminBundle\Admin;
+namespace BdE\MainBundle\Admin;
 
 use BdE\MainBundle\Entity\AzureRole;
 use Doctrine\ORM\Mapping\UniqueConstraint;
@@ -21,7 +21,7 @@ class AzureRoleAdmin extends Admin
             ->add('roles', 'choice', array(
                 'label' => 'Roles',
                 'multiple' => true,
-                'choices' => $this->getRolesChoices()
+                'choices' => $this->getConfigurationPool()->getContainer()->get("bde.main.roles_provider")->getRoles()
             ))
             ->add('azureGid', 'choice', array(
                 'label' => 'Groupe Azure',
@@ -30,12 +30,6 @@ class AzureRoleAdmin extends Admin
             ))
             ->add('comments') //if no type is specified, SonataAdminBundle tries to guess it
         ;
-    }
-
-    protected function getRolesChoices(){
-        $container = $this->getConfigurationPool()->getContainer();
-        $roles = $container->getParameter('security.role_hierarchy.roles');
-        return self::flattenRoles($roles);
     }
 
     protected function getAzureGroupChoices(){
@@ -60,7 +54,7 @@ class AzureRoleAdmin extends Admin
             ->add('roles', 'choice', array(
                 'multiple'=>true,
                 'delimiter'=>", ",
-                'choices' => $this->getRolesChoices()
+                'choices' => $this->getConfigurationPool()->getContainer()->get("bde.main.roles_provider")->getRoles()
             ))->add("comments")
         ;
     }
@@ -82,28 +76,6 @@ class AzureRoleAdmin extends Admin
         } else {
             $object->setAzureGroupName($this->getAzureGroupChoices()[$object->getAzureGid()]);
         }
-    }
-
-
-    /**
-     * Turns the role's array keys into string <ROLES_NAME> keys.
-     * @param $rolesHierarchy
-     * @param array $flatRoles
-     * @return array
-     */
-    protected static function flattenRoles($rolesHierarchy, $flatRoles = array())
-    {
-        foreach($rolesHierarchy as $role) {
-            if(empty($role)) {
-                continue;
-            } elseif (is_array($role)) {
-                $flatRoles = self::flattenRoles($role, $flatRoles);
-            } elseif (!isset($flatRoles[$role])){
-                $flatRoles[$role] = $role;
-            }
-        }
-
-        return $flatRoles;
     }
 
 }

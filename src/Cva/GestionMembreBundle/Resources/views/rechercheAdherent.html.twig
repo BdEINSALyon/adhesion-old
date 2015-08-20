@@ -1,14 +1,9 @@
 {% extends '::base.html.twig' %}
 
-{% import '::navbar.html.twig' as navbar %}
+
 
 	{% block title %} {{ type }}  {% endblock %}
 
-	{% block navbar %}
-
-        {{ navbar.input('','active') }}
-
-    {% endblock %}
 	
 	{% block content %}
 

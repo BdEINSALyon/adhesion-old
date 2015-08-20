@@ -91,15 +91,14 @@ class PaymentsController extends Controller
                         $p->setStudent($student);
                         $em->persist($p);
                     }
-                    $em->flush();
                 } else {
                     $payment->setStudent($student);
                     $payment->setBillId(Payment::generateUUID());
                     $payment->setDate(new \DateTime());
                     $em->persist($payment);
-                    $em->flush();
-                    return new Response();
                 }
+                $em->flush();
+                return new Response();
             }
         }
 
