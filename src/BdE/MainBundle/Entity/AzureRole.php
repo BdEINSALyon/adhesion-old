@@ -147,5 +147,12 @@ class AzureRole
     {
         $this->azureGroupName = $azureGroupName;
     }
+
+    function __toString()
+    {
+        return $this->getAzureGroupName();
+    }
+
+
 }
 
