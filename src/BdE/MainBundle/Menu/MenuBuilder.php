@@ -44,14 +44,12 @@ class MenuBuilder
         if(!$this->showMenu()){
             return $menu;
         }
-        if($this->acl->isGranted("ROLE_PERM"))
-            $menu->addChild('Ajouter Adhérant', array('route' => 'cva_gestion_membre_ajoutAdherent'));
         if($this->acl->isGranted("ROLE_PERM")) {
             $membres = $menu->addChild('Gestion des Membres');
-            $membres->addChild("CheckVA", array('route' => 'cva_gestion_membre_assoCheck'));
-            $this->addDivider($membres);
             $membres->addChild("Actuels", array('route' => 'cva_membership_students'));
             $membres->addChild("Anciens", array('route' => 'cva_membership_students_old'));
+            $this->addDivider($membres);
+            $membres->addChild('Ajouter Adhérant', array('route' => 'cva_gestion_membre_ajoutAdherent'));
         } else if($this->acl->isGranted("ROLE_SOIREE")) {
             $menu->addChild("Verifier N°Etudiant", array('route' => 'cva_gestion_membre_assoCheck'));
             $menu->addChild("Liste Membres Actuels", array('route' => 'cva_gestion_membre_adherent'));
@@ -95,6 +93,7 @@ class MenuBuilder
         $menu = $this->factory->createItem('root');
 
         if(!$this->showMenu()){
+            $menu->addChild("Connexion",array("route"=>"fos_user_security_login"));
             return $menu;
         }
 

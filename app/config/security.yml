@@ -54,7 +54,7 @@ security:
         - { path: ^/wei, roles: ROLE_COWEI }
         - { path: ^/config, roles: ROLE_EDIT_CONFIG }
         - { path: ^/adherent, roles: ROLE_SOIREE }
-        - { path: ^/students, roles: ROLE_CONSULT }
+        - { path: ^/members, roles: ROLE_CONSULT }
         - { path: ^/anciens, roles: ROLE_SOIREE }
         - { path: ^/ajoutAdherent, roles: ROLE_SOIREE }
         - { path: ^/profil, roles: ROLE_USER }
