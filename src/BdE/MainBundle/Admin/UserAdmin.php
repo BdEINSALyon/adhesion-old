@@ -94,11 +94,5 @@ class UserAdmin extends Admin
             ->add('locked', null, array('editable' => true))
             ->add('createdAt')
         ;
-
-        if ($this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
-            $listMapper
-                ->add('impersonating', 'string', array('template' => 'SonataUserBundle:Admin:Field/impersonating.html.twig'))
-            ;
-        }
     }
 }

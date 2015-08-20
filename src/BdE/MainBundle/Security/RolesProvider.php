@@ -17,8 +17,9 @@ class RolesProvider
 
     public function __construct($roleHierarchy, DataCollectorTranslator $t){
         $roleHierarchy = self::flattenRoles($roleHierarchy);
+        $roles = array();
         foreach($roleHierarchy as $role){
-            $roles[$role] = $t->trans($role, array(), "roles");
+            $roles[$role] = $role;
         }
         $this->roles = $roles;
     }

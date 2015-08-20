@@ -27,6 +27,7 @@ class AzureRoleAdmin extends Admin
                 'label' => 'Groupe Azure',
                 'choices' => $this->getAzureGroupChoices(),
                 'error_bubbling' => false,
+                'translation_domain' => false
             ))
             ->add('comments') //if no type is specified, SonataAdminBundle tries to guess it
         ;
@@ -58,6 +59,8 @@ class AzureRoleAdmin extends Admin
             ))->add("comments")
         ;
     }
+
+
 
     /**
      * @param ErrorElement $errorElement
