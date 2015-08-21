@@ -2,6 +2,24 @@ parameters:
 #    bd_e_wei.example.class: BdE\WeiBundle\Example
 
 services:
-#    bd_e_wei.example:
-#        class: %bd_e_wei.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+  bde.wei.admin.bus:
+        class: BdE\WeiBundle\Admin\BusAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm , group: "wei", label: "Bus"}
+        arguments:
+            - ~
+            - BdE\WeiBundle\Entity\Bus
+            - ~
+        calls:
+            - [ setTranslationDomain, [BdEWeiBundle]]
+
+  bde.wei.admin.bungalow:
+        class: BdE\WeiBundle\Admin\BungalowAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "wei", label: "Bungalow" }
+        arguments:
+            - ~
+            - BdE\WeiBundle\Entity\Bungalow
+            - ~
+        calls:
+            - [ setTranslationDomain, [BdEWeiBundle]]

@@ -54,7 +54,7 @@ class PaymentsController extends Controller
 
         // The query to achieve what we are looking for
         $qb = $em->createQueryBuilder()->select("p")->from("CvaGestionMembreBundle:Produit","p")
-            ->where("p.disponibilite = ?1")->setParameter(1,"OUI");
+            ->where("p.active = true");
         if(count($boughtProducts)>0){ // This request bug if $boughtProducts is empty
             $qb->andWhere("p.id NOT IN (?2)")->setParameter(2,$boughtProducts);
         }
