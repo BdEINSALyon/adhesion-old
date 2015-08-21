@@ -43,12 +43,13 @@
         "oyejorge/less.php": "1.7.0.*",
         "jquery/jquery":  "1.11.1",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "hwi/oauth-bundle": "dev-master",
+        "hwi/oauth-bundle": "~0.4@dev",
         "willdurand/faker-bundle": "1.2.*",
         "friendsofsymfony/jsrouting-bundle": "^1.5",
-        "sonata-project/admin-bundle": "dev-master",
-        "sonata-project/doctrine-orm-admin-bundle": "dev-master",
-        "sonata-project/easy-extends-bundle": "^2.1"
+        "sonata-project/admin-bundle": "2.3.*",
+        "sonata-project/doctrine-orm-admin-bundle": "2.3.*",
+        "sonata-project/easy-extends-bundle": "^2.1",
+        "sonata-project/doctrine-extensions": "^1.0"
     },
     "scripts": {
         "post-install-cmd": [
