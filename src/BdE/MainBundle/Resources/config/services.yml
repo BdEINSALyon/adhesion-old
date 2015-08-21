@@ -32,17 +32,6 @@ services:
     class: BdE\MainBundle\Security\RolesProvider
     arguments: [%security.role_hierarchy.roles%, @translator]
 
-  bde.main.admin.azurerole:
-        class: BdE\MainBundle\Admin\AzureRoleAdmin
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: "security", label: "Rôles Azure" }
-        arguments:
-            - ~
-            - BdE\MainBundle\Entity\AzureRole
-            - ~
-        calls:
-            - [ setTranslationDomain, [BdEMainBundle]]
-
   bde.main.admin.config:
         class: BdE\MainBundle\Admin\ConfigAdmin
         tags:
@@ -50,6 +39,17 @@ services:
         arguments:
             - ~
             - BdE\MainBundle\Entity\Config
+            - ~
+        calls:
+            - [ setTranslationDomain, [BdEMainBundle]]
+
+  bde.main.admin.azurerole:
+        class: BdE\MainBundle\Admin\AzureRoleAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "security", label: "Rôles Azure" }
+        arguments:
+            - ~
+            - BdE\MainBundle\Entity\AzureRole
             - ~
         calls:
             - [ setTranslationDomain, [BdEMainBundle]]
