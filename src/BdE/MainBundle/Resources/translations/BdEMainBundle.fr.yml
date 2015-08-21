@@ -1,0 +1,23 @@
+
+# AzureRole
+Comments: "Commentaires"
+Groupe Azure: "Groupe Office 365 (AzureAD)"
+Role: "Rôle"
+Roles: "Rôles"
+Azure Group Name: "Nom de Groupe Azure"
+Azure Role List: "Liste des Rôle pour Azure"
+Rôles Azure: "Rôles Azure"
+users: "Utilisateurs"
+Configuration: "Configuration"
+
+# User
+Username: "Nom d'utilisateur"
+Email: "EMail"
+Enabled: "Activé"
+Locked: "Verrouillé"
+Created At: "Créé le"
+Id: "N°"
+User List: "Liste des utilisateurs"
+Plain Password: "Mot de passe"
+General: "Général"
+Management: "Gestion"

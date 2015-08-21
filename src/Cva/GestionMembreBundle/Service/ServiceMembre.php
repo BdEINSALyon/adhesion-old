@@ -2,13 +2,11 @@
 
 namespace Cva\GestionMembreBundle\Service;
 
+use BdE\WeiBundle\Entity\Bus;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Cva\GestionMembreBundle\Form\EtudiantType;
 use Cva\GestionMembreBundle\Entity\Etudiant;
 use Cva\GestionMembreBundle\Entity\Paiement;
-use Cva\GestionMembreBundle\Entity\Bus;
-use Cva\GestionMembreBundle\Entity\Bungalow;
-use Cva\GestionMembreBundle\Entity\DetailsWEI;
 use \DateTime;
 
 
@@ -34,7 +32,7 @@ class ServiceMembre {
 
 	public function GetAllBus() {
 
-		$repository = $this->em->getRepository('CvaGestionMembreBundle:Bus');
+		$repository = $this->em->getRepository('BdEWeiBundle:Bus');
 
 		$query = $repository->createQueryBuilder('b')->orderBy('b.nom', 'ASC')->getQuery();
 		
@@ -49,7 +47,7 @@ class ServiceMembre {
 		foreach ($allBus as &$b)  {
 			$query = $this->em->createQuery(
 				'SELECT COUNT(d)
-				FROM CvaGestionMembreBundle:DetailsWEI d
+				FROM BdEWeiBundle:DetailsWEI d
 				WHERE d.bus = (?1) ')
 			->setParameter(1 , $b);
 			$totalCourant = $query->getSingleScalarResult();
@@ -66,7 +64,7 @@ class ServiceMembre {
 		foreach ($allBung as &$b)  {
 			$query = $this->em->createQuery(
 				'SELECT COUNT(d)
-				FROM CvaGestionMembreBundle:DetailsWEI d
+				FROM BdEWeiBundle:DetailsWEI d
 				WHERE d.bungalow = (?1) ')
 			->setParameter(1 , $b);
 			$totalCourant = $query->getSingleScalarResult();
@@ -77,7 +75,7 @@ class ServiceMembre {
 
 	public function GetAllBung() {
 
-		$repository = $this->em->getRepository('CvaGestionMembreBundle:Bungalow');
+		$repository = $this->em->getRepository('BdEWeiBundle:Bungalow');
 
 		$query = $repository->createQueryBuilder('b')->orderBy('b.nom', 'ASC')->getQuery();
 		
@@ -87,7 +85,7 @@ class ServiceMembre {
 
 	public function GetAllBungBySexe($idEtu) {
 
-		$repository = $this->em->getRepository('CvaGestionMembreBundle:Bungalow');
+		$repository = $this->em->getRepository('BdEWeiBundle:Bungalow');
 
 		$etudiant = $this->GetEtudiantById($idEtu);
 
@@ -130,7 +128,11 @@ class ServiceMembre {
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:Paiement');	
 		return $repository->findBy(array('idEtudiant' => $idEtudiant));
 	}
-	
+
+    /**
+     * @param $id mixed
+     * @return Etudiant
+     */
 	public function GetEtudiantById($id) {	
 		$repository = $this->em->getRepository('CvaGestionMembreBundle:Etudiant');
 		return $repository->findOneById($id);
@@ -196,13 +198,17 @@ class ServiceMembre {
 		return $repository->findOneById($id);
 	}
 
+	/**
+	 * @param $id
+	 * @return \BdE\WeiBundle\Entity\Bus
+	 */
 	public function GetBusById($id) {	
-		$repository = $this->em->getRepository('CvaGestionMembreBundle:Bus');
+		$repository = $this->em->getRepository('BdEWeiBundle:Bus');
 		return $repository->findOneById($id);
 	}
 
 	public function GetBungById($id) {	
-		$repository = $this->em->getRepository('CvaGestionMembreBundle:Bungalow');
+		$repository = $this->em->getRepository('BdEWeiBundle:Bungalow');
 		return $repository->findOneById($id);
 	}
 	
@@ -287,14 +293,14 @@ class ServiceMembre {
 	
 	public function GetAllDetails()
 	{
-		$repository = $this->em->getRepository('CvaGestionMembreBundle:DetailsWEI');
+		$repository = $this->em->getRepository('BdEWeiBundle:DetailsWEI');
 		$details = $repository->findAll();
 		return $details;
 	}
 	
 	public function GetDetailsByIdEtudiant($idEtudiant)
 	{
-		$repository = $this->em->getRepository('CvaGestionMembreBundle:DetailsWEI');
+		$repository = $this->em->getRepository('BdEWeiBundle:DetailsWEI');
 		return $repository->findOneBy(array('idEtudiant' => $idEtudiant));
 	}
 
@@ -302,7 +308,7 @@ class ServiceMembre {
 	{
 		$query = $this->em->createQuery(
 			'SELECT COUNT(d.id) 
-			FROM CvaGestionMembreBundle:DetailsWEI d
+			FROM BdEWeiBundle:DetailsWEI d
 			WHERE d.bus=:idBus')
 		->setParameter('idBus',$idBus);
 		$nb = $query->getSingleScalarResult();
@@ -314,7 +320,7 @@ class ServiceMembre {
 	{
 		$query = $this->em->createQuery(
 			'SELECT COUNT(d.id) 
-			FROM CvaGestionMembreBundle:DetailsWEI d
+			FROM BdEWeiBundle:DetailsWEI d
 			WHERE d.bungalow=:idBung')
 		->setParameter('idBung',$idBung);
 		$nb = $query->getSingleScalarResult();
@@ -326,7 +332,7 @@ class ServiceMembre {
 	{
 		$query = $this->em->createQuery(
 			'SELECT MAX(d.placeListeAttente) 
-			FROM CvaGestionMembreBundle:DetailsWEI d');
+			FROM BdEWeiBundle:DetailsWEI d');
 		$max = $query->getSingleResult();
 
 		return $max;
@@ -427,7 +433,7 @@ class ServiceMembre {
 	{
 		$bizuths = $this->GetEtudiantByProduit($idProduit);
 		$details=array();
-		$repository = $this->em->getRepository('CvaGestionMembreBundle:DetailsWEI');
+		$repository = $this->em->getRepository('BdEWeiBundle:DetailsWEI');
 
 		//Tout le monde était mineur, full images -18
 		$stringDateWEI="2005-01-01";

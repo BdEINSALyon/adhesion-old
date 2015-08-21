@@ -1,12 +1,8 @@
 {% extends '::base.html.twig' %}
 
-{% import '::navbar.html.twig' as navbar %}
+
 
 {% block title %} Config {% endblock %}
-
-{% block navbar %}
-{{ navbar.input('','','','','active','') }}
-{% endblock %}
 
 {% block content %}
 {% if is_granted('ROLE_ADMIN') %}
@@ -30,7 +26,7 @@
 <div class="container well">
 	<h3>Config WEI</h3>
 	<div class="row"> 
-		<form id="formWEI" name="input" action="{{path('cva_gestion_membre_writeJSONWEI')}}" method="get">
+		<form id="formWEI" name="input" action="{{path('bde_wei_writeJSONWEI')}}" method="get">
 			<div class="span6"> 
 				Nombre Max de Bizuths : <input style="width:15%" type="text" name="nbBizuths" value="{{ nbMaxBizuths }}">
 			</br>
@@ -90,7 +86,7 @@
 	<div class="row">
 		<div class="span5">
 			<legend>Export des données WEI</legend>
-			<form name="input" action="{{path('cva_gestion_membre_exportAllWEI')}}" method="get">
+			<form name="input" action="{{path('bde_wei_exportAllWEI')}}" method="get">
 				<input class="btn btn-large btn-success offset1" value="Exporter (CSV)" type="submit" />
 			</form>
 		</div>
@@ -98,7 +94,7 @@
 	<div class="row">
 		<div class="span5">
 			<legend>Bus</legend>
-			<form name="input" action="{{path('cva_gestion_membre_createMultipleBus')}}" method="get">
+			<form name="input" action="{{path('bde_wei_bus_add_many')}}" method="get">
 				Générer un nombre fixe de bus : <input style="width:25px" type="text" name="nbBus">
 				<input class="btn" type="submit" value="Go !">
 			</form>
@@ -119,27 +115,27 @@
 						<td>{{ bus[0].nbPlaces }}</td>	
 						<td>{{ bus[1] }}</td>	
 						<td> 
-							<span> 
-								<a class="btn" onclick="insertEditBus({{ bus[0].id }});">Edit</a >
-									<a class="btn" href="deleteBus?id={{ bus[0].id }}">Suppr</a >
-									</span> 
-								</td>				
-							</tr>
-							{% endfor %}							
-						</tbody>
-					</table>
-					<input class="btn btn-large btn-primary offset1" value="Ajouter un Bus" onclick="insertAjoutBus();" />
 
-				</div>
-				<div class="span7" id="insertBus">
-				</div>
-			</div>
-		</br>
+								<a class="btn btn-primary" onclick="load('{{ path("bde_wei_bus_edit",{id:bus[0].id}) }}','insertBus')">Edit</a >
+								<a class="btn btn-danger" href="{{ path("bde_wei_bus_delete",{id:bus[0].id}) }}">Suppr</a >
+
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<input class="btn btn-large btn-primary offset1" value="Ajouter un Bus" onclick="load('{{ path("bde_wei_bus_add") }}','insertBus');" />
+
+		</div>
+		<div class="span7" id="insertBus">
+		</div>
+	</div>
+	</br>
 	</br>
 	<div class="row">
 		<div class="span5">
 			<legend>Bungalow</legend>
-			<form name="input" action="{{path('cva_gestion_membre_createMultipleBung')}}" method="get">
+			<form name="input" action="{{path('bde_wei_bungalow_add_many')}}" method="get">
 				Générer un nombre fixe de bungalow : <input style="width:25px" type="text" name="nbBung">
 				<input class="btn" type="submit" value="Go !">
 			</form>
@@ -163,8 +159,8 @@
 						<td>{{ bung[1]}}</td>		
 						<td> 
 							<span> 
-								<a class="btn" onclick="insertEditBung({{ bung[0].id }});">Edit</a >
-									<a class="btn" href="deleteBung?id={{ bung[0].id }}">Suppr</a >
+								<a class="btn" onclick="load('{{ path('bde_wei_bungalow_edit',{id:bung[0].id})}}','insertBung');">Edit</a >
+									<a class="btn" href="{{ path('bde_wei_bungalow_delete',{id:bung[0].id}) }}">Suppr</a >
 									</span> 
 								</td>				
 							</tr>
@@ -172,7 +168,7 @@
 
 						</tbody>
 					</table>
-					<input class="btn btn-large btn-primary offset1" value="Ajouter un Bungalow" onclick="insertAjoutBung();" />
+					<input class="btn btn-large btn-primary offset1" value="Ajouter un Bungalow" onclick="load('{{ path('bde_wei_bungalow_add')}}','insertBung');" />
 
 				</div>
 				<div class="span7" id="insertBung">
@@ -201,7 +197,7 @@
 					  </div>
 					  <div class="modal-footer">
 							<button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
-							<a role="button" href="{{path('cva_gestion_membre_clearWEI')}}" class="btn btn-primary">Oui</a>
+							<a role="button" href="{{path('bde_wei_clearWEI')}}" class="btn btn-primary">Oui</a>
 					  </div>
 			</div>
 		{% endblock %}
@@ -209,7 +205,7 @@
 		{% block javascripts %}
 		{{ parent() }}
 		{% javascripts
-		'@CvaGestionMembreBundle/Resources/views/js/config.js'  %}				
+		'@CvaGestionMembreBundle/Resources/views/js/config.js'  %}
 		<script type="text/javascript" src="{{ asset_url }}"></script>
 		{% endjavascripts %}
 		{% endblock %}

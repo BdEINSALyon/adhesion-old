@@ -1,0 +1,4 @@
+bde_main_azure_link:
+  resource: @BdEMainBundle/Controller/AzureLinkManagementController.php
+  type: annotation
+  prefix: /azureLinkManagement

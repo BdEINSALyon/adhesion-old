@@ -1,0 +1,30 @@
+{% if etu.numEtudiant != "" %}
+<p><strong>N° Etudiant&nbsp;:&nbsp;</strong>{{ etu.numEtudiant }}</p>
+{% endif %}
+<p><strong>Civilité&nbsp;:&nbsp;</strong>{{ etu.civilite }}</p>
+<p><strong>Nom&nbsp;:&nbsp;</strong>{{ etu.name }}</p>
+<p><strong>Prénom&nbsp;:&nbsp;</strong>{{ etu.firstName }}</p>
+<p><strong>Etudes&nbsp;:&nbsp;</strong>{{ etu.annee }}{{ etu.departement }}</p>
+{% if etu.tel != "" %}
+<p><strong>Téléphone&nbsp;:&nbsp;</strong>{{ etu.tel }}</p>
+{% endif %}
+<p><strong>Email&nbsp;:&nbsp;</strong>{{ etu.mail }}</p>
+<p><strong>Naissance&nbsp;:&nbsp;</strong>{{ etu.birthday|date('d-m-Y') }}</p>
+{% if etu.remarque != "" %}
+<p><strong>Remarque&nbsp;:&nbsp;</strong>{{ etu.remarque }}</p>
+{% endif %}
+<strong>Produits&nbsp;:&nbsp;</strong>
+{% if etu.payments.count > 0 %}
+<ul>
+    {% for p in etu.payments %}
+        <li>{{ p.product.name }}
+            {% if is_granted('ROLE_MODO') %}
+                <a href="#" class="pull-right" style="color:darkred" data-href="{{ url("cva_membership_payment_delete",{id:p.id}) }}" data-toggle="modal" data-target="#confirm-delete">{{ icon('trash') }}</a>
+            {% endif %}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Aucun produit !</p>
+{% endif %}
+<a href="#" class="btn btn-primary btn-block" onclick="newPayment(this)" data-href="{{ url("cva_membership_payment_new_modal",{id:etu.id}) }}">Ajouter un produit</a>
+<div style="display: none" id="etuid" data-etu-id="{{ etu.id }}" data-etu-payments-count="{{ etu.payments.count }}"></div>

@@ -5,8 +5,7 @@ namespace Cva\GestionMembreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="Produit")
+ * @ORM\Entity(repositoryClass="Cva\GestionMembreBundle\Entity\ProduitRepository")
  */
 class Produit
 {
@@ -16,21 +15,36 @@ class Produit
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    protected $name;
 	
 	/**
-     * @ORM\Column(type="decimal", scale=2)
+     * @ORM\Column(type="decimal", scale=2, nullable=false)
      */
     protected $price;
 	
 	/**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $description;
 
 	/**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="boolean")
      */
-    protected $disponibilite;
+    protected $active;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Cva\GestionMembreBundle\Entity\Paiement", mappedBy="produits")
+     */
+    protected $paiements;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Cva\GestionMembreBundle\Entity\Payment", mappedBy="product")
+     */
+    protected $payments;
 	
     /**
      * Get id
@@ -66,22 +80,25 @@ class Produit
     }
 
     /**
-     * Set description
-     *
-     * @param string $description
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
      * @return Produit
      */
-    public function setDescription($description)
+    public function setName($name)
     {
-        $this->description = $description;
-    
+        $this->name = $name;
         return $this;
     }
 
     /**
-     * Get description
-     *
-     * @return string 
+     * @return mixed
      */
     public function getDescription()
     {
@@ -89,30 +106,37 @@ class Produit
     }
 
     /**
-     * Set disponibilite
-     *
-     * @param string $disponibilite
+     * @param mixed $description
      * @return Produit
      */
-    public function setDisponibilite($disponibilite)
+    public function setDescription($description)
     {
-        $this->disponibilite = $disponibilite;
-    
+        $this->description = $description;
         return $this;
     }
 
     /**
-     * Get disponibilite
-     *
-     * @return string 
+     * @return mixed
      */
-    public function getDisponibilite()
+    public function getActive()
     {
-        return $this->disponibilite;
+        return $this->active;
     }
+
+    /**
+     * @param mixed $active
+     * @return Produit
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+        return $this;
+    }
+
+
 
     public function __toString()
     {
-        return strval($this->getId());
+        return $this->name." - ".$this->price."€";
     }
 }

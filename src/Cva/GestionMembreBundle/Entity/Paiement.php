@@ -22,7 +22,7 @@ class Paiement
     protected $id;
 	
 	 /**
-     * @ORM\ManyToOne(targetEntity="Etudiant")
+     * @ORM\ManyToOne(targetEntity="Etudiant", inversedBy="paiement",fetch="EAGER")
      * @ORM\JoinColumn(name="etudiant_id", referencedColumnName="id", nullable=false)
      */
     private $idEtudiant;
@@ -33,7 +33,7 @@ class Paiement
     protected $dateAchat;
 	
 	/**
-     * @ORM\ManyToMany(targetEntity="Produit")
+     * @ORM\ManyToMany(targetEntity="Produit", inversedBy="paiements",fetch="LAZY")
      * @ORM\JoinTable(name="paiement_produits",
      *      joinColumns={@ORM\JoinColumn(name="paiement_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="produit_id", referencedColumnName="id")}

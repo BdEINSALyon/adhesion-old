@@ -1,5 +1,7 @@
-/app/config/config*
-/app/config/parameters*
+/app/config/parameters.yml
 /vendor/*
 /app/cache/*
 /app/logs/*
+.idea
+composer.lock
+*~

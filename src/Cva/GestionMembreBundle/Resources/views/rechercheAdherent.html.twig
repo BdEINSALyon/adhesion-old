@@ -1,100 +1,104 @@
 {% extends '::base.html.twig' %}
 
-{% import '::navbar.html.twig' as navbar %}
 
-	{% block title %} {{type}}  {% endblock %}
 
-	{% block navbar %}
+	{% block title %} {{ type }}  {% endblock %}
 
-		{{ navbar.input('','active') }}
-
-	{% endblock %}
 	
 	{% block content %}
-	
-		<div class ="container">
-		<div class="row">
-			<div class="span4 offset4">
-					<h3 id="nomEcran">{{type}} Adhérents</h3>
-			</div>
-				<div class="span9">
-					<table id="table_adherent" class="table table-bordered table-hover table-striped">
-					  <thead>
- 						<tr id="search">
-							<th>N°Etudiant</th>
-							<th>Nom</th>
-							<th>Prénom</th>
-							<th>Email</th>
-						</tr> 
-					  </thead>					  
-					  <tbody id="etudiants">	
-						{% for adh in adherent %}
-								<tr id="{{ adh.id }}" onclick="return voir({{ adh.id }});">
-									  <td>{{ adh.numEtudiant}}</td>
-									  <td>{{ adh.name }}</td>
-									  <td>{{ adh.firstName}}</td>
-									  <td>{{ adh.mail }}</td>
-								</tr>	
-						{% endfor %}
-					  </tbody>
-					</table>
-				<div align="right"><button class="btn btn-medium btn-info" onclick="createCSV('table_adherent',0)"> Export CSV </button></div>
-				</div>
-					
-				<div class="span3">	
 
-					<table id ="details_droite" class="table table-bordered detailed-table">
-						<thead>
-							<th>
-								Détails:
-							</th>
-						</thead>
-					  <tbody id="detailed-body" class="details">
-						<tr class="infos">
-							<td id="voirEtudiant"></td>
-						</tr>
+        <div class="container">
+            <div class="page-header">
+                <h1>Adhérents <small>Gestion des adhérents {{ type }}</small></h1>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <table id="table_adherent" class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr id="search">
+                                <th>N°Etudiant</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody id="etudiants">
+                            {% for adh in adherent %}
+                                <tr id="{{ adh.id }}" onclick="return voir({{ adh.id }});">
+                                    <td>{{ adh.numEtudiant }}</td>
+                                    <td>{{ adh.name }}</td>
+                                    <td>{{ adh.firstName }}</td>
+                                    <td>{{ adh.mail }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div align="right">
+                        <button class="btn btn-medium btn-info" onclick="createCSV('table_adherent',0)"> Export CSV
+                        </button>
+                    </div>
+                </div>
 
-						<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								  <div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-										<h3 id="myModalLabel">Confirmation</h3>
-								  </div>
-								  <div class="modal-body">
-										<p>Voulez-vous vraiment supprimer cet utilisateur ?</p>
-								  </div>
-								  <div class="modal-footer">
-										<button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
-										<a role="button" href="" class="btn btn-primary">Oui</a>
-								  </div>
-						</div>
-					  </tbody>
-					</table>
+                <div class="col-md-3">
 
-				</div>
-			</div>
-			
-		</div>
+                    <table id="details_droite" class="table table-bordered detailed-table">
+                        <thead>
+                        <th>
+                            Détails:
+                        </th>
+                        </thead>
+                        <tbody id="detailed-body" class="details">
+                        <tr class="infos">
+                            <td id="voirEtudiant"></td>
+                        </tr>
 
-		<form action="{{path('cva_gestion_membre_exportCSV')}}" method="post" name="formCSV">
-		<input type="hidden" name="csvText" id="csvText"/>
-		</form>
+                        <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog"
+                             aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                                <h3 id="myModalLabel">Confirmation</h3>
+                            </div>
+                            <div class="modal-body">
+                                <p>Voulez-vous vraiment supprimer cet utilisateur ?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
+                                <a role="button" href="" class="btn btn-primary">Oui</a>
+                            </div>
+                        </div>
+                        </tbody>
+                    </table>
 
-		{% for flashMessage in app.session.flashbag.get('notice') %}
-			<div class="row">
-				<div class="span4 offset2 alert alert-success">
-				  <button type="button" class="close" data-dismiss="alert">&times;</button>
-				  <strong>{{ flashMessage }}</strong>
-				</div>
-			</div>
-		{% endfor %}
-		
-		{% endblock %}
+                </div>
+            </div>
+
+        </div>
+
+        <form action="{{ path('cva_gestion_membre_exportCSV') }}" method="post" name="formCSV">
+            <input type="hidden" name="csvText" id="csvText"/>
+        </form>
+
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="row">
+                <div class="col-md-4 offset2 alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>{{ flashMessage }}</strong>
+                </div>
+            </div>
+        {% endfor %}
+
+    {% endblock %}
 			
 		{% block javascripts %}
-			   {{ parent() }}
-				<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>	
-			{% javascripts
-				'@CvaGestionMembreBundle/Resources/views/js/tableau.js'  %}				
-				<script type="text/javascript" src="{{ asset_url }}"></script>
-			{% endjavascripts %}
-		{% endblock %}
+            {{ parent() }}
+            <script src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.8/js/dataTables.bootstrap.min.js"></script>
+            {% javascripts
+            '@CvaGestionMembreBundle/Resources/views/js/tableau.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.datatables.net/1.10.8/css/dataTables.bootstrap.min.css" rel="stylesheet" media="screen">
+{% endblock %}

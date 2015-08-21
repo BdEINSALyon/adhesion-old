@@ -1,0 +1,66 @@
+parameters:
+  user_provider.class: BdE\MainBundle\Security\Core\UserProvider
+
+services:
+  bde.main.user_provider:
+    class: %user_provider.class%
+    arguments: [@fos_user.user_manager,@security.role_hierarchy,@doctrine.orm.entity_manager,%azure.tenant%]
+
+  bde.main.azure:
+    class: BdE\MainBundle\Security\Core\Azure
+    arguments: [@security.token_storage, @fos_user.user_manager, %azure.tenant%,%azure.client_id%,%azure.client_secret%]
+
+  bde.main.menu_builder:
+    class: BdE\MainBundle\Menu\MenuBuilder
+    arguments: ["@security.token_storage","@security.authorization_checker","@knp_menu.factory"]
+
+  bde.main.main_menu:
+    class: Knp\Menu\MenuItem
+    factory: ["@bde.main.menu_builder", createMainMenu]
+    arguments: ["@request_stack"]
+    tags:
+      - { name: knp_menu.menu, alias: main } # The alias is what is used to retrieve the menu
+
+  bde.main.user_menu:
+    class: Knp\Menu\MenuItem
+    factory: ["@bde.main.menu_builder", createUserMenu]
+    arguments: ["@request_stack"]
+    tags:
+      - { name: knp_menu.menu, alias: user } # The alias is what is used to retrieve the menu
+
+  bde.main.roles_provider:
+    class: BdE\MainBundle\Security\RolesProvider
+    arguments: [%security.role_hierarchy.roles%, @translator]
+
+  bde.main.admin.config:
+        class: BdE\MainBundle\Admin\ConfigAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm , group: "general", label: "Configuration"}
+        arguments:
+            - ~
+            - BdE\MainBundle\Entity\Config
+            - ~
+        calls:
+            - [ setTranslationDomain, [BdEMainBundle]]
+
+  bde.main.admin.azurerole:
+        class: BdE\MainBundle\Admin\AzureRoleAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "security", label: "Rôles Azure" }
+        arguments:
+            - ~
+            - BdE\MainBundle\Entity\AzureRole
+            - ~
+        calls:
+            - [ setTranslationDomain, [BdEMainBundle]]
+
+  bde.main.admin.user:
+        class: BdE\MainBundle\Admin\UserAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "security", label: "users" }
+        arguments:
+            - ~
+            - BdE\MainBundle\Entity\User
+            - ~
+        calls:
+            - [ setTranslationDomain, [BdEMainBundle]]

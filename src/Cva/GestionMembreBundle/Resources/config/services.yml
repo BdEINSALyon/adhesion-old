@@ -8,3 +8,25 @@ services:
         arguments: ['@security.context', '@session']
         tags:
             - { name: 'kernel.event_listener', event: 'security.interactive_login' }
+
+    cva.gestion_membre.admin.students:
+          class: Cva\GestionMembreBundle\Admin\EtudiantAdmin
+          tags:
+              - { name: sonata.admin, manager_type: orm, group: "cva", label: "Members" }
+          arguments:
+              - ~
+              - Cva\GestionMembreBundle\Entity\Etudiant
+              - ~
+          calls:
+              - [ setTranslationDomain, [CvaGestionMembreBundle]]
+
+    cva.gestion_membre.admin.produits:
+          class: Cva\GestionMembreBundle\Admin\ProduitAdmin
+          tags:
+              - { name: sonata.admin, manager_type: orm, group: "cva", label: "Products" }
+          arguments:
+              - ~
+              - Cva\GestionMembreBundle\Entity\Produit
+              - ~
+          calls:
+              - [ setTranslationDomain, [CvaGestionMembreBundle]]
