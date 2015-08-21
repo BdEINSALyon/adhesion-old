@@ -52,12 +52,12 @@ class MenuBuilder
             $membres->addChild('Ajouter Adhérant', array('route' => 'cva_gestion_membre_ajoutAdherent'));
         } else if($this->acl->isGranted("ROLE_SOIREE")) {
             $menu->addChild("Verifier N°Etudiant", array('route' => 'cva_gestion_membre_assoCheck'));
-            $menu->addChild("Liste Membres Actuels", array('route' => 'cva_gestion_membre_adherent'));
+            $menu->addChild("Liste Membres Actuels", array('route' => 'cva_membership_students'));
         } else if($this->acl->isGranted("ROLE_CONSULT")){
             $menu->addChild("CheckVA", array('route' => 'cva_gestion_membre_assoCheck'));
         }
         if($this->acl->isGranted("ROLE_COWEI")) {
-            $wei = $menu->addChild('Zone CoWEI');
+            $wei = $menu->addChild('CoWEI');
             $wei->addChild("Pré-Inscrits", array('route' => 'bde_wei_inscription_préInscrits'));
             $wei->addChild("Pré-Liste Attente", array('route' => 'bde_wei_inscription_listeAttentePre'));
             $this->addDivider($wei);
@@ -70,17 +70,8 @@ class MenuBuilder
                 $wei->addChild("Configuration WEI",array("route"=>"cva_gestion_membre_config"));
             }
         }
-        if($this->acl->isGranted("ROLE_ADMIN")) {
-            $admin = $menu->addChild('Zone Admin');
-            $admin->addChild("Créer Utilisateur", array('route' => 'cva_gestion_membre_addUser'));
-            $admin->addChild("Modifier Utilisateur", array('route' => 'cva_gestion_membre_editUser'));
-            $this->addDivider($admin);
-            $admin->addChild("Créer Produit", array('route' => 'cva_gestion_membre_addProduit'));
-            $admin->addChild("Modifier Produit", array('route' => 'cva_gestion_membre_tableauProduits'));
-            $this->addDivider($admin);
-            $admin->addChild("Gestion AzureAD", array('route' => 'bde_main_azure_link_index'));
-            $this->addDivider($admin);
-            $admin->addChild("Configuration Général",array("route"=>"cva_gestion_membre_config"));
+        if($this->acl->isGranted("ROLE_SONATA_ADMIN")) {
+            $menu->addChild("Administration", array('route' => 'sonata_admin_redirect'));
         }
 
         return $menu;
