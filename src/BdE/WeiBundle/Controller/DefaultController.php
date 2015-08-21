@@ -94,8 +94,10 @@ class DefaultController extends Controller
 
         if(file_exists($this->fileConfigWEI))
         {
-            $json = json_decode(file_get_contents($this->fileConfigWEI),true);
+            $json = $this->get("doctrine.orm.entity_manager")->getRepository("BdEMainBundle:Config")->getConfig();
         }
+
+        $json = $this->get('doctrine.orm.entity_manager')->getRepository("BdEMainBundle:Config")->getConfig();
 
         $json["nbMaxBizuths"] = $_GET['nbBizuths'];
         $json["dateWEI"] = $_GET['dateWEI'];
@@ -134,11 +136,11 @@ class DefaultController extends Controller
         $enTetesExport = array('Numero etudiant','Raison sociale','Nom','Prenom','Date de naissance','Majeur','Mail', 'Tel','Bus','Bungalow','Remarque');
         if(file_exists($this->fileConfigWEI))
         {
-            $json = json_decode(file_get_contents($this->fileConfigWEI),true);
+            $json = $this->get("doctrine.orm.entity_manager")->getRepository("BdEMainBundle:Config")->getConfig();
             $idProduitInscritWEI=$json["produitInscriptionWEI"];
             $adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails($idProduitInscritWEI);
 
-            //En-têtes
+            //En-tï¿½tes
             $exportCSV=implode(";", $enTetesExport);
             $exportCSV.="\r\n";
 

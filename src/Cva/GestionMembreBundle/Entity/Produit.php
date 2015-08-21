@@ -5,7 +5,7 @@ namespace Cva\GestionMembreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Cva\GestionMembreBundle\Entity\ProduitRepository")
  */
 class Produit
 {

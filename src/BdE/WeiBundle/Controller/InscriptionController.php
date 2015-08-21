@@ -33,7 +33,7 @@ class InscriptionController extends Controller
         //Les bizuths sont au PC ;)
         $etudiant->setDepartement('PC');
 
-        //En théorie ils sont dans l'année de leurs 18 ans
+        //En thï¿½orie ils sont dans l'annï¿½e de leurs 18 ans
         $anneeCourante = getdate();
         $anneeMaj = $anneeCourante['year'] - 18;
 
@@ -58,16 +58,13 @@ class InscriptionController extends Controller
     public function rechercheBizuthWEIAction(Request $request)
     {
         $adherent = array();
-        if (file_exists($this->fileConfigWEI)) {
-            $json = json_decode(file_get_contents($this->fileConfigWEI), true);
-            $idProduitInscritWEI = $json["produitInscriptionWEI"];
-            $adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails($idProduitInscritWEI);
+        $json = $this->get("doctrine.orm.entity_manager")->getRepository("BdEMainBundle:Config")->getConfig();
+        $idProduitInscritWEI = $json["produitInscriptionWEI"];
+        $adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails($idProduitInscritWEI);
 
-            $nbPlacesRestantes = $json["nbMaxBizuths"] - sizeof($adherent);
+        $nbPlacesRestantes = $json["nbMaxBizuths"] - sizeof($adherent);
 
-            $this->get('session')->getFlashBag()->add('notice', 'Plus que ' . $nbPlacesRestantes . ' places restantes !');
-
-        }
+        $this->get('session')->getFlashBag()->add('notice', 'Plus que ' . $nbPlacesRestantes . ' places restantes !');
 
         return $this->render('BdEWeiBundle:Inscription:rechercheBizuthWEI.html.twig', array('adherent' => $adherent));
     }
@@ -75,15 +72,12 @@ class InscriptionController extends Controller
     public function preInscritsAction(Request $request)
     {
         $adherent = array();
-        if (file_exists($this->fileConfigWEI)) {
-            $json = json_decode(file_get_contents($this->fileConfigWEI), true);
-            $produitPreInscritsWEI = $json["produitPreInscritsWEI"];
+        $json = $this->get("doctrine.orm.entity_manager")->getRepository("BdEMainBundle:Config")->getConfig();
+        $produitPreInscritsWEI = $json["produitPreInscritsWEI"];
 
-            $adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails($produitPreInscritsWEI);
-            $nbPlacesRestantes = $json["nbMaxBizuths"] - sizeof($adherent);
-            $this->get('session')->getFlashBag()->add('notice', 'Plus que ' . $nbPlacesRestantes . ' places restantes !');
-
-        }
+        $adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails($produitPreInscritsWEI);
+        $nbPlacesRestantes = $json["nbMaxBizuths"] - sizeof($adherent);
+        $this->get('session')->getFlashBag()->add('notice', 'Plus que ' . $nbPlacesRestantes . ' places restantes !');
 
         return $this->render('BdEWeiBundle:Inscription:preInscritsWEI.html.twig',
             array('adherent' => $adherent,
@@ -94,14 +88,9 @@ class InscriptionController extends Controller
     public function listeAttenteAction(Request $request)
     {
         $adherent = array();
-        if (file_exists($this->fileConfigWEI)) {
-            $json = json_decode(file_get_contents($this->fileConfigWEI), true);
-            $produitListeWEI = $json["produitListeWEI"];
-            //die(var_dump($idProduitInscritWEI));
-            $adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails($produitListeWEI);
-        } else {
-            exit;
-        }
+        $json = $this->get("doctrine.orm.entity_manager")->getRepository("BdEMainBundle:Config")->getConfig();
+        $produitListeWEI = $json["produitListeWEI"];
+        $adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails($produitListeWEI);
 
         return $this->render('BdEWeiBundle:Inscription:listeAttenteWEI.html.twig', array('adherent' => $adherent));
     }
@@ -109,29 +98,18 @@ class InscriptionController extends Controller
     public function listeAttentePreAction(Request $request)
     {
         $adherent = array();
-        if (file_exists($this->fileConfigWEI)) {
-            $json = json_decode(file_get_contents($this->fileConfigWEI), true);
-            $produitListeWEI = $json["produitListePreWEI"];
-            //die(var_dump($idProduitInscritWEI));
-            $adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails($produitListeWEI);
-        } else {
-            exit;
-        }
+        $json = $this->get("doctrine.orm.entity_manager")->getRepository("BdEMainBundle:Config")->getConfig();
+        $produitListeWEI = $json["produitListePreWEI"];
+        $adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails($produitListeWEI);
 
         return $this->render('BdEWeiBundle:Inscription:listeAttentePreWEI.html.twig', array('adherent' => $adherent));
     }
 
     public function remboursementsAction(Request $request)
     {
-        $adherent = array();
-        if (file_exists($this->fileConfigWEI)) {
-            $json = json_decode(file_get_contents($this->fileConfigWEI), true);
-            $produitRemboursementWEI = $json["produitRemboursementWEI"];
-            //die(var_dump($idProduitInscritWEI));
-            $adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails($produitRemboursementWEI);
-        } else {
-            exit;
-        }
+        $json = $this->get("doctrine.orm.entity_manager")->getRepository("BdEMainBundle:Config")->getConfig();
+        $produitRemboursementWEI = $json["produitRemboursementWEI"];
+        $adherent = $this->get('cva_gestion_membre')->GetBizuthWEIAvecDetails($produitRemboursementWEI);
 
         return $this->render('BdEWeiBundle:Inscription:remboursementsWEI.html.twig',
             array('adherent' => $adherent,
@@ -143,16 +121,10 @@ class InscriptionController extends Controller
         $em = $this->getDoctrine()->getManager();
         $idRemplace = $_GET['idRemplace'];
         $idRemplacant = $request->query->get('idRemplacant');
-        $produitWEI = "";
-        $produitRemboursementWEI = "";
-        if (file_exists($this->fileConfigWEI)) {
-            $json = json_decode(file_get_contents($this->fileConfigWEI), true);
-            $produitWEI = $this->get('cva_gestion_membre')->GetProduitById($json["produitInscriptionWEI"]);
-            $produitRemboursementWEI = $this->get('cva_gestion_membre')->GetProduitById($json["produitRemboursementWEI"]);
-        } else {
-            exit;
-        }
-
+        $config = $this->get("doctrine.orm.entity_manager")->getRepository("BdEMainBundle:Config")->getConfig();
+        $produitRepository = $this->get("doctrine.orm.entity_manager")->getRepository("CvaGestionMembreBundle:Produit");
+        $produitWEI = $produitRepository->getCurrentWEI();
+        $produitRemboursementWEI = $produitRepository->getCurrentWEIRemboursement();
         $detailsWEIRemplacant = $this->get('cva_gestion_membre')->GetDetailsByIdEtudiant($idRemplacant);
         if ($detailsWEIRemplacant != NULL) {
             $em->remove($detailsWEIRemplacant);
@@ -177,7 +149,7 @@ class InscriptionController extends Controller
             }
         }
 
-        //On créé un remboursement
+        //On crï¿½ï¿½ un remboursement
         $paiementRemboursement = new Paiement();
         $paiementRemboursement->setMoyenPaiement("Remplacement");
         $paiementRemboursement->setIdEtudiant($this->get('cva_gestion_membre')->GetEtudiantById($idRemplace));
