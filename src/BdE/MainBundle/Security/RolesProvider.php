@@ -8,14 +8,12 @@
 
 namespace BdE\MainBundle\Security;
 
-use Symfony\Component\Translation\DataCollectorTranslator;
-
 class RolesProvider
 {
 
     private $roles;
 
-    public function __construct($roleHierarchy, DataCollectorTranslator $t){
+    public function __construct($roleHierarchy){
         $roleHierarchy = self::flattenRoles($roleHierarchy);
         $roles = array();
         foreach($roleHierarchy as $role){

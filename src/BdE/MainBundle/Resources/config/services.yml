@@ -30,7 +30,7 @@ services:
 
   bde.main.roles_provider:
     class: BdE\MainBundle\Security\RolesProvider
-    arguments: [%security.role_hierarchy.roles%, @translator]
+    arguments: [%security.role_hierarchy.roles%]
 
   bde.main.admin.config:
         class: BdE\MainBundle\Admin\ConfigAdmin
