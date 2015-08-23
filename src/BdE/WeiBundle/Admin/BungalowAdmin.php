@@ -33,7 +33,7 @@ class BungalowAdmin extends Admin
 
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $filter->add('nom')->add('sexe','choice',array('choices'=>array("M"=>"Mens","F"=>"Womens","ND"=>"Multiples")));
+        $filter->add('nom')->add('sexe');
     }
 
 }
