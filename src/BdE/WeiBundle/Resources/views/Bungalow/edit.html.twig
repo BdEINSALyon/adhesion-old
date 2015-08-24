@@ -1,35 +1,24 @@
 {% extends '::base.html.twig' %}
 
-	{% block content  %}					
-				<fieldset>
-				    <legend>Modif Bungalow</legend>
-				    
-					    <form action="{{ path('bde_wei_bungalow_edit', {id: form.vars.value.id}) }}" method="post" {{ form_enctype(form) }}>
-					    {{ form_errors(form) }}
-					    <div class="row">
-
-						    <div class="span3">
-							    {{ form_row(form.nom, {'label': 'Nom :', 'attr' : { 'placeholder' : 'Nom' }} ) }}
-						    </div>
-
-						    <div class="span2">
-							    {{ form_row(form.sexe, {'label': 'Sexe :', 'attr' : { 'placeholder' : 'Sexe' }} ) }}
-						    </div>
-							
-							<div class="span3">
-								{{ form_row(form.nbPlaces, {'label': 'nbPlaces :', 'attr' : { 'placeholder' : 'nbPlaces' }} ) }}
-							</div>
-						    
-						    {{ form_rest(form) }}
-					    </div>
-						    <div class="span3 offset2">
-									<br/>
-									<input class="btn btn-large btn-primary" type="submit" />
-							</div>
-
-					    </form>
-					
-
-				    
-				</fieldset>
+{% block content  %}
+	<div class="container">
+		{{ form_start(form, { 'style': 'horizontal' }) }}
+		<div class="page-header">
+			<h1>{% block head_title %}Editer un bungalow{% endblock %}
+				<div class="btn-group pull-right" style="">
+					{{ form_widget(form.actions) }}
+				</div>
+			</h1>
+		</div>
+		{{ form(form, { 'style': 'horizontal' }) }}
+		{{ form_end(form) }}
+	</div>
+{% endblock %}
+{% block javascripts %}
+	<script>
+		$.documentReady(function(){
+			console.log($("form>button[type='reset']").click());
+			$(".backOnClick").html("HAHAH");
+		})
+	</script>
 {% endblock %}

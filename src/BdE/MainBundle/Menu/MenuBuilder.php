@@ -61,15 +61,17 @@ class MenuBuilder
         if($this->acl->isGranted("ROLE_COWEI")) {
             $wei = $menu->addChild('CoWEI');
             $wei->addChild("Pré-Inscrits", array('route' => 'bde_wei_inscription_préInscrits'));
-            $wei->addChild("Pré-Liste Attente", array('route' => 'bde_wei_inscription_listeAttentePre'));
+//            $wei->addChild("Pré-Liste Attente", array('route' => 'bde_wei_inscription_listeAttentePre'));
             $this->addDivider($wei);
-            $wei->addChild("Inscrits", array('route' => 'bde_wei_inscription_rechercheBizuthWEI'));
-            $wei->addChild("Liste Attente", array('route' => 'bde_wei_inscription_listeAttente'));
-            $this->addDivider($wei);
-            $wei->addChild("A rembourser",array('route'=>'bde_wei_inscription_remboursements'));
-            if($this->acl->isGranted("ROLE_EDIT_CONFIG") && !$this->acl->isGranted("ROLE_ADMIN")) {
+//            $wei->addChild("Inscrits", array('route' => 'bde_wei_inscription_rechercheBizuthWEI'));
+//            $wei->addChild("Liste Attente", array('route' => 'bde_wei_inscription_listeAttente'));
+//            $this->addDivider($wei);
+//            $wei->addChild("A rembourser",array('route'=>'bde_wei_inscription_remboursements'));
+            $wei->addChild("Bus",array('route'=>'bde_wei_bus'));
+            $wei->addChild("Bungalows",array('route'=>'bde_wei_bungalow'));
+            if($this->acl->isGranted("ROLE_EDIT_CONFIG")) {
                 $this->addDivider($wei);
-                $wei->addChild("Configuration WEI",array("route"=>"cva_gestion_membre_config"));
+                $wei->addChild("Configuration WEI",array("route"=>"bde_wei"));
             }
         }
         if($this->acl->isGranted("ROLE_SONATA_ADMIN")) {

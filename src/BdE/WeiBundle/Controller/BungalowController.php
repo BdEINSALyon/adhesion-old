@@ -13,6 +13,17 @@ class BungalowController extends Controller
 {
 
     /**
+     * @Route("/",name="bde_wei_bungalow")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function indexAction(){
+        // Load data
+        $em = $this->getDoctrine()->getManager();
+        $bungalows = $em->getRepository("BdEWeiBundle:Bungalow")->findAll();
+        return $this->render("@BdEWei/Bungalow/index.html.twig",array('bungalows'=>$bungalows));
+    }
+
+    /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route(path="/addMany",name="bde_wei_bungalow_add_many")
@@ -71,22 +82,35 @@ class BungalowController extends Controller
     /**
      * @Route("/add",name="bde_wei_bungalow_add")
      * @Method({"GET"})
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
-        $bus = new Bungalow();
-        $form = $this->createForm(new BungalowType(), $bus);
+        $bungalow = new Bungalow();
+        $form = $this->createForm(new BungalowType(), $bungalow);
+        $em = $this->getDoctrine()->getManager();
+
+        $form->handleRequest($request);
+
+        if($form->isValid()){
+            $em->persist($form->getData());
+            $em->flush();
+            $this->addFlash('success',"Nouveau bungalow enregistré");
+            return $this->redirectToRoute("bde_wei_bungalow");
+        }
+
         return $this->render('BdEWeiBundle:Bungalow:add.html.twig', array('form' => $form->createView(),));
     }
 
     /**
      * @Route("/{id}", requirements={"id" = "\d+"},name="bde_wei_bungalow_edit")
      * @Method({"GET","POST"})
+     * @param Request $request
      * @param $id mixed Params for request which describe id of bus
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function editAction($id)
+    public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $bungalow = $em->getRepository("BdEWeiBundle:Bungalow")->find($id);
@@ -97,17 +121,13 @@ class BungalowController extends Controller
 
         $form = $this->createForm(new BungalowType(), $bungalow);
 
-        if($this->getRequest()->isMethod('POST'))
+        $form->handleRequest($request);
+        if ($form->isValid())
         {
-            $form->handleRequest($this->getRequest());
-            if ($form->isValid())
-            {
-                $em->persist($bungalow);
-                $em->flush();
-                $this->get('session')->getFlashBag()->add('notice', 'Bungalow modifié');
-                return $this->redirect($this->generateUrl('cva_gestion_membre_config'));
-
-            }
+            $em->persist($form->getData());
+            $em->flush();
+            $this->get('session')->getFlashBag()->add('success', 'Bungalow modifié');
+            return $this->redirect($this->generateUrl('bde_wei_bungalow'));
         }
 
         return $this->render('BdEWeiBundle:Bungalow:edit.html.twig', array('form' => $form->createView()));

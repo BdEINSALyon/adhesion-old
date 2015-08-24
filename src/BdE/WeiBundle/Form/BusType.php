@@ -15,7 +15,7 @@ class BusType extends AbstractType
             ->add('actions', 'form_actions', [
                 'buttons' => [
                     'save' => ['type' => 'submit', 'options' => ['label' => 'button.save']],
-                    'cancel' => ['type' => 'button', 'options' => ['label' => 'button.cancel']],
+                    'cancel' => ['type' => 'button', 'options' => ['label' => 'button.cancel','attr' => ['onclick'=>"history.back()"]]],
                 ]
             ]);
     }

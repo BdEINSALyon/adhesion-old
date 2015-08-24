@@ -40,7 +40,7 @@ class Bungalow
      * @var string
      *
      * @ORM\Column(name="sexe", type="string", length=2, nullable=true)
-     * @Assert\Choice(choices = {"M", "F", "ND"}, message = "La valeur doit �tre M, F ou ND")
+     * @Assert\Choice(choices = {"M", "F", "ND"}, message = "La valeur doit être M, F ou ND")
      */
     private $sexe;
 
@@ -133,6 +133,17 @@ class Bungalow
     public function getSexe()
     {
         return $this->sexe;
+    }
+
+    public function getHumanReadableSexe(){
+        switch($this->sexe){
+            case 'F':
+                return "Filles";
+            case 'M':
+                return "Garçons";
+            default:
+                return "Mixte";
+        }
     }
 
     /**
