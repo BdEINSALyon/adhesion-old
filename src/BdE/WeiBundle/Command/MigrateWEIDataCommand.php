@@ -1,6 +1,6 @@
 <?php
 
-namespace Cva\GestionMembreBundle\Command;
+namespace BdE\WeiBundle\Command;
 
 use BdE\WeiBundle\Entity\DetailsWEI;
 use BdE\WeiBundle\Entity\Waiting;
