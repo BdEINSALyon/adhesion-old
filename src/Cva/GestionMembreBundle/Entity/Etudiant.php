@@ -431,7 +431,7 @@ class Etudiant
     }
 
     /**
-     * @return mixed
+     * @return Payment
      */
     public function getPayments()
     {

@@ -30,12 +30,6 @@ class Waiting
     private $student;
 
     /**
-     * @var Produit
-     * @ORM\OneToOne(targetEntity="Cva\GestionMembreBundle\Entity\Produit",orphanRemoval=true)
-     */
-    private $product;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="rank", type="integer")
@@ -106,6 +100,24 @@ class Waiting
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * @param Etudiant $student
+     * @return Waiting
+     */
+    public function setStudent($student)
+    {
+        $this->student = $student;
+        return $this;
+    }
+
+    /**
+     * @return Etudiant
+     */
+    public function getStudent()
+    {
+        return $this->student;
     }
 
 }

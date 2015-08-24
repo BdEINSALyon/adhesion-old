@@ -62,6 +62,14 @@ class ProduitRepository extends EntityRepository
         return $this->getEntityManager()->getRepository("BdEMainBundle:Config")->get("wei.produitPreInscritsWEI","");
     }
 
+    public function getCurrentPreWaitingWEIIds(){
+        return $this->getEntityManager()->getRepository("BdEMainBundle:Config")->get("wei.produitListeWEI","");
+    }
+
+    public function getCurrentWaitingWEIIds(){
+        return $this->getEntityManager()->getRepository("BdEMainBundle:Config")->get("wei.produitListePreWEI","");
+    }
+
     public function getCurrentWEIRemboursementIds(){
         return $this->getEntityManager()->getRepository("BdEMainBundle:Config")->get("wei.produitRemboursementWEI","");
     }
@@ -85,6 +93,28 @@ class ProduitRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('p')->where("p.active = true");
         return $this->to_array_result($qb->getQuery()->getResult(Query::HYDRATE_OBJECT));
+    }
+
+    public function getCurrentWEIWaiting()
+    {
+        return $this->find($this->getCurrentWaitingWEIIds());
+    }
+
+    public function getCurrentWEIPreWaiting()
+    {
+        return $this->find($this->getCurrentPreWaitingWEIIds());
+    }
+
+    public function getWaitingProductFor(Produit $produit){
+        $id = $produit->getId();
+        switch($id){
+            case $this->getCurrentWEIIds():
+                return $this->getCurrentWEIWaiting();
+            case $this->getCurrentPreWEIIds():
+                return $this->getCurrentWEIPreWaiting();
+            default:
+                return null;
+        }
     }
 
 }
