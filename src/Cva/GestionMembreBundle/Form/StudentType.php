@@ -25,10 +25,11 @@ class StudentType extends AbstractType
                     'Personnel' => 'Personnel',
                     'Autre' => 'Autre'
                 ),
+                "data"=>'Autre',
                 "label" => "Année",
                 'required' => true,
                 'expanded' => false,
-                'empty_value' => false
+                'empty_value' => 'Autre'
             ))
             ->add('departement', 'choice', array(
                 'choices' => array(
@@ -60,7 +61,7 @@ class StudentType extends AbstractType
                 'label' => 'Date de Naissance'
             ))
             ->add('mail', 'email', array(
-                'label'=>'EMail'
+                'label'=>'eMail'
             ))
             ->add('tel', 'text', array(
                 'required' => false,
@@ -82,6 +83,6 @@ class StudentType extends AbstractType
 
     public function getName()
     {
-        return 'etudiant';
+        return 'student';
     }
 }

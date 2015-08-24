@@ -16,7 +16,9 @@
 
 	{% include "nav.html.twig" %}
 
-	{% include 'BraincraftedBootstrapBundle::flash.html.twig' with { 'close': true } %}
+	<div class="container">
+		{% include 'BraincraftedBootstrapBundle::flash.html.twig' with { 'close': true } %}
+	</div>
 
 	{% block content %} {% endblock %}
 	{% block body %} {% endblock %}

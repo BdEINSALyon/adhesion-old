@@ -22,7 +22,7 @@ class ProduitAdmin extends Admin
             ->add('name')
             ->add('price')
             ->add('description')
-            ->add('active','boolean');
+            ->add('active');
     }
 
     protected function configureListFields(ListMapper $list)

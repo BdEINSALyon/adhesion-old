@@ -2,32 +2,57 @@
 /**
  * Created by PhpStorm.
  * User: pvienne
- * Date: 19/08/15
- * Time: 15:38
+ * Date: 18/08/15
+ * Time: 21:24
  */
 
 namespace Cva\GestionMembreBundle\Form;
 
 
+use Cva\GestionMembreBundle\Entity\Produit;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class StudentPaymentType extends AbstractType
 {
 
-    /**
-     * StudentPaymentType constructor.
-     */
-    public function __construct()
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->setDataMapper(new MultiplePaymentsDataMapper());
+        $builder->add("products", 'entity', array(
+            'choices' => $options['products'],
+            'expanded' => true,
+            'multiple' => true,
+            'class' => 'Cva\GestionMembreBundle\Entity\Produit'
+        ));
+        $builder->add('method', 'choice', array(
+            'choices' => array(
+                'CHQ' => 'Cheque',
+                'CB' => 'Carte Bancaire',
+                'ESP' => 'Espèces'
+            ),
+            'mapped' => true,
+            'required'  => false,
+            'expanded' => true,
+            'label' => "Moyen de paiement",
+            'attr' => array('help_text' => "Si aucun moyen n'est selectionné, alors l'adhérent sera créé sans produit affecté.")));
     }
 
     /**
-     * Returns the name of this type.
+     * Configures the options for this type.
      *
-     * @return string The name of this type
+     * @param OptionsResolver $resolver The resolver for the options.
      */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setRequired("products");
+    }
+
     public function getName()
     {
-        // TODO: Implement getName() method.
+        return 'payment_not_required';
     }
 }

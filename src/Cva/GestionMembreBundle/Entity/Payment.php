@@ -189,5 +189,41 @@ class Payment
             return $uuid;
         }
     }
+
+    public static function handleMultipleProducts(Payment $payment, Etudiant $student = null){
+        /*###############################################################################
+         * Information about this strange engine: (READ IT)
+         * The form to input a new payment allows to select multiple Produits
+         * but for PERFORMANCES reason in SQL requests the model of Payment only
+         * allow to refer one Produit per Payment so to recognise products which
+         * has been bought together we use a bill number which is an UUID so
+         * it's unique.
+         */
+        $result = array();
+        if($payment->getMethod() == 'NONE'){
+            return $result;
+        }
+        if($payment->getProduct() instanceof ArrayCollection){
+            $billId = Payment::generateUUID();
+            /** @var Produit $product */
+            foreach($payment->getProduct() as $product){
+                $p = new Payment();
+                $p->setMethod($payment->getMethod());
+                $p->setProduct($product);
+                $p->setDate(new \DateTime());
+                $p->setBillId($billId);
+                if($student)
+                    $p->setStudent($student);
+                $result[] = $p;
+            }
+        } else {
+            if($student)
+                $payment->setStudent($student);
+            $payment->setBillId(Payment::generateUUID());
+            $payment->setDate(new \DateTime());
+            $result[] = $payment;
+        }
+        return $result;
+    }
 }
 

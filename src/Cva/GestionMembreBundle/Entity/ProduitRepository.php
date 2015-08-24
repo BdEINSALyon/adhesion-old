@@ -14,6 +14,22 @@ use Doctrine\ORM\Query;
 class ProduitRepository extends EntityRepository
 {
 
+    public function getAvailableProductsFor(Etudiant $student){
+        // Select only product which has not be bought by this student
+        $boughtProducts = array();
+        /** @var Payment[] $payments */
+        $payments = $student->getPayments();
+        foreach($payments as $payment){
+            $boughtProducts[]=$payment->getProduct()->getId();
+        }
+        // The query to achieve what we are looking for
+        $qb = $this->createQueryBuilder('p')->where("p.active = true");
+        if(count($boughtProducts)>0){ // This request bug if $boughtProducts is empty
+            $qb->andWhere("p.id NOT IN (?2)")->setParameter(2,$boughtProducts);
+        }
+        return $this->to_array_result($qb->getQuery()->getResult(Query::HYDRATE_OBJECT));
+    }
+
     public function getCurrentVA(){
         $result = $this->createQueryBuilder('p')->where("p.id IN (?1)")
             ->set(1, $this->getCurrentVAIds())->getQuery()->getResult();
@@ -59,6 +75,12 @@ class ProduitRepository extends EntityRepository
         } else {
             return array($result);
         }
+    }
+
+    public function getAvailableProducts()
+    {
+        $qb = $this->createQueryBuilder('p')->where("p.active = true");
+        return $this->to_array_result($qb->getQuery()->getResult(Query::HYDRATE_OBJECT));
     }
 
 }

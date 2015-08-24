@@ -46,10 +46,12 @@ class MenuBuilder
         }
         if($this->acl->isGranted("ROLE_PERM")) {
             $membres = $menu->addChild('Gestion des Membres');
-            $membres->addChild("Actuels", array('route' => 'cva_membership_students'));
+            $membres->addChild("Actuels", array('route' => 'cva_membership_students_current'));
             $membres->addChild("Anciens", array('route' => 'cva_membership_students_old'));
             $this->addDivider($membres);
-            $membres->addChild('Ajouter Adhérant', array('route' => 'cva_gestion_membre_ajoutAdherent'));
+            $membres->addChild('Ajouter Adhérent', array('route' => 'cva_membership_student_new'));
+            $this->addDivider($membres);
+            $membres->addChild("Tous les Adhérents", array('route' => 'cva_membership_students'));
         } else if($this->acl->isGranted("ROLE_SOIREE")) {
             $menu->addChild("Verifier N°Etudiant", array('route' => 'cva_gestion_membre_assoCheck'));
             $menu->addChild("Liste Membres Actuels", array('route' => 'cva_membership_students'));

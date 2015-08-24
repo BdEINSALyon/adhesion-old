@@ -44,57 +44,18 @@ class PaymentsController extends Controller
         $em = $this->get("doctrine.orm.entity_manager");
         $student = $em->find("CvaGestionMembreBundle:Etudiant", $id);
 
-        // Select only product which has not be bought by this student
-        $boughtProducts = array();
-        /** @var Payment[] $payments */
-        $payments = $student->getPayments();
-        foreach($payments as $payment){
-            $boughtProducts[]=$payment->getProduct()->getId();
-        }
-
-        // The query to achieve what we are looking for
-        $qb = $em->createQueryBuilder()->select("p")->from("CvaGestionMembreBundle:Produit","p")
-            ->where("p.active = true");
-        if(count($boughtProducts)>0){ // This request bug if $boughtProducts is empty
-            $qb->andWhere("p.id NOT IN (?2)")->setParameter(2,$boughtProducts);
-        }
-        $q = $qb->getQuery();
-
         // Create the form used for this payment
         $form = $this->createForm(new PaymentType(),null,array(
-            "products" => $q->getResult()
+            "products" => $em->getRepository("CvaGestionMembreBundle:Produit")->getAvailableProductsFor($student)
         ));
 
         if($request->isMethod("POST")){
             // Handle form
             $form->handleRequest($request);
             if($form->isValid()){
-                /** @var Payment $payment */
-                $payment = $form->getData();
-                /*###############################################################################
-                 * Information about this strange engine: (READ IT)
-                 * The form to input a new payment allows to select multiple Produits
-                 * but for PERFORMANCES reason in SQL requests the model of Payment only
-                 * allow to refer one Produit per Payment so to recognise products which
-                 * has been bought together we use a bill number which is an UUID so
-                 * it's unique.
-                 */
-                if($payment->getProduct() instanceof ArrayCollection){
-                    $billId = Payment::generateUUID();
-                    /** @var Produit $product */
-                    foreach($payment->getProduct() as $product){
-                        $p = new Payment();
-                        $p->setMethod($payment->getMethod());
-                        $p->setProduct($product);
-                        $p->setDate(new \DateTime());
-                        $p->setBillId($billId);
-                        $p->setStudent($student);
-                        $em->persist($p);
-                    }
-                } else {
-                    $payment->setStudent($student);
-                    $payment->setBillId(Payment::generateUUID());
-                    $payment->setDate(new \DateTime());
+                /** @var Payment[] $payment */
+                $payments = Payment::handleMultipleProducts($form->getData());
+                foreach ($payments as $payment) {
                     $em->persist($payment);
                 }
                 $em->flush();
