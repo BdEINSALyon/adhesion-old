@@ -1,1 +1,32 @@
-Hello {{ name }}!
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        {{ form_start(form) }}
+        <div class="page-header">
+            <h1>WEI <small>Editer la configuration</small>
+                <div class="btn-group pull-right" style="">
+                    {{ form_widget(form.actions) }}
+                </div>
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Information</h3>
+                {{ form_row(form.wei_dateWEI) }}
+                {{ form_row(form.wei_nbMaxBizuths) }}
+                {{ form_row(form.wei_bungMixtes) }}
+            </div>
+            <div class="col-md-6">
+                <h3>Produits</h3>
+                {{ form_row(form.wei_produitInscriptionWEI) }}
+                {{ form_row(form.wei_produitListeWEI) }}
+                {{ form_row(form.wei_produitPreInscritsWEI) }}
+                {{ form_row(form.wei_produitListePreWEI) }}
+                {{ form_row(form.wei_produitRemboursementWEI) }}
+            </div>
+        </div>
+        {{ form(form) }}
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

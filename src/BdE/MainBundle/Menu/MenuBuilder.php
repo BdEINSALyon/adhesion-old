@@ -58,7 +58,7 @@ class MenuBuilder
         } else if($this->acl->isGranted("ROLE_CONSULT")){
             $menu->addChild("CheckVA", array('route' => 'cva_gestion_membre_assoCheck'));
         }
-        if($this->acl->isGranted("ROLE_COWEI") && false) {
+        if($this->acl->isGranted("ROLE_COWEI")) {
             $wei = $menu->addChild('CoWEI');
             $wei->addChild("Pré-Inscrits", array('route' => 'bde_wei_inscription_préInscrits'));
             $wei->addChild("Pré-Liste Attente", array('route' => 'bde_wei_inscription_listeAttentePre'));

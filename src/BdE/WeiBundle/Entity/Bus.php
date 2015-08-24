@@ -7,7 +7,7 @@ use Cva\GestionMembreBundle\Entity\Etudiant;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\ExecutionContextInterface;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Bus Entity.
@@ -187,8 +187,14 @@ class Bus
      * @param ExecutionContextInterface $context
      */
     public function checkNbPlacesIsMoreThanEtudiants(ExecutionContextInterface $context){
-        if($this->nbPlaces<$this->getAmountOfRegisteredEtudiants()){
-            $context->addViolationAt("nbPlaces","Il y a plus d'�tudiant dans le bus que de places, y a un 'blem la !");
+        if($this->nbPlaces < 0){
+            $context->buildViolation("Le bus ne peut pas avoir un nombre de place négatives")
+                ->atPath("nbPlaces")
+                ->addViolation();
+        } elseif($this->nbPlaces < $this->getAmountOfRegisteredEtudiants()){
+            $context->buildViolation("Il y a plus d'étudiants que de place dans ce bus, y a un 'blem là !")
+                ->atPath("nbPlaces")
+                ->addViolation();
         }
     }
 }

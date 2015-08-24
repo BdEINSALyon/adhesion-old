@@ -11,7 +11,13 @@ class BusType extends AbstractType
     {
         $builder
 		->add('nom', 'text', array('required' => true))
-		->add('nbPlaces', 'integer', array('required' => true));
+		->add('nbPlaces', 'integer', array('required' => true))
+            ->add('actions', 'form_actions', [
+                'buttons' => [
+                    'save' => ['type' => 'submit', 'options' => ['label' => 'button.save']],
+                    'cancel' => ['type' => 'button', 'options' => ['label' => 'button.cancel']],
+                ]
+            ]);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

@@ -13,48 +13,48 @@ class BusController extends Controller
 {
 
     /**
-     * @Route("/add",name="bde_wei_bus_add")
-     * @Method({"POST"})
+     * @Route("/",name="bde_wei_bus")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function createAction(){
+    public function indexAction(){
+        // Load data
+        $em = $this->getDoctrine()->getManager();
+        $buses = $em->getRepository("BdEWeiBundle:Bus")->findAll();
+        return $this->render("@BdEWei/Bus/index.html.twig",array('buses'=>$buses));
+    }
+
+    /**
+     * @Route("/add",name="bde_wei_bus_add")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function createAction(Request $request){
         // Load data
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(new BusType(), new Bus());
 
         // Handle the form
-        $form->handleRequest($this->getRequest());
+        $form->handleRequest($request);
 
         // If valid, we act
         if($form->isSubmitted() && $form->isValid()){
             $em->persist($form->getData());
             $em->flush();
-            $this->get('session')->getFlashBag()->add('notice', 'Bus ajouté');
-            return $this->redirect($this->generateUrl('cva_gestion_membre_config'));
+            $this->get('session')->getFlashBag()->add('success', 'Bus ajoutÃ©');
+            return $this->redirect($this->generateUrl('bde_wei_bus'));
         } else { // Else, recreate the page
-            return $this->forward("BdEWeiBundle:Bus:new");
+            return $this->render('BdEWeiBundle:Bus:add.html.twig', array('form' => $form->createView(),));
         }
-    }
-
-    /**
-     * @Route("/add",name="bde_wei_bus_add")
-     * @Method({"GET"})
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
-    public function newAction()
-    {
-        $bus = new Bus();
-        $form = $this->createForm(new BusType(), $bus);
-        return $this->render('BdEWeiBundle:Bus:add.html.twig', array('form' => $form->createView(),));
     }
 
     /**
      * @Route("/{id}", requirements={"id" = "\d+"},name="bde_wei_bus_edit")
      * @Method({"GET","POST"})
+     * @param Request $request
      * @param $id mixed Params for request which describe id of bus
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function editAction($id)
+    public function editAction(Request $request,$id)
     {
         $em = $this->getDoctrine()->getManager();
         $bus = $em->getRepository("BdEWeiBundle:Bus")->find($id);
@@ -65,16 +65,14 @@ class BusController extends Controller
 
         $form = $this->createForm(new BusType(), $bus);
 
-        if($this->getRequest()->isMethod('POST'))
+        $form->handleRequest($request);
+
+        if ($form->isValid())
         {
-            $form->handleRequest($this->getRequest());
-            if ($form->isValid())
-            {
-                $em->persist($bus);
-                $em->flush();
-                $this->get('session')->getFlashBag()->add('notice', 'Bus modifié');
-                return $this->redirect($this->generateUrl('cva_gestion_membre_config'));
-            }
+            $em->persist($form->getData());
+            $em->flush();
+            $this->get('session')->getFlashBag()->add('success', 'Bus modifiÃ©');
+            return $this->redirect($this->generateUrl('bde_wei_bus'));
         }
 
         return $this->render('@BdEWei/Bus/edit.html.twig', array('form' => $form->createView(), 'idBus' => $id));
@@ -93,13 +91,13 @@ class BusController extends Controller
 
         if(!$bus->canBeDeletedSafely()) {
             $this->get('session')->getFlashBag()->add('warning', 'Ce bus n\'est pas vide !');
-            return $this->redirect($this->generateUrl('cva_gestion_membre_config'));
+            return $this->redirect($this->generateUrl('bde_wei_bus'));
         } else {
             $em->remove($bus);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'Bus supprimé');
-            return $this->redirect($this->generateUrl('cva_gestion_membre_config'));
+            $this->get('session')->getFlashBag()->add('success', 'Bus supprimÃ©');
+            return $this->redirect($this->generateUrl('bde_wei_bus'));
         }
     }
 

@@ -2,14 +2,106 @@
 
 namespace BdE\WeiBundle\Controller;
 
+use Cva\GestionMembreBundle\Entity\Produit;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\DataTransformer\BooleanToStringTransformer;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Template()
+     */
+    public function indexAction(Request $request)
     {
-        return $this->redirect($this->generateUrl("bde_wei_inscription_listeAttente"));
+        $em = $this->get("doctrine.orm.entity_manager");
+        $produits = $em->getRepository("CvaGestionMembreBundle:Produit");
+        $data = $em->getRepository("BdEMainBundle:Config")->getConfig();
+        $d = array();
+        foreach ($data as $k => $v) {
+            if(preg_match("/^wei\\./",$k)) {
+                if (preg_match("/produit/", $k)) {
+                    $v = $produits->find($v);
+                }
+                if($k == "wei.dateWEI"){
+                    $v = new \DateTime($v);
+                }
+                $d[str_replace(".", "_", $k)] = $v;
+            }
+        }
+
+        $builder = $this->createFormBuilder();
+        $config = $builder
+            ->add("wei_nbMaxBizuths","integer",[
+                'label' => "Nombre de participants"
+            ])
+            ->add("wei_bungMixtes","choice",[
+                'label' => "Types de bungalow",
+                'choices' => ["1"=>"Homme, Femme et Mixte", "0"=>"Homme et Femme"],
+                'required' => true,
+                'multiple' => false,
+                'expanded' => false
+            ])
+            ->add("wei_dateWEI","date",[
+                'label' => "Date WEI",
+                'format' => "yyyy-MM-dd"
+            ])
+            ->add("wei_produitInscriptionWEI","entity",[
+                'class' => 'Cva\\GestionMembreBundle\\Entity\\Produit',
+                'label' => "Inscription"
+            ])
+            ->add("wei_produitListePreWEI","entity",[
+                'class' => 'Cva\\GestionMembreBundle\\Entity\\Produit',
+                'label' => "Pré-Attente"
+            ])
+            ->add("wei_produitPreInscritsWEI","entity",[
+                'class' => 'Cva\\GestionMembreBundle\\Entity\\Produit',
+                'label' => "Pré-Inscription"
+            ])
+            ->add("wei_produitListeWEI","entity",[
+                'class' => 'Cva\\GestionMembreBundle\\Entity\\Produit',
+                'label' => "Attente"
+            ])
+            ->add("wei_produitRemboursementWEI","entity",[
+                'class' => 'Cva\\GestionMembreBundle\\Entity\\Produit',
+                'label' => "Remboursement"
+            ])
+            ->add("actions","form_actions",[
+                'buttons' => [
+                    'save' => ['type' => 'submit', 'options' => ['label' => 'button.save']],
+                    'cancel' => ['type' => 'button', 'options' => ['label' => 'button.cancel']],
+                ]
+            ])
+            ->getForm()->setData($d);
+
+        $config->handleRequest($request);
+
+        if($config->isValid()){
+            $newConfig = array();
+            foreach ($config->getData() as $k => $v) {
+                $k = str_replace("_",".",$k);
+                if($v instanceof Produit){
+                    $v = $v->getId();
+                } else if($v instanceof \DateTime){
+                    $v = $v->format("Y-m-d");
+                }
+                $newConfig[$k] = strval($v);
+            }
+            $confs = $em->getRepository("BdEMainBundle:Config")->findAll();
+            foreach ($confs as $c) {
+                if(isset($newConfig[$c->getName()])){
+                    $c->setValue($newConfig[$c->getName()]);
+                    $em->persist($c);
+                }
+            }
+            $em->flush();
+            $this->addFlash("success","Configuration sauvegardé");
+        }
+
+        return array('form'=>$config->createView());
     }
 
     public function ajoutDetailsWEIAction(Request $request)
