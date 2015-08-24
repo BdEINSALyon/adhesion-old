@@ -35,10 +35,10 @@ class StudentPaymentType extends AbstractType
                 'ESP' => 'Espèces'
             ),
             'mapped' => true,
-            'required'  => false,
+            'required'  => !$options['none_enabled'],
             'expanded' => true,
             'label' => "Moyen de paiement",
-            'attr' => array('help_text' => "Si aucun moyen n'est selectionné, alors l'adhérent sera créé sans produit affecté.")));
+            'attr' => $options['none_enabled']?array('help_text' => "Si aucun moyen n'est selectionné, alors l'adhérent sera créé sans produit affecté."):array()));
     }
 
     /**
@@ -48,6 +48,7 @@ class StudentPaymentType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setDefault('none_enabled',true);
         $resolver->setRequired("products");
     }
 

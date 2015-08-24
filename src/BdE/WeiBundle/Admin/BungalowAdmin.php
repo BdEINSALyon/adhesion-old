@@ -23,7 +23,7 @@ class BungalowAdmin extends Admin
                 ->add('nbPlaces')
                 ->add('sexe','choice',array('choices'=>array("M"=>"Mens","F"=>"Womens","ND"=>"Multiples")))
             ->end();
-        $form->with("students")->add('etudiants');
+        $form->with("students")->add('students');
     }
 
     protected function configureListFields(ListMapper $list)

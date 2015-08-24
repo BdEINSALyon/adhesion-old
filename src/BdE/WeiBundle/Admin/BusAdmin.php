@@ -19,7 +19,7 @@ class BusAdmin extends Admin
     protected function configureFormFields(FormMapper $form)
     {
         $form->with("information")->add('nom')->add('nbPlaces')->end();
-        $form->with("students")->add('etudiants','sonata_type_collection');
+        $form->with("students")->add('students','sonata_type_collection');
     }
 
     protected function configureListFields(ListMapper $list)

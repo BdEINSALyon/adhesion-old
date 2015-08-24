@@ -54,21 +54,16 @@ class Bus
      *
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Cva\GestionMembreBundle\Entity\Etudiant")
-     * @ORM\JoinTable(
-     *      name="etudiants_bus",
-     *      joinColumns={@ORM\JoinColumn(name="bus_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="etudiant_id", referencedColumnName="id", unique=true )}
-     * )
+     * @ORM\OneToMany(targetEntity="Cva\GestionMembreBundle\Entity\Etudiant", mappedBy="bus")
      */
-    private $etudiants;
+    private $students;
 
     /**
      * Bus constructor.
      */
     public function __construct()
     {
-        $this->etudiants = new ArrayCollection();
+        $this->students = new ArrayCollection();
     }
 
     public function __toString()
@@ -136,8 +131,8 @@ class Bus
      * Fetch all Etudiants registred on this bus.
      * @return array A copy of the ArrayCollection of Etudiants.
      */
-    public function getEtudiants(){
-        return $this->etudiants->toArray();
+    public function getStudents(){
+        return $this->students->toArray();
     }
 
     /**
@@ -147,9 +142,9 @@ class Bus
      */
     public function addEtudiant(Etudiant $etudiant){
         if(!$etudiant) return Affectation::Error;
-        if($this->etudiants->contains($etudiant)) return Affectation::AlreadyIn;
+        if($this->students->contains($etudiant)) return Affectation::AlreadyIn;
         if($this->getNbPlaces()>=$this->getAmountOfRegisteredEtudiants()) return Affectation::Full;
-        $this->etudiants->add($etudiant);
+        $this->students->add($etudiant);
         return Affectation::OK;
     }
 
@@ -160,8 +155,8 @@ class Bus
      */
     public function removeEtudiant(Etudiant $etudiant){
         if(!$etudiant) return Affectation::Error;
-        if(!$this->etudiants->contains($etudiant)) return Affectation::Error;
-        $this->etudiants->remove($etudiant);
+        if(!$this->students->contains($etudiant)) return Affectation::Error;
+        $this->students->remove($etudiant);
         return Affectation::OK;
     }
 
@@ -170,7 +165,7 @@ class Bus
      * @return integer Amount of registered Etudiants
      */
     public function getAmountOfRegisteredEtudiants(){
-        return $this->etudiants->count();
+        return $this->students->count();
     }
 
     /**

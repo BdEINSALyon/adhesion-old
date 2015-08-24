@@ -22,7 +22,7 @@ class BusRepository extends EntityRepository
      */
     public function getBusForEtudiant(Etudiant $etudiant){
         $qb = $this->createQueryBuilder('b');
-        $qb->join('b.etudiants','e','e.id = :e_id')->setParameter("e_id",$etudiant->getId());
+        $qb->join('b.students','e','e.id = :e_id')->setParameter("e_id",$etudiant->getId());
         return $qb->getQuery()->getOneOrNullResult();
     }
 }

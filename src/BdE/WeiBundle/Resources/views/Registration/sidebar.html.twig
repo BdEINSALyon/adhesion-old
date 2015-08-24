@@ -1,0 +1,26 @@
+{% if etu.numEtudiant != "" %}
+<p><strong>N° Etudiant&nbsp;:&nbsp;</strong>{{ etu.numEtudiant }}</p>
+{% endif %}
+<p><strong>Civilité&nbsp;:&nbsp;</strong>{{ etu.civilite }}</p>
+<p><strong>Nom&nbsp;:&nbsp;</strong>{{ etu.name }}</p>
+<p><strong>Prénom&nbsp;:&nbsp;</strong>{{ etu.firstName }}</p>
+{% if etu.tel != "" %}
+<p><strong>Téléphone&nbsp;:&nbsp;</strong>{{ etu.tel }}</p>
+{% endif %}
+<p><strong>Email&nbsp;:&nbsp;</strong>{{ etu.mail }}</p>
+<p><strong>Naissance&nbsp;:&nbsp;</strong>{{ etu.birthday|date('d-m-Y') }}</p>
+{% if etu.remarque != "" %}
+<p><strong>Remarque&nbsp;:&nbsp;</strong>{{ etu.remarque }}</p>
+{% endif %}
+<strong>Produits&nbsp;:&nbsp;</strong>
+{% if etu.payments.count > 0 %}
+<ul>
+    {% for p in etu.payments %}
+        <li>{{ p.product.name }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Aucun produit !</p>
+{% endif %}
+
+<div style="display: none" id="etuid" data-etu-id="{{ etu.id }}" data-etu-payments-count="{{ etu.payments.count }}"></div>

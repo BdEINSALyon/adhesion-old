@@ -19,7 +19,7 @@ class BungalowRepository extends EntityRepository
 
     public function getAllNotFull(){
         $qb = $this->createQueryBuilder('b');
-        $qb->leftJoin('b.etudiants','e');
+        $qb->leftJoin('b.students','e');
         $qb->select("b");
         $qb->having("b.nbPlaces > COUNT(e.id)");
         $qb->groupBy("b.id");
@@ -31,7 +31,7 @@ class BungalowRepository extends EntityRepository
             throw new \InvalidArgumentException("Sex should be a valid value from Bungalow::BOYS or Bungalow::GIRLS");
         }
         $qb = $this->createQueryBuilder('b');
-        $qb->leftJoin('b.etudiants','e');
+        $qb->leftJoin('b.students','e');
         $qb->select('b');
         $qb->where("b.sexe = ?1");
         $qb->groupBy("b.id");
@@ -53,7 +53,7 @@ class BungalowRepository extends EntityRepository
     public function countAmountOfAffectedEtudiant(){
         $qb = $this->createQueryBuilder("b");
         $qb->select("COUNT(e.id)");
-        $qb->leftJoin("b.etudiants","e");
+        $qb->leftJoin("b.students","e");
         return intval($qb->getQuery()->getSingleScalarResult());
     }
 }

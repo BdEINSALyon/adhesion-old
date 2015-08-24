@@ -2,6 +2,9 @@
 // src/Cva/GestionMembreBundle/Entity/Etudiant.php
 namespace Cva\GestionMembreBundle\Entity;
 
+use BdE\WeiBundle\Entity\Bungalow;
+use BdE\WeiBundle\Entity\Bus;
+use BdE\WeiBundle\Entity\Waiting;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -72,6 +75,24 @@ class Etudiant
      * @ORM\OneToMany(targetEntity="Cva\GestionMembreBundle\Entity\Payment", mappedBy="student")
      */
     protected $payments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="BdE\WeiBundle\Entity\Bungalow", inversedBy="students")
+     * @var Bungalow
+     */
+    protected $bungalow;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="BdE\WeiBundle\Entity\Bus", inversedBy="students")
+     * @var Bus
+     */
+    protected $bus;
+
+    /**
+     * @ORM\OneToOne(targetEntity="BdE\WeiBundle\Entity\Waiting", inversedBy="student")
+     * @var Waiting
+     */
+    protected $waiting;
 
     /**
      * @ORM\Column(type="datetime")
@@ -423,5 +444,57 @@ class Etudiant
     public function setPayments($payments)
     {
         $this->payments = $payments;
+    }
+
+    public function hasBungalow()
+    {
+    }
+
+    /**
+     * @return Bungalow
+     */
+    public function getBungalow()
+    {
+        return $this->bungalow;
+    }
+
+    /**
+     * @param Bungalow $bungalow
+     */
+    public function setBungalow($bungalow)
+    {
+        $this->bungalow = $bungalow;
+    }
+
+    /**
+     * @return Bus
+     */
+    public function getBus()
+    {
+        return $this->bus;
+    }
+
+    /**
+     * @param Bus $bus
+     */
+    public function setBus($bus)
+    {
+        $this->bus = $bus;
+    }
+
+    /**
+     * @return Waiting
+     */
+    public function getWaiting()
+    {
+        return $this->waiting;
+    }
+
+    /**
+     * @param Waiting $waiting
+     */
+    public function setWaiting($waiting)
+    {
+        $this->waiting = $waiting;
     }
 }

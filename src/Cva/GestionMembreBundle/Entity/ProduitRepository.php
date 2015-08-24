@@ -45,7 +45,7 @@ class ProduitRepository extends EntityRepository
     }
 
     public function getCurrentWEIPreInscription(){
-        return $this->find($this->getCurrentWEIIds());
+        return $this->find($this->getCurrentPreWEIIds());
     }
 
 
@@ -55,11 +55,15 @@ class ProduitRepository extends EntityRepository
     }
 
     public function getCurrentWEIIds(){
-        return $this->getEntityManager()->getRepository("BdEMainBundle:Config")->get("produitInscriptionWEI","");
+        return $this->getEntityManager()->getRepository("BdEMainBundle:Config")->get("wei.produitInscriptionWEI","");
+    }
+
+    public function getCurrentPreWEIIds(){
+        return $this->getEntityManager()->getRepository("BdEMainBundle:Config")->get("wei.produitPreInscritsWEI","");
     }
 
     public function getCurrentWEIRemboursementIds(){
-        return $this->getEntityManager()->getRepository("BdEMainBundle:Config")->get("produitRemboursementWEI","");
+        return $this->getEntityManager()->getRepository("BdEMainBundle:Config")->get("wei.produitRemboursementWEI","");
     }
 
     /**

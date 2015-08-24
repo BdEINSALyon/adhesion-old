@@ -9,14 +9,30 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class RegistrationController extends Controller
 {
     /**
+     * @Route(path="/{id}/sidebar", name="bde_wei_registration_sidebar", options={"expose"=true})
+     * @return \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    public function sidebarAction($id){
+        return $this->render("@BdEWei/Registration/sidebar.html.twig",array(
+            'etu' => $this->get("doctrine.orm.entity_manager")
+                ->getRepository("CvaGestionMembreBundle:Etudiant")->find($id)
+        ));
+    }
+
+    /**
      * @Route("/preregistered",name="bde_wei_registration_pre")
      * @Template()
      */
     public function preIndexAction()
     {
+        $em = $this->get("doctrine.orm.entity_manager");
+        $product = $em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIPreInscription();
+        $qb = $em->createQueryBuilder()->select("student")->from("CvaGestionMembreBundle:Etudiant","student")
+            ->join("student.payments", "payments")->where("payments.product = ?1")->setParameter(1,$product);
         return array(
-                // ...
-            );    }
+                'students' => $qb->getQuery()->getResult()
+            );
+    }
 
     /**
      * @Route("/registered",name="bde_wei_registration_index")

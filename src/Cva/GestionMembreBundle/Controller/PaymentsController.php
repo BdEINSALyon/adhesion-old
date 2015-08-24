@@ -12,6 +12,7 @@ use Cva\GestionMembreBundle\Entity\Payment;
 use Cva\GestionMembreBundle\Entity\Produit;
 use Cva\GestionMembreBundle\Form\EtudiantType;
 use Cva\GestionMembreBundle\Form\PaymentType;
+use Cva\GestionMembreBundle\Form\StudentPaymentType;
 use Cva\GestionMembreBundle\Form\StudentType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
@@ -45,17 +46,19 @@ class PaymentsController extends Controller
         $student = $em->find("CvaGestionMembreBundle:Etudiant", $id);
 
         // Create the form used for this payment
-        $form = $this->createForm(new PaymentType(),null,array(
-            "products" => $em->getRepository("CvaGestionMembreBundle:Produit")->getAvailableProductsFor($student)
+        $form = $this->createForm(new StudentPaymentType(),null,array(
+            "products" => $em->getRepository("CvaGestionMembreBundle:Produit")->getAvailableProductsFor($student),
+            "none_enabled" => false
         ));
 
         if($request->isMethod("POST")){
             // Handle form
             $form->handleRequest($request);
             if($form->isValid()){
-                /** @var Payment[] $payment */
-                $payments = Payment::handleMultipleProducts($form->getData());
+                /** @var Payment[] $payments */
+                $payments = $form->getData();
                 foreach ($payments as $payment) {
+                    $payment->setStudent($student);
                     $em->persist($payment);
                 }
                 $em->flush();

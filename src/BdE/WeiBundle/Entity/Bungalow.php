@@ -56,7 +56,7 @@ class Bungalow
      *
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Cva\GestionMembreBundle\Entity\Etudiant")
+     * @ORM\OneToMany(targetEntity="Cva\GestionMembreBundle\Entity\Etudiant", mappedBy="bungalow")
      *
      * @ORM\JoinTable(
      *      name="etudiants_bungalow",
@@ -64,14 +64,14 @@ class Bungalow
      *      inverseJoinColumns={@ORM\JoinColumn(name="etudiant_id", referencedColumnName="id", unique = true)}
      * )
      */
-    private $etudiants;
+    private $students;
 
     /**
      * Bus constructor.
      */
     public function __construct()
     {
-        $this->etudiants = new ArrayCollection();
+        $this->students = new ArrayCollection();
     }
 
     public function __toString()
@@ -174,33 +174,33 @@ class Bungalow
      * Fetch all Etudiants registred on this bungalow.
      * @return array A copy of the ArrayCollection of Etudiants.
      */
-    public function getEtudiants(){
-        return $this->etudiants->toArray();
+    public function getStudents(){
+        return $this->students->toArray();
     }
 
     /**
      * Add an Etudiant to this bungalow
-     * @param Etudiant $etudiant The person to add
+     * @param Etudiant $student The person to add
      * @return Affectation Result from this, see BdE\WeiBundle\Utils\Affectation
      */
-    public function addEtudiant(Etudiant $etudiant){
-        if(!$etudiant) return Affectation::Error;
-        if($this->etudiants->contains($etudiant)) return Affectation::AlreadyIn;
-        if($etudiant->hasBungalow()) return Affectation::AffectedToAnother;
+    public function addStudent(Etudiant $student){
+        if(!$student) return Affectation::Error;
+        if($this->students->contains($student)) return Affectation::AlreadyIn;
+        if($student->hasBungalow()) return Affectation::AffectedToAnother;
         if($this->getNbPlaces()>=$this->getAmountOfRegisteredEtudiants()) return Affectation::Full;
-        $this->etudiants->add($etudiant);
+        $this->students->add($student);
         return Affectation::OK;
     }
 
     /**
      * Remove an Etudiant from this bungalow
-     * @param Etudiant $etudiant The person to add
+     * @param Etudiant $student The person to add
      * @return Affectation Result from this, see BdE\WeiBundle\Utils\Affectation
      */
-    public function removeEtudiant(Etudiant $etudiant){
-        if(!$etudiant) return Affectation::Error;
-        if(!$this->etudiants->contains($etudiant)) return Affectation::Error;
-        $this->etudiants->remove($etudiant);
+    public function removeStudent(Etudiant $student){
+        if(!$student) return Affectation::Error;
+        if(!$this->students->contains($student)) return Affectation::Error;
+        $this->students->remove($student);
         return Affectation::OK;
     }
 
@@ -209,7 +209,7 @@ class Bungalow
      * @return integer Amount of registered Etudiants
      */
     public function getAmountOfRegisteredEtudiants(){
-        return $this->etudiants->count();
+        return $this->students->count();
     }
 
     /**

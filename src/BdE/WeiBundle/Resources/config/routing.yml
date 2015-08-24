@@ -73,3 +73,11 @@ bde_wei_bungalow:
   resource: "@BdEWeiBundle/Controller/BungalowController.php"
   type: annotation
   prefix: /bungalows
+
+#######################################
+###    Gestion des inscriptions
+
+bde_wei_registration:
+  resource: "@BdEWeiBundle/Controller/RegistrationController.php"
+  type: annotation
+  prefix: /registration

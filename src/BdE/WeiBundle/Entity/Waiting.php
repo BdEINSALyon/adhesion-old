@@ -2,6 +2,8 @@
 
 namespace BdE\WeiBundle\Entity;
 
+use Cva\GestionMembreBundle\Entity\Etudiant;
+use Cva\GestionMembreBundle\Entity\Produit;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,12 +24,14 @@ class Waiting
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Cva\GestionMembreBundle\Entity\Etudiant",orphanRemoval=true)
+     * @var Etudiant
+     * @ORM\OneToOne(targetEntity="Cva\GestionMembreBundle\Entity\Etudiant",orphanRemoval=true)
      */
     private $student;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Cva\GestionMembreBundle\Entity\Produit",orphanRemoval=true)
+     * @var Produit
+     * @ORM\OneToOne(targetEntity="Cva\GestionMembreBundle\Entity\Produit",orphanRemoval=true)
      */
     private $product;
 
@@ -41,7 +45,7 @@ class Waiting
     /**
      * @var string
      *
-     * @ORM\Column(name="comments", type="text")
+     * @ORM\Column(name="comments", type="text", nullable=true)
      */
     private $comments;
 
@@ -103,5 +107,6 @@ class Waiting
     {
         return $this->comments;
     }
+
 }
 

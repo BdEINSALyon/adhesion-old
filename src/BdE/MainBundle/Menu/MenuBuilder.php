@@ -60,7 +60,7 @@ class MenuBuilder
         }
         if($this->acl->isGranted("ROLE_COWEI")) {
             $wei = $menu->addChild('CoWEI');
-            $wei->addChild("Pré-Inscrits", array('route' => 'bde_wei_inscription_préInscrits'));
+            $wei->addChild("Pré-Inscrits", array('route' => 'bde_wei_registration_pre'));
 //            $wei->addChild("Pré-Liste Attente", array('route' => 'bde_wei_inscription_listeAttentePre'));
             $this->addDivider($wei);
 //            $wei->addChild("Inscrits", array('route' => 'bde_wei_inscription_rechercheBizuthWEI'));
