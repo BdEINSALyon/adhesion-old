@@ -38,7 +38,7 @@ class StudentPaymentType extends AbstractType
             'required'  => !$options['none_enabled'],
             'expanded' => true,
             'label' => "Moyen de paiement",
-            'attr' => $options['none_enabled']?array('help_text' => "Si aucun moyen n'est selectionné, alors l'adhérent sera créé sans produit affecté."):array()));
+            'attr' => $options['none_enabled']?array('help_text' => "Si aucun moyen de paiement n'est selectionné, alors l'adhérent sera créé sans produit affecté."):array()));
     }
 
     /**
