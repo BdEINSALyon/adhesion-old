@@ -5,6 +5,7 @@ services:
   bde.wei.paymentListener:
     class: BdE\WeiBundle\Listener\PaymentListener
     tags:
+        - { name: doctrine.event_listener, event: prePersist }
         - { name: doctrine.event_listener, event: postPersist }
         - { name: doctrine.event_listener, event: preRemove }
     arguments: [@service_container]

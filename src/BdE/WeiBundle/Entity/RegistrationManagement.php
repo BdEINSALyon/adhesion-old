@@ -30,20 +30,34 @@ class RegistrationManagement
         $this->em = $entityManager;
     }
 
+    public function getSeatsLeft(){
+        return $this->getMaxStudent() - $this->countForWEIProduct($this->em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEI());
+    }
+
+    public function getMaxStudent(){
+        return intval($this->em->getRepository("BdEMainBundle:Config")->get("wei.nbMaxBizuths","450"));
+    }
+
+    public function countForWEIProduct(Produit $product)
+    {
+        $filterBy = $this->em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIRemboursement();
+        $query = $this->em->createQueryBuilder()->select("COUNT(student)")->from("CvaGestionMembreBundle:Etudiant", "student")
+            ->join("student.payments", "payments")->where("payments.product = ?1")
+            ->andWhere("NOT EXISTS (SELECT 1 FROM CvaGestionMembreBundle:Etudiant e LEFT JOIN e.payments pay WHERE pay.product = ?2 AND e = student)")
+            ->setParameter(1, $product)->setParameter(2, $filterBy);
+        return $query->getQuery()->getSingleScalarResult();
+    }
+
+
     public function getStudentsForWEIProduct(Produit $product){
         $filterBy = $this->em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIRemboursement();
         $query = $this->em->createQueryBuilder()->select("student")->from("CvaGestionMembreBundle:Etudiant","student")
-            ->join("student.payments", "payments")->where("payments.product = ?1")->setParameter(1,$product);
+            ->join("student.payments", "payments")->where("payments.product = ?1")
+            ->andWhere("NOT EXISTS (SELECT 1 FROM CvaGestionMembreBundle:Etudiant e LEFT JOIN e.payments pay WHERE pay.product = ?2 AND e = student)")
+            ->setParameter(1, $product)->setParameter(2, $filterBy);
         if($product->hasWaitingList())
             $query->join('student.waiting','waiting')->orderBy('waiting.rank');
-        $return = array();
-        $result = $query->getQuery()->getResult();
-        /** @var Etudiant $student */
-        foreach ($result as $student) {
-            if(!in_array($filterBy,$student->getProducts()))
-                $return[] = $student;
-        }
-        return $return;
+        return $query->getQuery()->getResult();
     }
 
     public function removeFromWaitingList(Etudiant $student, Produit $product){

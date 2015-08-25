@@ -9,6 +9,10 @@ services:
         tags:
             - { name: 'kernel.event_listener', event: 'security.interactive_login' }
 
+    cva.gestion_membre.products:
+      class: Cva\GestionMembreBundle\Service\Products
+      arguments: [@service_container]
+
     cva.gestion_membre.admin.students:
           class: Cva\GestionMembreBundle\Admin\EtudiantAdmin
           tags:

@@ -52,8 +52,8 @@ class ProduitRepository extends EntityRepository
      */
     public function getCurrentVA()
     {
-        $result = $this->createQueryBuilder('p')->where("p.id IN (?1)")
-            ->set(1, $this->getCurrentVAIds())->getQuery()->getResult();
+        $result = $this->createQueryBuilder('p')->where("p.id IN (?1)")->getQuery()
+            ->setParameter(1, $this->getCurrentVAIds())->getResult();
         return $this->to_array_result($result);
     }
 

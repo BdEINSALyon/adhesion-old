@@ -23,7 +23,8 @@ class ProduitAdmin extends Admin
             ->add('price')
             ->add('description')
             ->add('active')
-            ->add('canNotBeSoldWith');
+            ->add('canNotBeSoldWith')
+            ->add('hasWaitingList');
     }
 
     protected function configureListFields(ListMapper $list)
@@ -32,7 +33,8 @@ class ProduitAdmin extends Admin
             ->addIdentifier("name")
             ->add('description')
             ->add('price')
-            ->add('active',null,array('editable'=>true));
+            ->add('active',null,array('editable'=>true))
+            ->add('hasWaitingList',null,array('editable'=>true));
     }
 
     protected function configureDatagridFilters(DatagridMapper $filter)

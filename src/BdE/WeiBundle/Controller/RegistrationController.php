@@ -78,11 +78,11 @@ class RegistrationController extends Controller
     {
         $em = $this->get("doctrine.orm.entity_manager");
         $product = $em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEI();
-        $qb = $em->createQueryBuilder()->select("student")->from("CvaGestionMembreBundle:Etudiant","student")
-            ->join("student.payments", "payments")->where("payments.product = ?1")->setParameter(1,$product);
+        $this->get("bde.wei.registration_management")->countForWEIProduct($product);
 
         return array(
-            'students' => $this->get("bde.wei.registration_management")->getStudentsForWEIProduct($product)
+            'students' => $this->get("bde.wei.registration_management")->getStudentsForWEIProduct($product),
+            'seatsLeft' => $this->get("bde.wei.registration_management")->getSeatsLeft()
         );
     }
 
@@ -110,22 +110,50 @@ class RegistrationController extends Controller
         $em = $this->get("doctrine.orm.entity_manager");
         $product = $em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIWaiting();
         return array(
-            'students' => $this->get("bde.wei.registration_management")->getStudentsForWEIProduct($product)
+            'students' => $this->get("bde.wei.registration_management")->getStudentsForWEIProduct($product),
+            'canRegister' => $this->get("bde.wei.registration_management")->getSeatsLeft()>0
         );
     }
 
     /**
-     * @Route("/register",name="bde_wei_registration_new")
+     * @Route("/register/{id}",name="bde_wei_registration_new")
      * @Template()
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function registerAction()
+    public function registerAction(Request $request, $id)
     {
+        $em = $this->get("doctrine.orm.entity_manager");
+        $student = $em->getRepository("CvaGestionMembreBundle:Etudiant")->find($id);
+        $products = $em->getRepository("CvaGestionMembreBundle:Produit");
+        $studentProducts = $student->getProducts();
 
+        if(in_array($products->getCurrentWEIWaiting(), $studentProducts)){
+            if($this->get("bde.wei.registration_management")->getSeatsLeft()>0){
+                /** @var Payment $payment */
+                foreach ($student->getPayments() as $payment) {
+                    if($payment->getProduct() == $products->getCurrentWEIWaiting()){
+                        $em->remove($payment);
+                        $newPayment = new Payment();
+                        $newPayment->setBillId($payment->getBillId());
+                        $newPayment->setMethod($payment->getMethod());
+                        $newPayment->setStudent($payment->getStudent());
+                        $newPayment->setDate($payment->getDate());
+                        $newPayment->setProduct($products->getCurrentWEI());
+                        $em->persist($newPayment);
+                    }
+                }
+                $em->flush();
+                $this->addFlash('success',"Bizuth ajouté au WEI !");
+            } else {
+                $this->addFlash('error',"Pas de place pour lui !");
+            }
+        } else {
+            $this->addFlash('error',"Pas dans la liste d'attente !");
+        }
 
-
-        return array(
-                // ...
-            );    }
+        return $this->redirect($request->headers->get('referer'));
+    }
 
     /**
      * @Route("/unregister/{id}",name="bde_wei_registration_delete",options={"expose"=true})

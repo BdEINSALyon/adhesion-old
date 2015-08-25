@@ -40,7 +40,7 @@ class Produit
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $hasWaitingList;
+    public $hasWaitingList;
 
     /**
      * @ORM\ManyToMany(targetEntity="Cva\GestionMembreBundle\Entity\Paiement", mappedBy="produits")

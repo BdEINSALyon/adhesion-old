@@ -82,8 +82,7 @@ class StudentsController extends Controller
             'label'=>false
         ));
         $formBuilder->add('payments',new StudentPaymentType(),array(
-            "products" => $em
-                ->getRepository("CvaGestionMembreBundle:Produit")->getAvailableProducts(),
+            "products" => $this->get("cva.gestion_membre.products")->getProducts(),
             "label" => false
         ));
         $formBuilder->add('target','hidden');

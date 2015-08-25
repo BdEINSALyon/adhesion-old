@@ -8,14 +8,16 @@
                             <th>Nom</th>
                             <th>Prénom</th>
                             <th>Téléphone</th>
+        {% if canRegister %}<th></th>{% endif %}
     {% endblock %}
     {% block table_body %}
                         {% for adh in students %}
                             <tr onclick="voir({{ adh.id }})">
-                                <td>{{ adh.waiting.first.rank }}</td>
+                                <td>{{ adh.waiting.first.rank|default('Erreur!') }}</td>
                                 <td>{{ adh.name }}</td>
                                 <td>{{ adh.firstName }}</td>
                                 <td>{{ adh.tel }}</td>
+                                {% if canRegister %}<th><a href="{{ url('bde_wei_registration_new',{id:adh.id}) }}" class="btn btn-primary">{{ icon('plus') }} Valider l'inscription</a> </th>{% endif %}
                             </tr>
                         {% endfor %}
     {% endblock %}

@@ -1,5 +1,20 @@
-{% extends "@BdEWei/Registration/indexWaiting.html.twig" %}
+{% extends "@BdEWei/Registration/commons.html.twig" %}
 
 {% block title %}{% block head_title %}Attente Pré-Inscrits{% endblock %}{% endblock %}
 {% block head_small %}{% endblock %}
-
+{% block head_table %}
+    <th>Place</th>
+    <th>Nom</th>
+    <th>Prénom</th>
+    <th>Téléphone</th>
+{% endblock %}
+    {% block table_body %}
+        {% for adh in students %}
+            <tr onclick="voir({{ adh.id }})">
+                <td>{{ adh.waiting.first.rank|default('Erreur!') }}</td>
+                <td>{{ adh.name }}</td>
+                <td>{{ adh.firstName }}</td>
+                <td>{{ adh.tel }}</td>
+            </tr>
+        {% endfor %}
+    {% endblock %}

@@ -36,6 +36,19 @@ class PaymentListener
         $this->containerInterface = $containerInterface;
     }
 
+    public function prePersist(LifecycleEventArgs $args){
+        if(!($args->getObject() instanceof Payment))
+            return;
+        /** @var Payment $entity */
+        $entity = $args->getObject();
+        $entityManager = $args->getObjectManager();
+        if($entity->getProduct() == $entityManager->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEI()){
+            if($this->containerInterface->get("bde.wei.registration_management")->getSeatsLeft() <= 0){
+                $entity->setProduct($entityManager->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIWaiting());
+            }
+        }
+    }
+
     public function postPersist(LifecycleEventArgs $args)
     {
         if(!($args->getObject() instanceof Payment))
@@ -43,14 +56,13 @@ class PaymentListener
         $entity = $args->getObject();
         $entityManager = $args->getObjectManager();
         $products = $entityManager->getRepository("CvaGestionMembreBundle:Produit")->findBy(['hasWaitingList'=>true]);
-        if ($entity instanceof Payment) {
-            if(in_array($entity->getProduct(),$products)){
-                // Create a new ticket for this user and payment
-                $ticket = $entityManager->getRepository("BdEWeiBundle:Waiting")
-                    ->nextTicket($entity,$entity->getStudent());
-                $entityManager->persist($ticket);
-                $entityManager->flush();
-            }
+        /** @var Payment $entity */
+        if($entity->getProduct()->hasWaitingList()){
+            // Create a new ticket for this user and payment
+            $ticket = $entityManager->getRepository("BdEWeiBundle:Waiting")
+                ->nextTicket($entity,$entity->getStudent());
+            $entityManager->persist($ticket);
+            $entityManager->flush();
         }
     }
 

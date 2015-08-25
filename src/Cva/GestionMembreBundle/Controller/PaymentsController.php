@@ -47,7 +47,7 @@ class PaymentsController extends Controller
 
         // Create the form used for this payment
         $form = $this->createForm(new StudentPaymentType(),null,array(
-            "products" => $em->getRepository("CvaGestionMembreBundle:Produit")->getAvailableProductsFor($student),
+            "products" => $this->get("cva.gestion_membre.products")->getProductsFor($student),
             "none_enabled" => false
         ));
 
