@@ -58,10 +58,10 @@ class StudentType extends AbstractType
                 'format' => 'dd MMMM yyyy',
                 'widget' => 'choice',
                 'years' => range(date('Y') - 15, date('Y') - 70),
-                'label' => 'Date de Naissance'
+                'label' => 'Date de naissance'
             ))
             ->add('mail', 'email', array(
-                'label'=>'eMail'
+                'label'=>'Email'
             ))
             ->add('tel', 'text', array(
                 'required' => false,
