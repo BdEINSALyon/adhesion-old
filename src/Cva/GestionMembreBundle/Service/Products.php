@@ -61,13 +61,14 @@ class Products
     }
 
     public function getProductsFor(Etudiant $student){
+        $return = [];
         $products = $this->getProducts();
         $boughtProducts = $student->getProducts();
         /** @var Produit $product */
-        foreach($products as &$product){
+        foreach($products as $k => &$product){
             foreach($boughtProducts as &$sproduct) {
                 if($product == $sproduct || $product->getCanNotBeSoldWith()->contains($sproduct)){
-                    unset($product);
+                    unset($products[$k]);
                 }
             }
         }
