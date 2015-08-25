@@ -22,9 +22,13 @@ class ProduitAdmin extends Admin
             ->add('name')
             ->add('price')
             ->add('description')
-            ->add('active')
+            ->add('active',null,array(
+                'required'=>false
+            ))
             ->add('canNotBeSoldWith')
-            ->add('hasWaitingList');
+            ->add('hasWaitingList',null,array(
+                'required'=>false
+            ));
     }
 
     protected function configureListFields(ListMapper $list)
