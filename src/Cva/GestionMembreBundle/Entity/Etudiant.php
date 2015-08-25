@@ -52,7 +52,7 @@ class Etudiant
     protected $birthday;
 	
 	/**
-     * @ORM\Column(type="string", length=100, unique=false)
+     * @ORM\Column(type="string", length=250, unique=false)
      */
     protected $mail;
 	
@@ -307,7 +307,12 @@ class Etudiant
      */
     public function getCivilite()
     {
-        return $this->civilite;
+        switch($this->civilite){
+            case 'Mme':
+                return 'F';
+            default:
+                return $this->civilite;
+        }
     }
 
     /**
@@ -496,5 +501,20 @@ class Etudiant
     public function setWaiting($waiting)
     {
         $this->waiting = $waiting;
+    }
+
+    /**
+     * @return Produit[]
+     */
+    public function getProducts()
+    {
+        // Select only product which has not be bought by this student
+        $boughtProducts = array();
+        /** @var Payment[] $payments */
+        $payments = $this->getPayments();
+        foreach ($payments as $payment) {
+            $boughtProducts[] = $payment->getProduct();
+        }
+        return $boughtProducts;
     }
 }

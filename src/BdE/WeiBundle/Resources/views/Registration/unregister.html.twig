@@ -3,5 +3,12 @@
 {% block title %}BdEWeiBundle:Registration:unregister{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Registration:unregister page</h1>
+<div class="container">
+    <div>
+        <a href="javascript:location.replace(document.referrer);" class="btn btn-primary">{{ icon('previous') }}&nbsp;Revenir en arrière</a>
+    </div>
+    <script>
+        location.replace(document.referrer);
+    </script>
+</div>
 {% endblock %}

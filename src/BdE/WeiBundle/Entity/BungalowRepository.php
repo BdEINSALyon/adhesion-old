@@ -34,6 +34,7 @@ class BungalowRepository extends EntityRepository
         $qb->leftJoin('b.students','e');
         $qb->select('b');
         $qb->where("b.sexe = ?1");
+        $qb->orWhere("b.sexe IS NULL");
         $qb->groupBy("b.id");
         $qb->having("b.nbPlaces > COUNT(e.id)");
         $qb->setParameter(1, $sex);

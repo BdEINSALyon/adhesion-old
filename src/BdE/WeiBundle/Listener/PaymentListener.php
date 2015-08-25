@@ -9,9 +9,11 @@
 namespace BdE\WeiBundle\Listener;
 
 
+use BdE\WeiBundle\Entity\RegistrationManagement;
 use Cva\GestionMembreBundle\Entity\Payment;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Query;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class PaymentListener
@@ -21,6 +23,19 @@ use Doctrine\ORM\Query;
  */
 class PaymentListener
 {
+
+    private $registration;
+    private $containerInterface;
+
+    /**
+     * PaymentListener constructor.
+     * @param ContainerInterface $containerInterface
+     */
+    public function __construct(ContainerInterface $containerInterface)
+    {
+        $this->containerInterface = $containerInterface;
+    }
+
     public function postPersist(LifecycleEventArgs $args)
     {
         if(!($args->getObject() instanceof Payment))
@@ -47,28 +62,8 @@ class PaymentListener
         $products = $entityManager->getRepository("CvaGestionMembreBundle:Produit")->findBy(['hasWaitingList'=>true]);
         if ($entity instanceof Payment) {
             if(in_array($entity->getProduct(),$products)){
-                // Retrieve the related ticket
-                $ticket = $entityManager->getRepository("BdEWeiBundle:Waiting")->findOneBy(array(
-                    'student' => $entity->getStudent(),
-                    'payment' => $entity
-                ));
-
-                // Get the old rank
-                $rank = $ticket->getRank();
-
-                // Remove the user ticket
-                $entityManager->remove($ticket);
-
-                // Create an update query
-                $update = $entityManager->getRepository("BdEWeiBundle:Waiting")->createQueryBuilder('waiting')->getQuery();
-                $update->setDQL("UPDATE BdEWeiBundle:Waiting w SET w.rank = w.rank - 1 WHERE w.rank > ?1 AND w.payment IN ".
-                 "(SELECT p.id FROM CvaGestionMembreBundle:Payment p WHERE p.product = ?2)");
-                $update->setParameter(1, $rank);
-                $update->setParameter(2, $entity->getProduct());
-
-                // Execute all !
-                $update->execute();
-                $entityManager->flush();
+                $this->containerInterface->get("bde.wei.registration_management")
+                    ->removeFromWaitingList($entity->getStudent(), $entity->getProduct());
             }
         }
     }

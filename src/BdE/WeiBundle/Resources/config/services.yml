@@ -7,6 +7,8 @@ services:
     tags:
         - { name: doctrine.event_listener, event: postPersist }
         - { name: doctrine.event_listener, event: preRemove }
+    arguments: [@service_container]
+
   bde.wei.admin.bus:
     class: BdE\WeiBundle\Admin\BusAdmin
     tags:
@@ -17,6 +19,10 @@ services:
         - ~
     calls:
         - [ setTranslationDomain, [BdEWeiBundle]]
+
+  bde.wei.registration_management:
+    class: BdE\WeiBundle\Entity\RegistrationManagement
+    arguments: [@doctrine.orm.default_entity_manager]
 
   bde.wei.admin.bungalow:
     class: BdE\WeiBundle\Admin\BungalowAdmin

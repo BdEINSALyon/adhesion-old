@@ -25,4 +25,14 @@ class BusRepository extends EntityRepository
         $qb->join('b.students','e','e.id = :e_id')->setParameter("e_id",$etudiant->getId());
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function getAllNotFull()
+    {
+        $qb = $this->createQueryBuilder('b');
+        $qb->leftJoin('b.students','e');
+        $qb->select("b");
+        $qb->having("b.nbPlaces > COUNT(e.id)");
+        $qb->groupBy("b.id");
+        return $qb->getQuery()->getResult();
+    }
 }

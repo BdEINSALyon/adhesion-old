@@ -12,5 +12,14 @@
 {% if etu.remarque != "" %}
 <p><strong>Remarque&nbsp;:&nbsp;</strong>{{ etu.remarque }}</p>
 {% endif %}
-{{ form(form) }}
+{% if isWaiting and isPreregistered %}
+
+{% elseif not isWaiting and isPreregistered %}
+
+{% elseif isWaiting and not isPreregistered %}
+
+{% elseif not isWaiting and not isPreregistered %}
+    {{ form(affectation) }}
+{% endif %}
+<a href="#" class="btn btn-danger btn-block" data-href="{{ url("bde_wei_registration_delete",{id:etu.id}) }}" data-toggle="modal" data-target="#unregisterConfirm">{{ icon('trash') }} Désinscrire du WEI</a>
 <div style="display: none" id="etuid" data-etu-id="{{ etu.id }}" data-etu-payments-count="{{ etu.payments.count }}"></div>

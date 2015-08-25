@@ -184,4 +184,9 @@ class Produit
     {
         $this->canNotBeSoldWith->add($canNotBeSoldWith);
     }
+
+    public function hasWaitingList()
+    {
+        return $this->hasWaitingList;
+    }
 }

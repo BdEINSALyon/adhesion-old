@@ -42,13 +42,14 @@
                 <div class="col-md-3">
 
                     <div class="panel panel-default" id="details_droite">
-                        <div class="panel-heading">Détails
-                            <div class="pull-right" id="editStudent">
+                        <div class="panel-heading clearfix">
+                            <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Détails</h4>
+                            <div class="pull-right btn-group" id="editStudent">
                                 {% if is_granted('ROLE_PERM') %}
-                                    <a href="#" onclick="editStudent()">{{ icon('pencil') }}</a>
+                                    <a class="btn btn-primary btn-sm" href="#" onclick="editStudent()">{{ icon('pencil') }}&nbsp;Editer</a>
                                 {% endif %}
                                 {% if is_granted('ROLE_MODO') %}
-                                    <a href="#" style="color:darkred" data-route="cva_membership_student_delete" data-toggle="modal" data-target="#confirm-delete">{{ icon('trash') }}</a>
+                                    <a class="btn btn-danger btn-sm" href="#" data-route="cva_membership_student_delete" data-toggle="modal" data-target="#confirm-delete">{{ icon('trash') }}</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -134,9 +135,5 @@
 {% block stylesheets %}
     {{ parent() }}
     <link href="https://cdn.datatables.net/1.10.8/css/dataTables.bootstrap.min.css" rel="stylesheet" media="screen">
-    <style>
-        #editStudent a{
-            margin-left: 5px;
-        }
-    </style>
+    <style>    </style>
 {% endblock %}
