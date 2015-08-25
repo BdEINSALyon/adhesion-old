@@ -62,11 +62,11 @@ class ProduitRepository extends EntityRepository
         return $this->getEntityManager()->getRepository("BdEMainBundle:Config")->get("wei.produitPreInscritsWEI","");
     }
 
-    public function getCurrentPreWaitingWEIIds(){
+    public function getCurrentWaitingWEIIds(){
         return $this->getEntityManager()->getRepository("BdEMainBundle:Config")->get("wei.produitListeWEI","");
     }
 
-    public function getCurrentWaitingWEIIds(){
+    public function getCurrentPreWaitingWEIIds(){
         return $this->getEntityManager()->getRepository("BdEMainBundle:Config")->get("wei.produitListePreWEI","");
     }
 

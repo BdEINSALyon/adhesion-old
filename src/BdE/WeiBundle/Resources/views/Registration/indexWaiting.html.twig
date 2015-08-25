@@ -1,7 +1,178 @@
-{% extends "::base.html.twig" %}
+{% extends '::base.html.twig' %}
 
-{% block title %}BdEWeiBundle:Registration:indexWaiting{% endblock %}
+	{% block title %} Adhérents {% endblock %}
+	
+	{% block content %}
 
-{% block body %}
-<h1>Welcome to the Registration:indexWaiting page</h1>
+        <div class="container">
+            <div class="page-header">
+                <h1>{% block head_title %}Liste Attente WEI{% endblock %} <small>{% block head_small %}Ceux qui attendent pour partir{% endblock %}</small>
+
+                    <div class="pull-right">
+                        <div class="btn-group" style="">
+                            <a class="btn btn-success" href="{{ url("cva_membership_student_new") }}">{{ icon('plus') }}</a>
+                        </div>
+                    </div>
+                </h1>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <table id="wei_table" class="table table-bordered table-hover table-striped">
+                        <thead>
+                        <tr id="search">
+                            <th>Place</th>
+                            <th>N°Etudiant</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Bungalow</th>
+                            <th>Bus</th>
+                        </tr>
+                        </thead>
+                        <tbody id="etudiants">
+                        {% for adh in students %}
+                            <tr onclick="voir({{ adh.id }})">
+                                <td>{{ adh.waiting.first.rank }}</td>
+                                <td>{{ adh.numEtudiant }}</td>
+                                <td>{{ adh.name }}</td>
+                                <td>{{ adh.firstName }}</td>
+                                <td>{{ adh.bungalow.nom|default('Aucun!') }}</td>
+                                <td>{{ adh.bus.nom|default('Aucun!') }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-3">
+
+                    <div class="panel panel-default" id="details_droite">
+                        <div class="panel-heading">Détails
+                            <div class="pull-right" id="editStudent">
+                                {% if is_granted('ROLE_PERM') %}
+                                    <a href="#" onclick="editStudent()">{{ icon('pencil') }}</a>
+                                {% endif %}
+                                {% if is_granted('ROLE_MODO') %}
+                                    <a href="#" style="color:darkred" data-route="cva_membership_student_delete" data-toggle="modal" data-target="#confirm-delete">{{ icon('trash') }}</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="panel-body" id="voirEtudiant">
+                            Sélectionnez un étudiant ...
+                        </div>
+                        <div class="panel-footer" id="panel-toolbar" style="display: none">
+                        </div>
+
+                        <div class="modal fade" id="editStudentModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content" id="editStudentModalContent">
+                                    Loading ...
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+                        <div class="modal fade" id="editPaymentModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content" id="editPaymentModalContent">
+                                    <div class="modal-body">
+                                        Loading ...
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+                        <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog"
+                             aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                                <h3 id="myModalLabel">Confirmation</h3>
+                            </div>
+                            <div class="modal-body">
+                                <p>Voulez-vous vraiment supprimer cet utilisateur ?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn" data-dismiss="modal" aria-hidden="true">Non</button>
+                                <a role="button" href="" class="btn btn-primary">Oui</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <form action="{{ path('cva_gestion_membre_exportCSV') }}" method="post" name="formCSV">
+            <input type="hidden" name="csvText" id="csvText"/>
+        </form>
+
+        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content panel-danger">
+                    <div class="modal-header panel-heading">
+                        Zone de danger
+                    </div>
+                    <div class="modal-body">
+                        Êtes-vous sûr de faire cette suppression ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-danger btn-ok">Delete</a>
+                    </div>
+                </div>
+            </div>
+            <script>
+            </script>
+        </div>
+
+    {% endblock %}
+			
+		{% block javascripts %}
+            {{ parent() }}
+            <script src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.8/js/dataTables.bootstrap.min.js"></script>
+            <script>
+                function voir(resource) {
+                    $.get(Routing.generate("bde_wei_registration_sidebar",{id:parseInt(resource)}), function (msg) {
+                        var $editStudent = $("#editStudent");
+                        $editStudent.show();
+                        $('#voirEtudiant').html(msg);
+                    });
+                }
+                $(function(){
+                    $("#editStudent").hide();
+                    $('#wei_table').DataTable({
+                        language:{
+                            "sProcessing":     "Traitement en cours...",
+                            "sSearch":         "Rechercher&nbsp;:",
+                            "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+                            "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                            "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                            "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                            "sInfoPostFix":    "",
+                            "sLoadingRecords": "Chargement en cours...",
+                            "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                            "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+                            "oPaginate": {
+                                "sFirst":      "Premier",
+                                "sPrevious":   "Pr&eacute;c&eacute;dent",
+                                "sNext":       "Suivant",
+                                "sLast":       "Dernier"
+                            },
+                            "oAria": {
+                                "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                                "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                            }
+                        }
+                    });
+                })
+            </script>
+        {% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.datatables.net/1.10.8/css/dataTables.bootstrap.min.css" rel="stylesheet" media="screen">
+    <style>
+        #editStudent a{
+            margin-left: 5px;
+        }
+    </style>
 {% endblock %}

@@ -2,6 +2,7 @@
 // src/Cva/GestionMembreBundle/Entity/Produit.php
 namespace Cva\GestionMembreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,6 +38,11 @@ class Produit
     protected $active;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $hasWaitingList;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Cva\GestionMembreBundle\Entity\Paiement", mappedBy="produits")
      */
     protected $paiements;
@@ -45,7 +51,30 @@ class Produit
      * @ORM\OneToMany(targetEntity="Cva\GestionMembreBundle\Entity\Payment", mappedBy="product")
      */
     protected $payments;
-	
+
+    /**
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Cva\GestionMembreBundle\Entity\Produit", inversedBy="wouldNotBeSoldWith")
+     * @ORM\JoinTable(name="product_product_denies",
+     *      joinColumns={@ORM\JoinColumn(name="product_sold", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="product_can_not_be_sold", referencedColumnName="id")}
+     *      )
+     */
+    protected $canNotBeSoldWith;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Cva\GestionMembreBundle\Entity\Produit", mappedBy="canNotBeSoldWith")
+     */
+    protected $wouldNotBeSoldWith;
+
+    /**
+     * Produit constructor.
+     */
+    public function __construct()
+    {
+        $this->canNotBeSoldWith = new ArrayCollection();
+    }
+
     /**
      * Get id
      *
@@ -138,5 +167,21 @@ class Produit
     public function __toString()
     {
         return $this->name." - ".$this->price."€";
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCanNotBeSoldWith()
+    {
+        return $this->canNotBeSoldWith;
+    }
+
+    /**
+     * @param mixed $canNotBeSoldWith
+     */
+    public function addCanNotBeSoldWith($canNotBeSoldWith)
+    {
+        $this->canNotBeSoldWith->add($canNotBeSoldWith);
     }
 }

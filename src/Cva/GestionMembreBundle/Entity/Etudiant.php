@@ -89,7 +89,7 @@ class Etudiant
     protected $bus;
 
     /**
-     * @ORM\OneToOne(targetEntity="BdE\WeiBundle\Entity\Waiting", inversedBy="student")
+     * @ORM\OneToMany(targetEntity="BdE\WeiBundle\Entity\Waiting", mappedBy="student")
      * @var Waiting
      */
     protected $waiting;

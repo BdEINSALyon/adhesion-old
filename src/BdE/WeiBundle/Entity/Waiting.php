@@ -3,6 +3,7 @@
 namespace BdE\WeiBundle\Entity;
 
 use Cva\GestionMembreBundle\Entity\Etudiant;
+use Cva\GestionMembreBundle\Entity\Payment;
 use Cva\GestionMembreBundle\Entity\Produit;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,9 +26,16 @@ class Waiting
 
     /**
      * @var Etudiant
-     * @ORM\OneToOne(targetEntity="Cva\GestionMembreBundle\Entity\Etudiant",orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity="Cva\GestionMembreBundle\Entity\Etudiant", inversedBy="waiting")
      */
     private $student;
+
+    /**
+     * @var Payment
+     * @ORM\ManyToOne(targetEntity="Cva\GestionMembreBundle\Entity\Payment")
+     * @ORM\JoinColumn(name="payment_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $payment;
 
     /**
      * @var integer
@@ -119,6 +127,21 @@ class Waiting
     {
         return $this->student;
     }
+
+    public function setPayment($product)
+    {
+        $this->payment = $product;
+    }
+
+    /**
+     * @return Payment
+     */
+    public function getPayment()
+    {
+        return $this->payment;
+    }
+
+
 
 }
 

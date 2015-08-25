@@ -13,9 +13,20 @@ class RegistrationController extends Controller
      * @return \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     public function sidebarAction($id){
+        $student = $this->get("doctrine.orm.entity_manager")
+            ->getRepository("CvaGestionMembreBundle:Etudiant")->find($id);
+
+        $fb = $this->createFormBuilder()
+            ->add('action','choice',array(
+                'choices'=>[
+                    "Valider inscription WEI",
+                    "Valider inscription Liste attente WEI",
+                ]
+            ))->add('buttons','form_actions');
+
         return $this->render("@BdEWei/Registration/sidebar.html.twig",array(
-            'etu' => $this->get("doctrine.orm.entity_manager")
-                ->getRepository("CvaGestionMembreBundle:Etudiant")->find($id)
+            'etu' => $student,
+            'form'=> $fb->getForm()->createView()
         ));
     }
 
@@ -30,8 +41,8 @@ class RegistrationController extends Controller
         $qb = $em->createQueryBuilder()->select("student")->from("CvaGestionMembreBundle:Etudiant","student")
             ->join("student.payments", "payments")->where("payments.product = ?1")->setParameter(1,$product);
         return array(
-                'students' => $qb->getQuery()->getResult()
-            );
+            'students' => $qb->getQuery()->getResult()
+        );
     }
 
     /**
@@ -40,9 +51,14 @@ class RegistrationController extends Controller
      */
     public function indexAction()
     {
+        $em = $this->get("doctrine.orm.entity_manager");
+        $product = $em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEI();
+        $qb = $em->createQueryBuilder()->select("student")->from("CvaGestionMembreBundle:Etudiant","student")
+            ->join("student.payments", "payments")->where("payments.product = ?1")->setParameter(1,$product);
         return array(
-                // ...
-            );    }
+            'students' => $qb->getQuery()->getResult()
+        );
+    }
 
     /**
      * @Route("/preregistered-waiting",name="bde_wei_registration_pre_waiting")
@@ -50,9 +66,17 @@ class RegistrationController extends Controller
      */
     public function preWaitingIndexAction()
     {
+        $em = $this->get("doctrine.orm.entity_manager");
+        $product = $em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIPreWaiting();
+        $qb = $em->createQueryBuilder()->select("student")->from("CvaGestionMembreBundle:Etudiant","student")
+            ->join("student.payments", "payments")->where("payments.product = ?1")->setParameter(1,$product)
+            ->join('student.waiting','waiting')->join('waiting.payment','payment')->andWhere("payment.product = ?1")->orderBy('waiting.rank');
+        $result = $qb->getQuery()->getResult();
+
         return array(
-                // ...
-            );    }
+            'students' => $qb->getQuery()->getResult()
+        );
+    }
 
     /**
      * @Route("/registered-waiting",name="bde_wei_registration_index_waiting")
@@ -60,9 +84,15 @@ class RegistrationController extends Controller
      */
     public function indexWaitingAction()
     {
+        $em = $this->get("doctrine.orm.entity_manager");
+        $product = $em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIWaiting();
+        $qb = $em->createQueryBuilder()->select("student")->from("CvaGestionMembreBundle:Etudiant","student")
+            ->join("student.payments", "payments")->where("payments.product = ?1")->setParameter(1,$product)
+            ->join('student.waiting','waiting')->orderBy('waiting.rank');
         return array(
-                // ...
-            );    }
+            'students' => $qb->getQuery()->getResult()
+        );
+    }
 
     /**
      * @Route("/register",name="bde_wei_registration_new")

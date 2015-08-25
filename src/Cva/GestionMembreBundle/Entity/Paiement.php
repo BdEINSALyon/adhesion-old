@@ -22,7 +22,7 @@ class Paiement
     protected $id;
 	
 	 /**
-     * @ORM\ManyToOne(targetEntity="Etudiant", inversedBy="paiement",fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="Etudiant",fetch="EAGER")
      * @ORM\JoinColumn(name="etudiant_id", referencedColumnName="id", nullable=false)
      */
     private $idEtudiant;

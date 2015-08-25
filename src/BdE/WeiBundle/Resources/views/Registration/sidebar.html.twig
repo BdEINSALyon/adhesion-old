@@ -12,15 +12,5 @@
 {% if etu.remarque != "" %}
 <p><strong>Remarque&nbsp;:&nbsp;</strong>{{ etu.remarque }}</p>
 {% endif %}
-<strong>Produits&nbsp;:&nbsp;</strong>
-{% if etu.payments.count > 0 %}
-<ul>
-    {% for p in etu.payments %}
-        <li>{{ p.product.name }}</li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>Aucun produit !</p>
-{% endif %}
-
+{{ form(form) }}
 <div style="display: none" id="etuid" data-etu-id="{{ etu.id }}" data-etu-payments-count="{{ etu.payments.count }}"></div>

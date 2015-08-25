@@ -22,7 +22,8 @@ class ProduitAdmin extends Admin
             ->add('name')
             ->add('price')
             ->add('description')
-            ->add('active');
+            ->add('active')
+            ->add('canNotBeSoldWith');
     }
 
     protected function configureListFields(ListMapper $list)
