@@ -48,7 +48,7 @@ class Etudiant
     protected $numEtudiant;
 	
 	/**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @var DateTime
      */
     protected $birthday;
@@ -79,18 +79,21 @@ class Etudiant
     protected $payments;
 
     /**
+     * @ORM\JoinColumn(nullable=true)
      * @ORM\ManyToOne(targetEntity="BdE\WeiBundle\Entity\Bungalow", inversedBy="students")
      * @var Bungalow
      */
     protected $bungalow;
 
     /**
+     * @ORM\JoinColumn(nullable=true)
      * @ORM\ManyToOne(targetEntity="BdE\WeiBundle\Entity\Bus", inversedBy="students")
      * @var Bus
      */
     protected $bus;
 
     /**
+     * @ORM\JoinColumn(nullable=true)
      * @ORM\OneToMany(targetEntity="BdE\WeiBundle\Entity\Waiting", mappedBy="student")
      * @var Waiting
      */
@@ -507,6 +510,10 @@ class Etudiant
 
     public function isMajeur(){
         return $this->birthday->diff(new \DateTime())->y >= 18;
+    }
+
+    public function getFullName(){
+        return strtoupper($this->getName())." ".$this->getFirstName();
     }
 
     /**

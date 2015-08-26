@@ -152,16 +152,19 @@ class StudentsController extends Controller
         $form = $this->createForm(new StudentType(), $em
             ->getRepository("CvaGestionMembreBundle:Etudiant")->find($id));
 
-        if($request->isMethod("POST")){
-            // Handle form
-            $form->handleRequest($request);
-            if($form->isValid()){
-                $em->persist($form->getData());
-                $em->flush();
-                return new Response();
+        $form->handleRequest($request);
+        if($form->isValid()){
+            $em->persist($form->getData());
+            $em->flush();
+            return new Response();
+        } elseif($request->isMethod("POST")) {
+            $json = array();
+            $errors = $form->getErrors(true, true);
+            foreach($errors as $error){
+                $json[$error->getOrigin()->getName()] = $error->getMessage();
             }
+            return new Response(json_encode($json), 400, ["Content-Type"=>"application/json"]);
         }
-
 
         return $this->render("@CvaGestionMembre/Students/edit.html.twig",array(
             'form' => $form->createView(),
@@ -181,12 +184,10 @@ class StudentsController extends Controller
             $em->remove($entity);
             try {
                 $em->flush();
+                $this->addFlash("notice", "Etudiant " . $entity->getFullName() . " supprimé avec succès.");
             } catch (ForeignKeyConstraintViolationException $exception) {
-                return $this->render("::error.html.twig", array(
-                    "error_message" => "L'étudiant " . $id . " a encore des données qui lui sont liés, tu ne peux pas le supprimer !"
-                ));
+                $this->addFlash("error", "Etudiant " . $entity->getFullName() . " a encore des produits liés, impossible de supprimer.");
             }
-            $this->addFlash("notice", "Etudiant " . $id . " supprimé avec succès.");
         } else {
             $this->addFlash("error", "Etudiant ".$id." est introuvable !");
         }

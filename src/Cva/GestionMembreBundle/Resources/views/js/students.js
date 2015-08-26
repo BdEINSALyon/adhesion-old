@@ -23,7 +23,9 @@ function sendStudentForm(event) {
 	var $form = $(this);
 	console.log("Sending the form ...");
 	var a = new Sonic(loader);
-	$("#submitStudentForm").html(a.canvas).removeClass("btn-primary").attr("type","button");
+	var $submitStudentForm = $("#submitStudentForm");
+    var originHtml = $submitStudentForm.html();
+	$submitStudentForm.html(a.canvas).removeClass("btn-primary").attr("type","button");
 	a.play();
 	console.log("Start anime");
 	$.ajax({
@@ -31,14 +33,38 @@ function sendStudentForm(event) {
 		url: $form.attr('action'),
 		data: $form.serialize(),
 
-		success: function(data, status) {
+		always: function(){
+		},
+		done: function(data, status) {
 			$('#form-student').off('submit',sendStudentForm);
 			$('#editStudentModal').modal('hide');
 			refreshStudentDetails();
 			setTimeout(function () {
 				$('#editStudentModalContent').html('Loading ...');
 			},500);
+		},
+		fail:function (data, status){
+			console.log(data);
 		}
+	}).always(function(){
+		a.stop();
+		$submitStudentForm.html(originHtml).addClass("btn-primary").attr("type","submit");;
+	}).done(function () {
+		$('#form-student').off('submit',sendStudentForm);
+		$('#editStudentModal').modal('hide');
+		refreshStudentDetails();
+		setTimeout(function () {
+			$('#editStudentModalContent').html('Loading ...');
+		},500);
+	}).fail(function (data) {
+		$('#editStudentModal').find('input').closest('.form-group').removeClass('has-error');
+		$('#editStudentModal').find('.errors').html('<ul></ul>');
+		$.each(data.responseJSON,function(key,value){
+			var $input = $('#editStudentModal').find('input[name="student['+key+']"]');
+			$input.closest('.form-group').addClass('has-error');
+			var label = $input.closest('.form-group').find('label').html();
+			$('#editStudentModal').find('.errors > ul').append("<li>"+label+" : "+value+"</li>");
+		});
 	});
 }
 

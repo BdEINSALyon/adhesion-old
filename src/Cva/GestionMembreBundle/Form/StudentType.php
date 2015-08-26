@@ -25,11 +25,10 @@ class StudentType extends AbstractType
                     'Personnel' => 'Personnel',
                     'Autre' => 'Autre'
                 ),
-                "data"=>'Autre',
                 "label" => "Année",
                 'required' => true,
                 'expanded' => false,
-                'empty_value' => 'Autre'
+                'empty_value' => '1',
             ))
             ->add('departement', 'choice', array(
                 'choices' => array(
