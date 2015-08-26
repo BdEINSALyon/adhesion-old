@@ -16,6 +16,7 @@ use Doctrine\ORM\EntityManager;
 use HWI\Bundle\OAuthBundle\Connect\AccountConnectorInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\Exception\AccountNotLinkedException;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
@@ -41,6 +42,10 @@ class UserProvider implements UserProviderInterface, AccountConnectorInterface, 
      * @var string
      */
     private $tenant;
+    /**
+     * @var FlashBag
+     */
+    private $flashBag;
 
     /**
      * Constructor.
@@ -48,14 +53,20 @@ class UserProvider implements UserProviderInterface, AccountConnectorInterface, 
      * @param UserManagerInterface $userManager FOSUB user provider.
      * @param RoleHierarchyInterface $roleHierarchy
      * @param EntityManager $entityManager
+     * @param FlashBag $flashBag
      * @param string $tenant
      */
-    public function __construct(UserManagerInterface $userManager, RoleHierarchyInterface $roleHierarchy, EntityManager $entityManager, $tenant)
+    public function __construct(UserManagerInterface $userManager,
+                                RoleHierarchyInterface $roleHierarchy,
+                                EntityManager $entityManager,
+                                FlashBag $flashBag,
+                                $tenant)
     {
         $this->userManager = $userManager;
         $this->roleHierarchy = $roleHierarchy;
         $this->entityManager = $entityManager;
         $this->tenant = $tenant;
+        $this->flashBag = $flashBag;
     }
 
     /**
@@ -78,44 +89,63 @@ class UserProvider implements UserProviderInterface, AccountConnectorInterface, 
         }
         // Check if this user exists
         $user = $this->userManager->findUserByEmail($response->getEmail());
+        // Load groups ids
+        $groups = $this->entityManager->createQueryBuilder()->select("azureRole.azureGid")->from("BdEMainBundle:AzureRole",'azureRole')->getQuery()->getArrayResult();
+        $request = ['groupIds'=>[]];
+        foreach ($groups as $group) {
+            $request['groupIds'][] = $group['azureGid'];
+        }
         // Load groups for this user
         $client = new Browser(new Curl());
         $uid = $response->getResponse()['oid'];
         $uri = "https://graph.microsoft.com".
-            "/beta/".$this->tenant."/users('".$uid."')/memberOf";
-        $r = ($client->get($uri, array("authorization: Bearer ".$response->getAccessToken())));
+            "/beta/".$this->tenant."/users('".$uid."')/checkMemberGroups";
+        $r = ($client->post($uri, array(
+            "authorization: Bearer ".$response->getAccessToken(),
+            "Content-Type: application/json"
+        ), json_encode($request)));
         $r = json_decode($r->getContent());
-        if(!property_exists($r,'value')){
-            throw new \OAuthException("Can not load groups.");
-        }
         $groups = $r->value;
         $roleRepo = $this->entityManager->getRepository("BdEMainBundle:AzureRole");
         /** @var AzureRole[] $azureRoles */
-        $azureRoles = $roleRepo->getAllByGID();
+        $azureRoles = $roleRepo->createQueryBuilder('azureRole')->where('azureRole.azureGid IN (?1)')
+            ->setParameter(1, $groups)->getQuery()->getResult();
         /** @var Role[] $roles */
         $roles = array();
-        foreach($groups as $group){
-            if($group->objectType=='Group'){
-                if($group->mail) continue;
-                if(array_key_exists($group->objectId, $azureRoles)){
-                    foreach($azureRoles[$group->objectId]->getRoles() as $strRole)
-                        $roles[] = $strRole;
-                }
-            } elseif($group->objectType=='Role'){
-                if(!$group->isSystem) continue;
-                if($group->displayName=="Company Administrator" && strpos($response->getEmail(),$this->tenant) !== false){
-                    // We found an Admin !
-                    $roles[] = new Role("ROLE_SUPER_ADMIN");
-                    break;
+        foreach($azureRoles as $azureRole){
+            $roles = array_merge($roles,$azureRole->getRoles());
+        }
+        $roles = array_unique($roles);
+        if(sizeof($roles)==0){
+            // Try to get if it's a SuperAdmin
+            $uri = "https://graph.microsoft.com".
+                "/beta/".$this->tenant."/users('".$uid."')/memberOf";
+            $r = ($client->get($uri, array(
+                "authorization: Bearer ".$response->getAccessToken())));
+            $userRoles = json_decode($r->getContent());
+            if(!property_exists($userRoles,'value')){
+                throw new \OAuthException("Can not load groups.");
+            }
+            $userRoles = $userRoles->value;
+            foreach($userRoles as $userRole){
+                if($userRole->objectType=='Role') {
+                    if (!$userRole->isSystem) continue;
+                    if ($userRole->displayName == "Company Administrator" && strpos($response->getEmail(), $this->tenant) !== false) {
+                        // We found an Admin !
+                        $roles[] = new Role("ROLE_SUPER_ADMIN");
+                        break;
+                    }
                 }
             }
-        }
-        if(sizeof($roles)==0){
-            throw new UsernameNotFoundException(sprintf("User '%s' has no power here!", $response->getRealName()));
+            if(count($roles) == 0) {
+                $this->flashBag->add("error", $response->getEmail() . " ne peut pas se connecter à cette application");
+                throw new UsernameNotFoundException(sprintf("User '%s' has no power here!", $response->getRealName()));
+            }
         }
         /** @var User $user */
-        if($user == null)
+        if($user == null) {
             $user = $this->userManager->createUser();
+        }
         $user->setRoles($roles);
         $user->setEmail($response->getEmail());
         $user->setEmailCanonical($response->getEmail());
