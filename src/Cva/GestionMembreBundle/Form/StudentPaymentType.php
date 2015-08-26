@@ -10,6 +10,7 @@ namespace Cva\GestionMembreBundle\Form;
 
 
 use Cva\GestionMembreBundle\Entity\Produit;
+use Cva\GestionMembreBundle\Validator\Constraints\ProductSell;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -32,7 +33,8 @@ class StudentPaymentType extends AbstractType
                 new Count(array(
                     'min' => 1,
                     'minMessage' => 'Vous devez selectionner au moins un produit à vendre'
-                ))
+                )),
+                new ProductSell()
             )
         ));
         $builder->add('method', 'choice', array(

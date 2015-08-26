@@ -13,6 +13,12 @@ services:
       class: Cva\GestionMembreBundle\Service\Products
       arguments: [@service_container]
 
+    cva.gestion_membre.product_sell_validator:
+      class: Cva\GestionMembreBundle\Validator\Constraints\ProductSellValidator
+      arguments: [@cva.gestion_membre.products]
+      tags:
+        - { name: validator.constraint_validator, alias: product_sell }
+
     cva.gestion_membre.admin.students:
           class: Cva\GestionMembreBundle\Admin\EtudiantAdmin
           tags:
