@@ -48,34 +48,6 @@ function sendModalForm(event) {
 	});
 }
 
-function sendPaymentForm(event) {
-	event.preventDefault();
-	var callback = (arguments.callee);
-	var $form = $(event.target);
-	var $submitButton = $form.find(':submit');
-	var $modal = $form.closest('.modal');
-	var originHtml = $submitButton.html();
-	$submitButton.html(animation.canvas).removeClass("btn-primary").attr("type","button");
-	animation.play();
-	$.ajax({
-		type: $form.attr('method'),
-		url: $form.attr('action'),
-		data: $form.serialize()
-	}).always(function(){
-		animation.stop();
-		$submitButton.html(originHtml).addClass("btn-primary").attr("type","submit");;
-	}).done(function () {
-		$form.off('submit',callback);
-		$modal.modal('hide');
-		refreshStudentDetails();
-		setTimeout(function () {
-			$modal.find('.modal-content').html('Loading ...');
-		},500);
-	}).fail(function (data) {
-		$modal.find('.modal-dialog > .modal-content').html(data.responseText);
-	});
-}
-
 function refreshStudentDetails(){
 	voir(currentStudentId());
 }
@@ -86,11 +58,7 @@ function currentStudentId(){
 
 $(function() {
 	$('#editStudent').hide();
-	$('#editStudentModal').on('hide', refreshStudentDetails);
-	$('#editPaymentModal').on('hide.bs.modal', refreshStudentDetails);
-});
-
-$(function () {
+	$('.modal').on('hide.bs.modal', refreshStudentDetails);
 	$('#confirm-delete').on('show.bs.modal', function(e) {
 		var $modal = $(this);
 		var $btn = $(this).find('.btn-ok');
@@ -115,8 +83,6 @@ $(function () {
 		} else {
 			$btn.attr('href', Routing.generate($origin.data('route'), {id: currentStudentId()}));
 		}
-	});
-	$('#editPaymentModal').on('show.bs.modal',function(e){
 	});
 });
 
@@ -158,37 +124,6 @@ function editStudent(){
 	);
 
 }
-
-function createCSV(obj,colUseless){
-	var titre=$("#nomEcran").html();
-	var tab=document.getElementById(obj);
-	var TabLignes=tab.getElementsByTagName('tr');
-	var csvText=titre + '\n';
-	var ArrLine=new Array();
-
-	//Les en-têtes
-	TabHead=TabLignes[0].getElementsByTagName('th');
-	for(var z=0; z<TabHead.length-colUseless;z++){
-		ArrLine.push(TabHead[z].innerHTML);
-	}
-	csvText+=ArrLine.join(';')+'\n';
-
-	//Les lignes avec le contenu
-	var x=1;
-	while(TabLignes[x]){
-		TabCol=TabLignes[x].getElementsByTagName('td');
-		ArrLine = new Array();		
-		for(var y=0;y<(TabCol.length-colUseless);y++){
-			
-			ArrLine.push(TabCol[y].innerHTML);
-		}
-		csvText+=ArrLine.join(';')+'\n';
-		x++;
-	}
-	document.getElementById("csvText").value=csvText;
-	document.forms["formCSV"].submit();
-}
-
 
 (function fillDataTable() {
 				var TableAssemblees = $('#table_adherent').dataTable({
