@@ -17,12 +17,17 @@
 {% if etu.payments.count > 0 %}
 <ul>
     {% for p in etu.payments %}
-        <li>{{ p.product.name }}
+        <li class="clearfix">{{ p.product.name }}
             {% if is_granted('ROLE_MODO') %}
                 <a href="#" class="pull-right" style="color:darkred" data-href="{{ url("cva_membership_payment_delete",{id:p.id}) }}" data-toggle="modal" data-target="#confirm-delete">{{ icon('trash') }}</a>
             {% endif %}</li>
     {% endfor %}
 </ul>
+    <style>
+        li.clearfix:before {
+            display: inline;
+        }
+    </style>
 {% else %}
 <p>Aucun produit !</p>
 {% endif %}

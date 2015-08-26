@@ -42,6 +42,8 @@ class PaymentsController extends Controller
      */
     public function registerModalAction(Request $request, $id){
 
+        $httpCode = 200;
+
         $em = $this->get("doctrine.orm.entity_manager");
         $student = $em->find("CvaGestionMembreBundle:Etudiant", $id);
 
@@ -62,14 +64,18 @@ class PaymentsController extends Controller
                     $em->persist($payment);
                 }
                 $em->flush();
-                return new Response();
+                $httpCode = 200;
+            } else {
+                $httpCode = 400;
             }
         }
 
-        return $this->render("CvaGestionMembreBundle:Payments:editModal.html.twig",array(
+        $response = $this->render("CvaGestionMembreBundle:Payments:editModal.html.twig", array(
             'form' => $form->createView(),
             'id' => $id
         ));
+        $response->setStatusCode($httpCode);
+        return $response;
     }
 
     /**

@@ -15,15 +15,19 @@
     <div class="col-md-2">{{ form_row(form.civilite) }}</div>
     <div class="col-md-5">{{ form_row(form.firstName) }}</div>
     <div class="col-md-5">{{ form_row(form.name) }}</div>
+    <div class="col-md-12"></div> <!-- Empty div used to prevent some display bugs on lines -->
 
     <!-- Etudes -->
     <div class="col-md-3">{{ form_row(form.numEtudiant) }}</div>
     <div class="col-md-3">{{ form_row(form.annee) }}</div>
     <div class="col-md-6">{{ form_row(form.departement) }}</div>
 
+    <div class="col-md-12"></div> <!-- Empty div used to prevent some display bugs on lines -->
+
     <!-- Coordonnées -->
     <div class="col-md-6">{{ form_row(form.mail) }}</div>
     <div class="col-md-6">{{ form_row(form.tel) }}</div>
+    <div class="col-md-12"></div> <!-- Empty div used to prevent some display bugs on lines -->
     <div class="col-md-7">{{ form_row(form.birthday) }}</div>
     <div class="col-md-5">{{ form_row(form.remarque) }}</div>
 
@@ -34,6 +38,6 @@
 {{ form_end(form) }}
 <script>
     jQuery(function($) {
-        $('#form-student').on('submit',sendStudentForm);
+        $('#form-student').on('submit',sendModalForm);
     });
 </script>

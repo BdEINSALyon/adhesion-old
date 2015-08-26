@@ -156,20 +156,18 @@ class StudentsController extends Controller
         if($form->isValid()){
             $em->persist($form->getData());
             $em->flush();
-            return new Response();
+            $httpCode = 200; // Return the form with success
         } elseif($request->isMethod("POST")) {
-            $json = array();
-            $errors = $form->getErrors(true, true);
-            foreach($errors as $error){
-                $json[$error->getOrigin()->getName()] = $error->getMessage();
-            }
-            return new Response(json_encode($json), 400, ["Content-Type"=>"application/json"]);
+            $httpCode = 400; // Return the form with errors
         }
 
-        return $this->render("@CvaGestionMembre/Students/edit.html.twig",array(
+        $response = $this->render("@CvaGestionMembre/Students/edit.html.twig",array(
             'form' => $form->createView(),
             'id' => $id
         ));
+        if(isset($httpCode))
+            $response->setStatusCode($httpCode);
+        return $response;
     }
 
     /**
@@ -184,9 +182,11 @@ class StudentsController extends Controller
             $em->remove($entity);
             try {
                 $em->flush();
-                $this->addFlash("notice", "Etudiant " . $entity->getFullName() . " supprimé avec succès.");
+                $this->addFlash("success", "Etudiant " . $entity->getFullName() . " supprimé avec succès.");
+                return $this->redirect($request->headers->get('referer'));
             } catch (ForeignKeyConstraintViolationException $exception) {
                 $this->addFlash("error", "Etudiant " . $entity->getFullName() . " a encore des produits liés, impossible de supprimer.");
+                return $this->redirect($request->headers->get('referer'));
             }
         } else {
             $this->addFlash("error", "Etudiant ".$id." est introuvable !");

@@ -3,6 +3,7 @@
 /app/cache/*
 /app/logs/*
 web/bundles
+web/js
 bin/*
 .idea
 composer.lock

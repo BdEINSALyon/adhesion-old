@@ -18,77 +18,95 @@ var loader = {
 	]
 };
 
+var animation = new Sonic(loader);
+
 function sendStudentForm(event) {
 	event.preventDefault();
 	var $form = $(this);
-	console.log("Sending the form ...");
-	var a = new Sonic(loader);
 	var $submitStudentForm = $("#submitStudentForm");
+	var $modal = $('#editStudentModal');
     var originHtml = $submitStudentForm.html();
-	$submitStudentForm.html(a.canvas).removeClass("btn-primary").attr("type","button");
-	a.play();
-	console.log("Start anime");
+	$submitStudentForm.html(animation.canvas).removeClass("btn-primary").attr("type","button");
+	animation.play();
 	$.ajax({
 		type: $form.attr('method'),
 		url: $form.attr('action'),
-		data: $form.serialize(),
-
-		always: function(){
-		},
-		done: function(data, status) {
-			$('#form-student').off('submit',sendStudentForm);
-			$('#editStudentModal').modal('hide');
-			refreshStudentDetails();
-			setTimeout(function () {
-				$('#editStudentModalContent').html('Loading ...');
-			},500);
-		},
-		fail:function (data, status){
-			console.log(data);
-		}
+		data: $form.serialize()
 	}).always(function(){
-		a.stop();
+		animation.stop();
 		$submitStudentForm.html(originHtml).addClass("btn-primary").attr("type","submit");;
 	}).done(function () {
-		$('#form-student').off('submit',sendStudentForm);
-		$('#editStudentModal').modal('hide');
+		$form.off('submit',sendStudentForm);
+		$modal.modal('hide');
 		refreshStudentDetails();
 		setTimeout(function () {
 			$('#editStudentModalContent').html('Loading ...');
 		},500);
 	}).fail(function (data) {
-		$('#editStudentModal').find('input').closest('.form-group').removeClass('has-error');
-		$('#editStudentModal').find('.errors').html('<ul></ul>');
+		$modal.find('input').closest('.form-group').removeClass('has-error');
+		$modal.find('.errors').html('<ul></ul>');
 		$.each(data.responseJSON,function(key,value){
-			var $input = $('#editStudentModal').find('input[name="student['+key+']"]');
+			var $input = $modal.find('input[name="student['+key+']"]');
 			$input.closest('.form-group').addClass('has-error');
 			var label = $input.closest('.form-group').find('label').html();
-			$('#editStudentModal').find('.errors > ul').append("<li>"+label+" : "+value+"</li>");
+			$modal.find('.errors > ul').append("<li>"+label+" : "+value+"</li>");
 		});
+	});
+}
+
+function sendModalForm(event) {
+	event.preventDefault();
+	var callback = (arguments.callee);
+	var $form = $(event.target);
+	var $submitButton = $form.find(':submit');
+	var $modal = $form.closest('.modal');
+	var originHtml = $submitButton.html();
+	$submitButton.html(animation.canvas).removeClass("btn-primary").attr("type","button");
+	animation.play();
+	$.ajax({
+		type: $form.attr('method'),
+		url: $form.attr('action'),
+		data: $form.serialize()
+	}).always(function(){
+		animation.stop();
+		$submitButton.html(originHtml).addClass("btn-primary").attr("type","submit");;
+	}).done(function () {
+		$form.off('submit',callback);
+		$modal.modal('hide');
+		refreshStudentDetails();
+		setTimeout(function () {
+			$modal.find('.modal-content').html('Loading ...');
+		},500);
+	}).fail(function (data) {
+		$modal.find('.modal-dialog > .modal-content').html(data.responseText);
 	});
 }
 
 function sendPaymentForm(event) {
 	event.preventDefault();
-	var $form = $(this);
-	console.log("Sending the form ...");
-	var a = new Sonic(loader);
-	$("#submitPaymentForm").html(a.canvas).removeClass("btn-primary").attr("type","button");
-	a.play();
-	console.log("Start anime");
+	var callback = (arguments.callee);
+	var $form = $(event.target);
+	var $submitButton = $form.find(':submit');
+	var $modal = $form.closest('.modal');
+	var originHtml = $submitButton.html();
+	$submitButton.html(animation.canvas).removeClass("btn-primary").attr("type","button");
+	animation.play();
 	$.ajax({
 		type: $form.attr('method'),
 		url: $form.attr('action'),
-		data: $form.serialize(),
-
-		success: function(data, status) {
-			$('#form-payment').off('submit',sendPaymentForm);
-			$('#editPaymentModal').modal('hide');
-			refreshStudentDetails();
-			setTimeout(function () {
-				$('#editPaymentModalContent').html('Loading ...');
-			},500);
-		}
+		data: $form.serialize()
+	}).always(function(){
+		animation.stop();
+		$submitButton.html(originHtml).addClass("btn-primary").attr("type","submit");;
+	}).done(function () {
+		$form.off('submit',callback);
+		$modal.modal('hide');
+		refreshStudentDetails();
+		setTimeout(function () {
+			$modal.find('.modal-content').html('Loading ...');
+		},500);
+	}).fail(function (data) {
+		$modal.find('.modal-dialog > .modal-content').html(data.responseText);
 	});
 }
 
