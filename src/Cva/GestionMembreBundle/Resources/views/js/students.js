@@ -75,22 +75,6 @@ function currentStudentId(){
 }
 
 $(function() {
-	var 	$tableDetails = $("#details_droite"),
-		$window = $(window),
-		offset = $tableDetails.offset(),
-		topPadding = 15;
-
-	$window.scroll(function() {
-		if ($window.scrollTop() > offset.top) {
-			$tableDetails.stop().animate({
-				marginTop: $window.scrollTop() - offset.top + topPadding
-			});
-		} else {
-			$tableDetails.stop().animate({
-				marginTop: 0
-			});
-		}
-	});
 	$('#editStudent').hide();
 	$('#editStudentModal').on('hide', refreshStudentDetails);
 	$('#editPaymentModal').on('hide.bs.modal', refreshStudentDetails);

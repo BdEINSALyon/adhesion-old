@@ -3,3 +3,21 @@
 {% block head_small %}
 Il reste {{ seatsLeft }} place(s).
 {% endblock %}
+{% block head_table %}
+    <th class="col-md-3">Nom</th>
+    <th class="col-md-2">Prénom</th>
+    <th class="col-md-3">Bungalow</th>
+    <th class="col-md-3">Bus</th>
+    <th></th>
+{% endblock %}
+{% block table_body %}
+{% for adh in students %}
+    <tr onclick="voir({{ adh.id }})">
+        <td>{{ adh.name }}</td>
+        <td>{{ adh.firstName }}</td>
+        <td>{{ adh.bungalow.nom|default('Aucun!') }}</td>
+        <td>{{ adh.bus.nom|default('Aucun!') }}</td>
+        <td style="text-align:center;">{% if not adh.majeur %}<img src="{{ asset('img/18.jpg') }}" height="20" width="20"> {% endif %}</td>
+    </tr>
+{% endfor %}
+{% endblock %}

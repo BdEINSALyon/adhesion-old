@@ -5,6 +5,7 @@ namespace Cva\GestionMembreBundle\Entity;
 use BdE\WeiBundle\Entity\Bungalow;
 use BdE\WeiBundle\Entity\Bus;
 use BdE\WeiBundle\Entity\Waiting;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,6 +49,7 @@ class Etudiant
 	
 	/**
      * @ORM\Column(type="date")
+     * @var DateTime
      */
     protected $birthday;
 	
@@ -501,6 +503,10 @@ class Etudiant
     public function setWaiting($waiting)
     {
         $this->waiting = $waiting;
+    }
+
+    public function isMajeur(){
+        return $this->birthday->diff(new \DateTime())->y >= 18;
     }
 
     /**

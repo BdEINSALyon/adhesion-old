@@ -4,18 +4,18 @@
 {% block head_small %}Ceux qui sont pressé d'y aller, reste {{ seatsLeft }} place(s){% endblock %}
 
 {% block head_table %}
-    <th>N°Etudiant</th>
-    <th>Nom</th>
-    <th>Prénom</th>
-    <th>Remarques</th>
+    <th class="col-md-3">Nom</th>
+    <th class="col-md-3">Prénom</th>
+    <th class="col-md-5">Remarques</th>
+    <th></th>
 {% endblock %}
 {% block table_body %}
 {% for adh in students %}
     <tr onclick="voir({{ adh.id }})">
-        <td>{{ adh.numEtudiant }}</td>
         <td>{{ adh.name }}</td>
         <td>{{ adh.firstName }}</td>
-        <td>{{ adh.remarques|default('Aucune') }}</td>
+        <td>{{ adh.remarque|default('Aucune') }}</td>
+        <td style="text-align:center;">{% if not adh.majeur %}<img src="{{ asset('img/18.jpg') }}" height="20" width="20"> {% endif %}</td>
     </tr>
 {% endfor %}
 {% endblock %}
