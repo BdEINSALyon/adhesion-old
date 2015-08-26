@@ -32,6 +32,7 @@ class StudentType extends AbstractType
             ))
             ->add('departement', 'choice', array(
                 'choices' => array(
+                    'PC' => 'Premier Cycle',
                     'BB' => 'BB',
                     'BIM' => 'BIM',
                     'GCU' => 'GCU',
@@ -42,21 +43,23 @@ class StudentType extends AbstractType
                     'GMD' => 'GMD',
                     'GMPP' => 'GMPP',
                     'IF' => 'IF',
-                    'PC' => 'PC',
                     'SGM' => 'SGM',
-                    'TC' => 'TC'
+                    'TC' => 'TC',
+                    'NOTINSA' => 'Externe'
                 ),
                 "label" => "Département INSA",
                 'required' => false,
                 'expanded' => false,
-                'empty_data' => ''
+                'empty_data' => 'Premier Cycle',
+                'empty_value' => 'Premier Cycle'
             ))
             ->add('numEtudiant', 'text', array('required' => false, 'label' => "N° Etudiant"))
             ->add('birthday', 'birthday', array(
                 'format' => 'dd MMMM yyyy',
                 'widget' => 'choice',
                 'years' => range(date('Y') - 15, date('Y') - 70),
-                'label' => 'Date de naissance'
+                'label' => 'Date de naissance',
+                'required' => true
             ))
             ->add('mail', 'email', array(
                 'label' => 'eMail'
