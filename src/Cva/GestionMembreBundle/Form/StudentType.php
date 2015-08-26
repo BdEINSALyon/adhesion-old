@@ -28,7 +28,7 @@ class StudentType extends AbstractType
                 "label" => "Année",
                 'required' => true,
                 'expanded' => false,
-                'empty_value' => '1',
+                'empty_data' => '1'
             ))
             ->add('departement', 'choice', array(
                 'choices' => array(
@@ -49,8 +49,7 @@ class StudentType extends AbstractType
                 "label" => "Département INSA",
                 'required' => false,
                 'expanded' => false,
-                'empty_value' => '',
-                'empty_data' => null
+                'empty_data' => ''
             ))
             ->add('numEtudiant', 'text', array('required' => false, 'label'=>"N° Etudiant"))
             ->add('birthday', 'birthday', array(

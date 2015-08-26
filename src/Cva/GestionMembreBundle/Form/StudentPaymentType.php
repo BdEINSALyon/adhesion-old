@@ -15,6 +15,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints\Count;
 
 class StudentPaymentType extends AbstractType
 {
@@ -26,7 +27,13 @@ class StudentPaymentType extends AbstractType
             'choices' => $options['products'],
             'expanded' => true,
             'multiple' => true,
-            'class' => 'Cva\GestionMembreBundle\Entity\Produit'
+            'class' => 'Cva\GestionMembreBundle\Entity\Produit',
+            'constraints' => array(
+                new Count(array(
+                    'min' => 1,
+                    'minMessage' => 'Vous devez selectionner au moins un produit à vendre'
+                ))
+            )
         ));
         $builder->add('method', 'choice', array(
             'choices' => array(
@@ -35,10 +42,12 @@ class StudentPaymentType extends AbstractType
                 'ESP' => 'Espèces'
             ),
             'mapped' => true,
-            'required'  => !$options['none_enabled'],
+            'required'  => true,
             'expanded' => true,
             'label' => "Moyen de paiement",
-            'attr' => $options['none_enabled']?array('help_text' => "Si aucun moyen de paiement n'est selectionné, alors l'adhérent sera créé sans produit affecté."):array()));
+            'attr' => $options['none_enabled']?array('help_text' => "Si aucun moyen de paiement n'est selectionné, alors l'adhérent sera créé sans produit affecté."):array(),
+            )
+        );
     }
 
     /**
