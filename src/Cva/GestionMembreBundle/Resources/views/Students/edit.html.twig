@@ -25,7 +25,18 @@
     <div class="col-md-12"></div> <!-- Empty div used to prevent some display bugs on lines -->
 
     <!-- Coordonnées -->
-    <div class="col-md-6">{{ form_row(form.mail) }}</div>
+    <div class="col-md-6">
+        <div class="form-group{% if form.mail.vars.errors|length > 0 %} has-error{% endif %}">
+            {{ form_label(form.mail) }}
+            <div class="input-group">
+                {{ form_widget(form.mail) }}
+                <span class="input-group-btn">
+                                    <button class="btn btn-danger" data-mail="insa" type="button">INSA</button>
+                                </span>
+            </div>
+            {{ form_errors(form.mail) }}
+        </div>
+    </div>
     <div class="col-md-6">{{ form_row(form.tel) }}</div>
     <div class="col-md-12"></div> <!-- Empty div used to prevent some display bugs on lines -->
     <div class="col-md-7">{{ form_row(form.birthday) }}</div>

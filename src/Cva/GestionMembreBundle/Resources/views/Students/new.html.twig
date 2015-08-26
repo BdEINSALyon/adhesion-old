@@ -33,7 +33,7 @@
                             <div class="input-group">
                                 {{ form_widget(form.student.mail) }}
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary" onclick="mailINSA()" type="button">Mail INSA</button>
+                                    <button class="btn btn-danger" data-mail="insa" type="button">{{ icon('envelope') }} INSA</button>
                                 </span>
                             </div>
                             {{ form_errors(form.student.mail) }}
@@ -44,10 +44,10 @@
 
                     <!-- Etudes -->
                     <div class="col-md-6">
-                        <div>{{ form_row(form.student.numEtudiant) }}</div>
+                        <div class="col-md-12">{{ form_row(form.student.numEtudiant) }}</div>
                         <div class="col-md-6">{{ form_row(form.student.annee) }}</div>
                         <div class="col-md-6">{{ form_row(form.student.departement) }}</div>
-                        {{ form_row(form.student.remarque) }}
+                        <div class="col-md-12">{{ form_row(form.student.remarque) }}</div>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -60,34 +60,9 @@
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        function addAfter(){
-            document.getElementById('form_target').value = 'new';
-        }
-
-        accentsTidy = function(s)
-        {
-            var r=s.toLowerCase();
-            r = r.replace(new RegExp(/[àáâãäå]/g),"a");
-            r = r.replace(new RegExp(/æ/g),"ae");
-            r = r.replace(new RegExp(/ç/g),"c");
-            r = r.replace(new RegExp(/[èéêë]/g),"e");
-            r = r.replace(new RegExp(/[ìíîï]/g),"i");
-            r = r.replace(new RegExp(/ñ/g),"n");
-            r = r.replace(new RegExp(/[òóôõö]/g),"o");
-            r = r.replace(new RegExp(/œ/g),"oe");
-            r = r.replace(new RegExp(/[ùúûü]/g),"u");
-            r = r.replace(new RegExp(/[ýÿ]/g),"y");
-            return r;
-        };
-
-        function mailINSA(){
-            var nom=document.getElementById('form_student_name').value.trim().split(' ').join('-');
-
-            var prenom=document.getElementById('form_student_firstName').value.trim().split(' ').join('-');
-
-            document.getElementById('form_student_mail').value=accentsTidy(prenom)+'.'+accentsTidy(nom)+'@insa-lyon.fr';
-        }
-    </script>
+    {% javascripts
+    '@CvaGestionMembreBundle/Resources/views/js/mailINSA.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
 

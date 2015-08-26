@@ -144,48 +144,13 @@
             {{ parent() }}
             <script src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
             <script src="https://cdn.datatables.net/1.10.8/js/dataTables.bootstrap.min.js"></script>
+            {% javascripts
+            '@CvaGestionMembreBundle/Resources/views/js/students.js'
+            '@CvaGestionMembreBundle/Resources/views/js/sendModalForm.js'
+            '@CvaGestionMembreBundle/Resources/views/js/mailINSA.js'%}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
             <script>
-                var loader = {
-                    width: 20,
-                    height: 20,
-                    stepsPerFrame: 3,
-                    trailLength: 1,
-                    pointDistance: .01,
-                    fps: 30,
-                    step: 'fader',
-                    strokeColor: '#337ab7',
-                    setup: function() {
-                        this._.lineWidth = 2;
-                    },
-                    path: [
-                        ['arc', 10, 10, 4, 360, 0]
-                    ]
-                };
-
-                function sendStudentForm(event) {
-                    event.preventDefault();
-                    var $form = $(this);
-                    console.log("Sending the form ...");
-                    var a = new Sonic(loader);
-                    $("#submitStudentForm").html(a.canvas).removeClass("btn-primary").attr("type","button");
-                    a.play();
-                    console.log("Start anime");
-                    $.ajax({
-                        type: $form.attr('method'),
-                        url: $form.attr('action'),
-                        data: $form.serialize(),
-
-                        success: function(data, status) {
-                            $('#form-student').off('submit',sendStudentForm);
-                            $('#editStudentModal').modal('hide');
-                            refreshStudentDetails();
-                            setTimeout(function () {
-                                $('#editStudentModalContent').html('Loading ...');
-                            },500);
-                        }
-                    });
-                }
-
                 function editStudent(){
                     //fixes a bootstrap bug that prevents a modal from being reused
                     $('#editStudentModal').modal('show').children("#editStudentModalContent");

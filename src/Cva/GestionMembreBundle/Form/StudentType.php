@@ -12,8 +12,8 @@ class StudentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', array('label'=>"Nom"))
-            ->add('firstName', 'text', array('label'=>"Prénom"))
+            ->add('name', 'text', array('label' => "Nom"))
+            ->add('firstName', 'text', array('label' => "Prénom"))
             ->add('annee', 'choice', array(
                 'choices' => array(
                     '1' => '1',
@@ -51,7 +51,7 @@ class StudentType extends AbstractType
                 'expanded' => false,
                 'empty_data' => ''
             ))
-            ->add('numEtudiant', 'text', array('required' => false, 'label'=>"N° Etudiant"))
+            ->add('numEtudiant', 'text', array('required' => false, 'label' => "N° Etudiant"))
             ->add('birthday', 'birthday', array(
                 'format' => 'dd MMMM yyyy',
                 'widget' => 'choice',
@@ -59,18 +59,18 @@ class StudentType extends AbstractType
                 'label' => 'Date de naissance'
             ))
             ->add('mail', 'email', array(
-                'label'=>'Email'
+                'label' => 'eMail'
             ))
             ->add('tel', 'text', array(
                 'required' => false,
-                'label'=>'Téléphone'
+                'label' => 'Téléphone'
             ))
             ->add('civilite', 'choice', array(
                 'choices' => array(
                     'F' => 'Mme.',
                     'M' => 'M.'
-                ), 'required' => true, 'expanded' => false, 'label'=>'Civilité'))
-            ->add('remarque', 'textarea', array('required' => false, 'label'=>'Remarques'))
+                ), 'required' => true, 'expanded' => false, 'label' => 'Civilité'))
+            ->add('remarque', 'textarea', array('required' => false, 'label' => 'Remarques'))
             ->add('id', 'hidden');
     }
 
