@@ -45,13 +45,11 @@ class StudentType extends AbstractType
                     'IF' => 'IF',
                     'SGM' => 'SGM',
                     'TC' => 'TC',
-                    'NOTINSA' => 'Externe'
+                    '' => 'Externe'
                 ),
                 "label" => "Département INSA",
                 'required' => false,
-                'expanded' => false,
-                'empty_data' => 'Premier Cycle',
-                'empty_value' => 'Premier Cycle'
+                'expanded' => false
             ))
             ->add('numEtudiant', 'text', array('required' => false, 'label' => "N° Etudiant"))
             ->add('birthday', 'birthday', array(
