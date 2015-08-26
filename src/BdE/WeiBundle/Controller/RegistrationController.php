@@ -66,7 +66,8 @@ class RegistrationController extends Controller
         $qb = $em->createQueryBuilder()->select("student")->from("CvaGestionMembreBundle:Etudiant","student")
             ->join("student.payments", "payments")->where("payments.product = ?1")->setParameter(1,$product);
         return array(
-            'students' => $this->get("bde.wei.registration_management")->getStudentsForWEIProduct($product)
+            'students' => $this->get("bde.wei.registration_management")->getStudentsForWEIProduct($product),
+            'seatsLeft' => $this->get("bde.wei.registration_management")->getSeatsLeft()
         );
     }
 

@@ -1,5 +1,21 @@
 {% extends "@BdEWei/Registration/index.html.twig" %}
 
 {% block title %}{% block head_title %}Pré-Inscrits{% endblock %}{% endblock %}
-{% block head_small %}Ceux qui sont pressé d'y aller{% endblock %}
+{% block head_small %}Ceux qui sont pressé d'y aller, reste {{ seatsLeft }} place(s){% endblock %}
 
+{% block head_table %}
+    <th>N°Etudiant</th>
+    <th>Nom</th>
+    <th>Prénom</th>
+    <th>Remarques</th>
+{% endblock %}
+{% block table_body %}
+{% for adh in students %}
+    <tr onclick="voir({{ adh.id }})">
+        <td>{{ adh.numEtudiant }}</td>
+        <td>{{ adh.name }}</td>
+        <td>{{ adh.firstName }}</td>
+        <td>{{ adh.remarques|default('Aucune') }}</td>
+    </tr>
+{% endfor %}
+{% endblock %}

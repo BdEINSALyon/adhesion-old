@@ -7,14 +7,16 @@
     <th>Nom</th>
     <th>Prénom</th>
     <th>Téléphone</th>
+    <th>Remarques</th>
 {% endblock %}
     {% block table_body %}
         {% for adh in students %}
             <tr onclick="voir({{ adh.id }})">
-                <td>{{ adh.waiting.first.rank|default('Erreur!') }}</td>
+                <td>{{ adh.waiting.first.rank|default('Erreur! Contacte un orgaif !') }}</td>
                 <td>{{ adh.name }}</td>
                 <td>{{ adh.firstName }}</td>
                 <td>{{ adh.tel }}</td>
+                <td>{{ adh.remarques|default('Aucune') }}</td>
             </tr>
         {% endfor %}
     {% endblock %}
