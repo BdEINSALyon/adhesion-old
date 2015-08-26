@@ -20,40 +20,6 @@ var loader = {
 
 var animation = new Sonic(loader);
 
-function sendStudentForm(event) {
-	event.preventDefault();
-	var $form = $(this);
-	var $submitStudentForm = $("#submitStudentForm");
-	var $modal = $('#editStudentModal');
-    var originHtml = $submitStudentForm.html();
-	$submitStudentForm.html(animation.canvas).removeClass("btn-primary").attr("type","button");
-	animation.play();
-	$.ajax({
-		type: $form.attr('method'),
-		url: $form.attr('action'),
-		data: $form.serialize()
-	}).always(function(){
-		animation.stop();
-		$submitStudentForm.html(originHtml).addClass("btn-primary").attr("type","submit");;
-	}).done(function () {
-		$form.off('submit',sendStudentForm);
-		$modal.modal('hide');
-		refreshStudentDetails();
-		setTimeout(function () {
-			$('#editStudentModalContent').html('Loading ...');
-		},500);
-	}).fail(function (data) {
-		$modal.find('input').closest('.form-group').removeClass('has-error');
-		$modal.find('.errors').html('<ul></ul>');
-		$.each(data.responseJSON,function(key,value){
-			var $input = $modal.find('input[name="student['+key+']"]');
-			$input.closest('.form-group').addClass('has-error');
-			var label = $input.closest('.form-group').find('label').html();
-			$modal.find('.errors > ul').append("<li>"+label+" : "+value+"</li>");
-		});
-	});
-}
-
 function sendModalForm(event) {
 	event.preventDefault();
 	var callback = (arguments.callee);
