@@ -9,13 +9,21 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Adhesion</a>
+            <a class="navbar-brand" href="{{ url('cva_membership_students_current') }}">Adhesion</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             {{ knp_menu_render("main", { 'style': 'navbar' }) }}
-            {{ knp_menu_render("user", { 'style': 'navbar-right' }) }}
+            {% if app.user %}
+                <p class="navbar-text navbar-right visible-xs"><a class="navbar-link" href="{{ url("fos_user_security_logout") }}"> {{ app.user.username }} <span  style="margin-left: 5px" class="text-danger">{{ icon('off') }}</span></a></p>
+                <ul class="nav navbar-nav navbar-right hidden-xs">
+                    <li><a style="padding-right: 0">{{ app.user.username }}</a></li>
+                    <li>
+                        <a style="padding-left: 15px; padding-right: 15px" class="text-danger" href="{{ url("fos_user_security_logout") }}">{{ icon('off') }}</a>
+                    </li>
+                </ul>
+            {% endif %}
         </div><!-- /.navbar-collapse -->
     </div>
 </nav>
