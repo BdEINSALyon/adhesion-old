@@ -1,0 +1,83 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Statistiques{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Statistiques</h1><small>Alors ... Combien ?</small>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Par produit</div>
+                    <table class="table table-hover">
+                        <tr>
+                            <th class="col-md-5">Nom</th>
+                            <th class="col-md-2">Nb.</th>
+                            <th class="col-md-5">Montant</th>
+                        </tr>
+                        {% for stat in statsByProduct %}
+                            <tr>
+                                <td>
+                                    <small>{{ stat.product|truncate(20) }}</small>
+                                </td>
+                                <td>{{ stat.amount }}</td>
+                                <td>{{ stat.money|localizedcurrency('EUR') }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Par Année</div>
+                    <table class="table table-hover">
+                        <tr>
+                            <th class="col-md-7">Année</th>
+                            <th class="col-md-5">Nombre</th>
+                        </tr>
+                        {% for year in ['1','2','3','4','5','3CYCLE','Personnel','Autre'] %}
+                            <tr>
+                                <td>{{ year }}</td>
+                                <td>{{ statsByYear[year]|default(0) }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Par Département</div>
+                    <table class="table table-hover">
+                        <tr>
+                            <th>Département</th>
+                            <th>Quantité</th>
+                        </tr>
+                        {% for department in ['PC','BB','BIM','GCU','GE','GEN','GI','GMC','GMD','GMPP','IF','SGM','TC'] %}
+                            <tr>
+                                <td>{{ department }}</td>
+                                <td>{{ statsByDepartment[department]|default(0) }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-3">
+                <div class="alert alert-info">
+                    <p>Il y a eu {{ amountSold }} {% if amountSold > 1 %}ventes{% else %}vente{% endif %} depuis le début du mois.</p>
+                    <p>{% spaceless %}
+                        {% if amountSold < 50 %}
+                            C'est la loose Michel !
+                        {% elseif amountSold < 300 %}
+                            Honnête.
+                        {% elseif amountSold < 800 %}
+                            Pas mal du tout !
+                        {% else %}
+                            Jackpot !
+                        {% endif %}
+                    {% endspaceless %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

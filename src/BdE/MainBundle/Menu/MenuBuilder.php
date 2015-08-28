@@ -74,6 +74,8 @@ class MenuBuilder
                 $wei->addChild("Configuration WEI",array("route"=>"bde_wei"));
             }
         }
+        if($this->acl->isGranted("ROLE_PERM"))
+            $menu->addChild("Statistiques", array('route' => 'cva_membership_stats'));
         if($this->acl->isGranted("ROLE_SONATA_ADMIN")) {
             $menu->addChild("Administration", array('route' => 'sonata_admin_redirect'));
         }

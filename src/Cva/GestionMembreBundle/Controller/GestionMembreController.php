@@ -37,40 +37,6 @@ class GestionMembreController extends Controller
         return $this->redirect($this->generateUrl('cva_membership_students_current'));
     }
 
-    //Adherents
-    public function ajoutAdherentAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $etudiant = new Etudiant();
-        $etudiant->setDepartement('PC');
-        $form = $this->createForm(new EtudiantType(), $etudiant);
-
-        if ($request->isMethod('POST')) {
-            //die(var_dump('coucou'));
-            $form->bind($request);
-
-            if ($form->isValid()) {
-                if ($form->get('Valider')->isClicked()) {
-                    $em->persist($etudiant);
-                    $em->flush();
-                    $this->get('session')->getFlashBag()->add('notice', 'Etudiant ajouté');
-
-                    //Affichage mineur
-                    $anniv = $etudiant->getBirthday();
-                    $inter = $anniv->diff(new DateTime());
-                    $age = $inter->format('%y');
-                    if ($age < 18) {
-                        $this->get('session')->getFlashBag()->add('warning', 'Cet etudiant est mineur !');
-                    }
-
-                    return $this->redirectToRoute("cva_membership_students_old");
-                }
-            }
-        }
-
-        return $this->render('CvaGestionMembreBundle::AjoutAdherent.html.twig', array('form' => $form->createView(),));
-    }
-
     public function configAction()
     {
 

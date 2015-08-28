@@ -9,6 +9,10 @@ cva_membership_payments_controller:
     prefix: /payments
     type: annotation
 
+cva_membership_stats:
+    pattern:  /stats
+    defaults: { _controller: CvaGestionMembreBundle:Stats:main }
+
 ########################################################################################################################
 ## Old Routing :
 
