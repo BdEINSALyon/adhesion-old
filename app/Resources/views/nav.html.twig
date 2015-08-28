@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default hidden-print" role="navigation">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -18,7 +18,7 @@
             {% if app.user %}
                 <p class="navbar-text navbar-right visible-xs"><a class="navbar-link" href="{{ url("fos_user_security_logout") }}"> {{ app.user.username }} <span  style="margin-left: 5px" class="text-danger">{{ icon('off') }}</span></a></p>
                 <ul class="nav navbar-nav navbar-right hidden-xs">
-                    <li><a style="padding-right: 0">{{ app.user.username }}</a></li>
+                    <li><a style="padding-right: 0" class="hidden-sm">{{ app.user.username }}</a></li>
                     <li>
                         <a style="padding-left: 15px; padding-right: 15px" class="text-danger" href="{{ url("fos_user_security_logout") }}">{{ icon('off') }}</a>
                     </li>
