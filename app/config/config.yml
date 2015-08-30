@@ -95,10 +95,29 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: %mailer_transport%
-    host:      %mailer_host%
-    username:  %mailer_user%
-    password:  %mailer_password%
+    default_mailer: public_mailer
+    mailers:
+        sendgrid:
+            transport: smtp
+            host: smtp.sendgrid.net
+            port: 587
+            encryption: ~
+            username: %sendgrid_username%
+            password: %sendgrid_password%
+        mailgun:
+            transport: smtp
+            host: smtp.mailgun.org
+            port: 587
+            encryption: ~
+            username: %mailgun_user%
+            password: %mailgun_pass%
+        public_mailer:
+            transport: %mailer_transport%
+            host:      %mailer_host%
+            username:  %mailer_user%
+            password:  %mailer_password%
+            port:       %mailer_port%
+            encryption:  %mailer_encryption% # The encryption mode. Valid values are tls, ssl, or null (indicating no encryption).
 
 
 braincrafted_bootstrap:

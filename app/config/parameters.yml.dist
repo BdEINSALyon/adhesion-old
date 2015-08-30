@@ -8,15 +8,21 @@ parameters:
     password.iterations: 1337
 
     mailer_transport:  smtp
-    mailer_host:       127.0.0.1
-    mailer_user:       ~
-    mailer_password:   ~
+    mailer_host:       smtp.office365.com
+    mailer_user:       adhesion@bde-insa-lyon.fr
+    mailer_password:   "Ask To the Resp OrgaIF in his mail archive"
+    mailer_port:       587
+    mailer_encryption: tls
+    sendgrid_username: "Get your own"
+    sendgrid_password: "Get your own"
+    mailgun_user:      "Get your own"
+    mailgun_pass:      "Get your own"
 
     locale:            fr
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    azure.client_id:        SomeIdCLIENTFromAzure
-    azure.client_secret:    HeyThisIsSecret
-    azure.app:              adhesion.bde-insa-lyon.fr
-    azure.resource:         AResource?
+    azure.client_id:        "Go to https://manage.windowsazure.com/bde-insa-lyon.fr#Workspaces/ActiveDirectoryExtension/directory"
+    azure.client_secret:    "Go to https://manage.windowsazure.com/bde-insa-lyon.fr#Workspaces/ActiveDirectoryExtension/directory"
+    azure.app:              'http://adhesion.bde-insa-lyon.fr'
     azure.tenant:           bde-insa-lyon.fr
+    azure.resource:         'https://graph.microsoft.com'

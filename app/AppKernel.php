@@ -19,6 +19,9 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
+            // CKEditor to good textareas
+            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
+
             // Expose routing to JS (useful!)
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
 

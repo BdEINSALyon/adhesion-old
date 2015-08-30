@@ -22,7 +22,7 @@ class AzureRole
     private $id;
 
     /**
-     * @var guid
+     * @var string
      *
      * @ORM\Column(name="azure_gid", type="guid", unique=true)
      */

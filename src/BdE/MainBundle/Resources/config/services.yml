@@ -64,3 +64,14 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [BdEMainBundle]]
+
+  bde.main.admin.mail:
+        class: BdE\MainBundle\Admin\MailAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "general", label: "mails" }
+        arguments:
+            - ~
+            - BdE\MainBundle\Entity\Mail
+            - ~
+        calls:
+            - [ setTranslationDomain, [BdEMainBundle]]
