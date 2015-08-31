@@ -23,7 +23,9 @@ class MailAdmin extends Admin
             ->add("active",null,array('required'=>false))
             ->add("priority")
             ->end()
-            ->with("conditions")
+            ->with("conditions",array(
+                'description' => 'NB: Si une condition est vide alors elle autorise tous les cas'
+            ))
             ->add("forProducts")
             ->add("forYears", "choice",array(
                 "multiple"=>true,
@@ -38,6 +40,26 @@ class MailAdmin extends Admin
                     'Personnel' => 'Personnel',
                 )
             ))
+            ->add("forDepartment", "choice", array(
+                'multiple' => true,
+                'choices' => array(
+                    'PC' => 'Premier Cycle',
+                    'BB' => 'BB',
+                    'BIM' => 'BIM',
+                    'GCU' => 'GCU',
+                    'GE' => 'GE',
+                    'GEN' => 'GEN',
+                    'GI' => 'GI',
+                    'GMC' => 'GMC',
+                    'GMD' => 'GMD',
+                    'GMPP' => 'GMPP',
+                    'IF' => 'IF',
+                    'SGM' => 'SGM',
+                    'TC' => 'TC',
+                    '' => 'Externe'
+                ),
+                "required" => false
+            ))
             ->add("forNewMembers","choice",array(
                 "choices"=>array(
                     0 => 'Critère désactivé',
@@ -49,7 +71,33 @@ class MailAdmin extends Admin
             ->end()
             ->with("content")
             ->add("subject")
-            ->add("content","ckeditor")
+            ->add("content","ckeditor",[
+                'config' => array(
+                    'toolbar' => array(
+                        array('Source', '-', 'Preview', 'Print', '-', 'Templates'),
+                        array('Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'),
+                        array('Find', 'Replace', '-', 'SelectAll', '-', 'Scayt'),
+                        array(
+                            'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'SelectField', 'Button', 'ImageButton',
+                            'HiddenField',
+                        ),
+                        '/',
+                        array('Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'),
+                        array(
+                            'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
+                            'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',
+                        ),
+                        array('Link', 'Unlink', 'Anchor'),
+                        array('Image', 'FLash', 'Table', 'HorizontalRule', 'SpecialChar', 'Smiley', 'PageBreak', 'Iframe'),
+                        '/',
+                        array('Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor'),
+                        array('Maximize', 'ShowBlocks'),
+                        array('About'),
+                    ),
+                    'uiColor' => '#ffffff',
+                    //...
+                ),
+            ])
             ->end()
         ;
     }

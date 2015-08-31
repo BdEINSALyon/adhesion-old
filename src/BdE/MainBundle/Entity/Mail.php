@@ -119,7 +119,7 @@ class Mail
             $nb++;
         }
         if($this->forProducts->count()>0){
-            $nb++;
+            $nb+=$this->forProducts->count();
         }
         if($this->forNewMembers != 0){
             $nb++;

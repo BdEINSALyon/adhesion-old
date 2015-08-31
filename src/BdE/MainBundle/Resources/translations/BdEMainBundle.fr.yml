@@ -1,4 +1,8 @@
 
+# Common
+Name: Nom
+general: Général
+
 # AzureRole
 Comments: "Commentaires"
 Groupe Azure: "Groupe Office 365 (AzureAD)"
@@ -21,3 +25,16 @@ User List: "Liste des utilisateurs"
 Plain Password: "Mot de passe"
 General: "Général"
 Management: "Gestion"
+
+# Mail
+mails: Mails
+Mail List: Liste des Mails
+Priority: Priorité
+conditions: Conditions
+For Products: Nécessite ces produits
+For Years: L'étudiant doit être en
+For Department: L'étudient doit être dans l'un de ces départements
+Ancienneté: Ancienneté
+content: Contenu
+Subject: Sujet
+Content: Corp du message
