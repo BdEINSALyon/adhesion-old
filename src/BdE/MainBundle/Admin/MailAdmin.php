@@ -48,6 +48,7 @@ class MailAdmin extends Admin
             ))
             ->end()
             ->with("content")
+            ->add("subject")
             ->add("content","ckeditor")
             ->end()
         ;

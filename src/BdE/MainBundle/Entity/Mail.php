@@ -3,6 +3,7 @@
 namespace BdE\MainBundle\Entity;
 
 use Cva\GestionMembreBundle\Entity\Etudiant;
+use Cva\GestionMembreBundle\Entity\Produit;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Mail
  *
  * @ORM\Table()
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass="BdE\MainBundle\Entity\MailRepository")
  */
 class Mail
@@ -33,6 +35,13 @@ class Mail
     /**
      * @var string
      *
+     * @ORM\Column(name="subject", type="string", length=255, unique=false)
+     */
+    private $subject;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="content", type="text")
      */
     private $content;
@@ -43,6 +52,13 @@ class Mail
      * @ORM\Column(name="priority", type="smallint")
      */
     private $priority;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nb_of_conditions", type="smallint")
+     */
+    private $nbOfConditions;
 
     /**
      * @var boolean
@@ -90,6 +106,27 @@ class Mail
         $this->forYears = [];
     }
 
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateNbOfConditions(){
+        $nb = 0;
+        if(count($this->forYears)>0){
+            $nb++;
+        }
+        if(count($this->forDepartment)>0){
+            $nb++;
+        }
+        if($this->forProducts->count()>0){
+            $nb++;
+        }
+        if($this->forNewMembers != 0){
+            $nb++;
+        }
+        $this->nbOfConditions = $nb;
+
+    }
 
     /**
      * Get id
@@ -238,13 +275,13 @@ class Mail
     }
 
 
-
     /**
      * Match if this mail can be send to this user.
      * @param Etudiant $student The student to test for this mail
+     * @param Produit[] $addProducts
      * @return true if it can be used to send a mail
      */
-    public function canBeSentTo(Etudiant $student){
+    public function canBeSentTo(Etudiant $student, array $addProducts = []){
 
         if(!$this->active) return false;
 
@@ -263,26 +300,28 @@ class Mail
         }
 
         // Check if this is good year
-        $valid = $this->forYears->count() == 0; // Already valid if no condition
+        $valid = count($this->forYears) == 0; // Already valid if no condition
         foreach($this->forYears as $year)
-            if($student->getAnnee() == $year)
+            if(strval($student->getAnnee()) == strval($year))
                 $valid = true;
         if(!$valid) return false;
 
         // Check department
-        $valid = $this->forDepartment->count() == 0; // Already valid if no condition
+        $valid = count($this->forDepartment) == 0; // Already valid if no condition
         foreach($this->forDepartment as $department)
-            if($student->getDepartement() == $department)
+            if(strval($student->getDepartement()) == strval($department))
                 $valid = true;
         if(!$valid) return false;
 
         // Check products
         $valid = $this->forProducts->count() == 0; // Already valid if no condition
         $sum = 0;
-        foreach($this->forProducts as $product)
-            foreach($student->getProducts() as $boughtProduct)
+        $produits = array_merge($student->getProducts(), $addProducts);
+        foreach($this->forProducts as $product) {
+            foreach($produits as $boughtProduct)
                 if($product == $boughtProduct)
                     $sum++;
+        }
         if($sum == $this->forProducts->count())
             $valid = true;
         if(!$valid) return false;
@@ -304,6 +343,22 @@ class Mail
     public function setForNewMembers($forNewMembers)
     {
         $this->forNewMembers = $forNewMembers;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
+     * @param string $subject
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
     }
 }
 

@@ -17,6 +17,7 @@ parameters:
     sendgrid_password: "Get your own"
     mailgun_user:      "Get your own"
     mailgun_pass:      "Get your own"
+    mailgun_api:       "Get your own"
 
     locale:            fr
     secret:            ThisTokenIsNotSoSecretChangeIt

@@ -32,6 +32,16 @@ services:
     class: BdE\MainBundle\Security\RolesProvider
     arguments: [%security.role_hierarchy.roles%]
 
+  bde.mailgun:
+    class: Mailgun\Mailgun
+    arguments: [%mailgun_api%]
+
+  bde.main.mail_product_sender:
+      class: BdE\MainBundle\Listener\MailProductSender
+      tags:
+          - { name: doctrine.event_listener, event: postPersist }
+      arguments: [@service_container]
+
   bde.main.admin.config:
         class: BdE\MainBundle\Admin\ConfigAdmin
         tags:
