@@ -28,6 +28,13 @@ class Config
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true, unique=false)
+     */
+    private $description;
+
+    /**
      * Set value
      *
      * @param string $value
@@ -76,6 +83,24 @@ class Config
     function __toString()
     {
         return $this->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
     }
 
 

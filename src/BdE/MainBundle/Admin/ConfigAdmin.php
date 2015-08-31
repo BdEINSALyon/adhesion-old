@@ -19,7 +19,8 @@ class ConfigAdmin extends Admin
 
         $formMapper
             ->add('name')
-            ->add('value') //if no type is specified, SonataAdminBundle tries to guess it
+            ->add('value')
+            ->add('description')
         ;
     }
 
@@ -36,6 +37,7 @@ class ConfigAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('name')
+            ->add('description')
             ->add('value');
         ;
     }
