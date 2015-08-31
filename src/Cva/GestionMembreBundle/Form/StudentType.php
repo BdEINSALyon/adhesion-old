@@ -60,7 +60,7 @@ class StudentType extends AbstractType
                 'required' => true
             ))
             ->add('mail', 'email', array(
-                'label' => 'eMail'
+                'label' => 'Email'
             ))
             ->add('tel', 'text', array(
                 'required' => false,
