@@ -2,3 +2,7 @@ bde_main_azure_link:
   resource: @BdEMainBundle/Controller/AzureLinkManagementController.php
   type: annotation
   prefix: /azureLinkManagement
+
+bde_main_mail_show:
+  pattern: /email/{data}
+  defaults: { _controller: BdEMainBundle:Mail:show }

@@ -42,26 +42,11 @@ class MailProductSender
         $mail = $entityManager->getRepository("BdEMainBundle:Mail")->getMail($entity->getStudent(), $entity->getProduct());
         if($mail){
             $mailgun = $this->containerInterface->get("bde.mailgun");
+            $mailer = $this->containerInterface->get("bde.main.mailer_service");
+            $mail_data = $mailer->generateMailFromData($mail, $entity->getStudent());
             $mb = $mailgun->MessageBuilder();
-            $twig = new \Twig_Environment( new \Twig_Loader_Array(
-                ['mail.'.$mail->getId() => $mail->getContent()]
-            ),
-                array(
-                    'autoescape' => false
-                )
-            );
-            $mb->setSubject($mail->getSubject());
-            $mb->setHtmlBody($this->containerInterface->get("twig")->render("@BdEMain/Mail/common.html.twig",array(
-                'content' => $twig->render("mail.".$mail->getId(),array(
-                    'student'=>$entity->getStudent()
-                )),
-                'config' => array(
-                    'title' => $mail->getSubject(),
-                    'company' => "BdE INSA Lyon",
-                    'student'=>$entity->getStudent()
-                ),
-                'why_this_mail' => "Vous recevez ce mail car vous êtes/avez été membre du BdE INSA Lyon"
-            )));
+            $mb->setSubject($mail_data['subject']);
+            $mb->setHtmlBody($mail_data['body']);
             $mb->setFromAddress($entityManager->getRepository("BdEMainBundle:Config")->get("bde.mail.sender", "OrgaIf BdE <bde.if@insa-lyon.fr>"));
             $mb->addToRecipient($entity->getStudent()->getMail());
 

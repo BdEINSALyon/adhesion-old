@@ -36,6 +36,10 @@ services:
     class: Mailgun\Mailgun
     arguments: [%mailgun_api%]
 
+  bde.main.mailer_service:
+    class: BdE\MainBundle\Mail\MailerService
+    arguments: [ %secret%, @sonata.admin.entity_manager, @twig ]
+
   bde.main.mail_product_sender:
       class: BdE\MainBundle\Listener\MailProductSender
       tags:
