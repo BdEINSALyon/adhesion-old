@@ -278,12 +278,27 @@ class Mail
     /**
      * Match if this mail can be send to this user.
      * @param Etudiant $student The student to test for this mail
-     * @param Produit[] $addProducts
+     * @param Produit[] $addProducts The new products, it should contains at least one of required products
      * @return true if it can be used to send a mail
      */
     public function canBeSentTo(Etudiant $student, array $addProducts = []){
 
         if(!$this->active) return false;
+
+        // Check addProduct include in required products at least for one
+        $count = 0;
+        foreach ($this->forProducts as $product) {
+            foreach ($addProducts as $p) {
+                if($product == $p) {
+                    $count++;
+                    break;
+                }
+            }
+            if($count>0)
+                break;
+        }
+        if($count == 0 && $this->forProducts->count() != 0) return false;
+
 
         // Check creation date
         switch($this->getForNewMembers()){
