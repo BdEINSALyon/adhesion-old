@@ -31,3 +31,12 @@ services:
         - ~
         - BdE\WeiBundle\Entity\Bungalow
         - ~
+
+  bde.wei.admin.waiting:
+    class: BdE\WeiBundle\Admin\WaitingAdmin
+    tags:
+        - { name: sonata.admin, manager_type: orm, group: "wei", label: "Waiting" }
+    arguments:
+        - ~
+        - BdE\WeiBundle\Entity\Waiting
+        - ~
