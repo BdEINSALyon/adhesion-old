@@ -74,6 +74,15 @@ class Bungalow
         $this->students = new ArrayCollection();
     }
 
+    public static function getSexChoices()
+    {
+        return [
+            self::BOYS => "Mens",
+            self::GIRLS => "Womens",
+            self::NOT_DETERMINED => "Mixed"
+        ];
+    }
+
     public function __toString()
     {
         return $this->nom;

@@ -31,8 +31,6 @@ services:
               - ~
               - Cva\GestionMembreBundle\Entity\Etudiant
               - ~
-          calls:
-              - [ setTranslationDomain, [CvaGestionMembreBundle]]
 
     cva.gestion_membre.admin.produits:
           class: Cva\GestionMembreBundle\Admin\ProduitAdmin
@@ -42,5 +40,3 @@ services:
               - ~
               - Cva\GestionMembreBundle\Entity\Produit
               - ~
-          calls:
-              - [ setTranslationDomain, [CvaGestionMembreBundle]]

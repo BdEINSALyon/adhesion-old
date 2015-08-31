@@ -9,6 +9,7 @@
 namespace BdE\WeiBundle\Admin;
 
 
+use BdE\WeiBundle\Entity\Bungalow;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -21,19 +22,25 @@ class BungalowAdmin extends Admin
         $form->with("information")
                 ->add('nom')
                 ->add('nbPlaces')
-                ->add('sexe','choice',array('choices'=>array("M"=>"Mens","F"=>"Womens","ND"=>"Multiples")))
+                ->add('sexe','choice',array('choices'=>Bungalow::getSexChoices()))
             ->end();
         $form->with("students")->add('students');
     }
 
     protected function configureListFields(ListMapper $list)
     {
-        $list->add('nom')->add('nbPlaces')->add('sexe');
+        $list->addIdentifier('nom')->add('nbPlaces')->add('sexe');
     }
 
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $filter->add('nom')->add('sexe');
+        $filter->add('nom')->add(
+            'sexe','doctrine_orm_string', array(),
+            'choice', array(
+                'choices' => Bungalow::getSexChoices(),
+                'multiple' => false,
+                'required' => false
+            ));
     }
 
 }

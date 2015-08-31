@@ -1,2 +1,21 @@
 button.save: Enregistrer
 button.cancel: Annuler
+
+########################################################################################################################
+# Bus
+Bus: Bus
+Nom: Nom
+Nb Places: Nombre de Places
+Bus List: Liste des Bus
+
+########################################################################################################################
+# Bungalow
+Bungalow: Bungalow
+Bungalow List: Liste des Bungalow
+Sexe: Sexe
+Mens: Hommes
+Womens: Femmes
+Mixed: Mixte
+information: Informations
+students: Etudiants
+Students: Etudiants

@@ -9,6 +9,7 @@
 namespace Cva\GestionMembreBundle\Admin;
 
 
+use Cva\GestionMembreBundle\Entity\Etudiant;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -22,8 +23,12 @@ class EtudiantAdmin extends Admin
             ->add('name')
             ->add('firstName')
             ->add('numEtudiant')
-            ->add('annee')
-            ->add('departement')
+            ->add('annee', 'choice', [
+                'choices' => Etudiant::$YEARS
+            ])
+            ->add('departement', 'choice', [
+                'choices' => Etudiant::$DEPARTMENTS
+            ])
             ->end();
     }
 
@@ -34,11 +39,15 @@ class EtudiantAdmin extends Admin
             ->add('firstName')
             ->add('numEtudiant')
             ->add('annee')
-            ->add('depatement');
+            ->add('departement');
     }
 
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $filter->add('name');
+        $filter->add('firstName');
+        $filter->add('numEtudiant');
+        $filter->add('annee');
+        $filter->add('departement');
     }
 }

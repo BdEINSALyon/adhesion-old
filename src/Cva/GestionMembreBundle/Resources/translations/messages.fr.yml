@@ -2,3 +2,56 @@ Product: Produit
 Products: Produits
 Method: Moyen
 None: Aucun
+contient: contient
+ne contient pas: ne contient pas
+est égal à: est égal à
+
+###################################################################################################
+# Students
+
+Members: Adhérents
+First Name: Prénom
+Name: Nom
+Num Etudiant: N° Etudiant
+Annee: Année
+Departement: Département
+Etudiant List: Liste des Adhérents
+information: Informations
+
+# Years
+1A: Première Année
+2A: Deuxième Année
+3A: Troisième Année
+4A: Quatrième Année
+5A: Cinquième Année
+3C: Doctorat
+PERSONNEL: Personnel (INSA/UCLB)
+OTHER: Autre
+
+# Depatements
+Premier Cycle: Premier Cycle
+BB: BB
+BIM: BIM
+GCU: GCU
+GE: GE
+GEN: GEN
+GI: GI
+GMC: GMC
+GMD: GMD
+GMPP: GMPP
+IF: IF
+SGM: SGM
+TC: TC
+Externe: Externe
+
+###################################################################################################
+# Products
+Products: Produits
+Id: id
+Name: Nom
+Description: Description
+Price: Prix
+Active: Activé
+Has Waiting List: A une liste d'attente
+Produit List: Liste des Produits
+Can Not Be Sold With: Ne peux être vendu avec

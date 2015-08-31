@@ -18,8 +18,6 @@ services:
         - ~
         - BdE\WeiBundle\Entity\Bus
         - ~
-    calls:
-        - [ setTranslationDomain, [BdEWeiBundle]]
 
   bde.wei.registration_management:
     class: BdE\WeiBundle\Entity\RegistrationManagement
@@ -33,5 +31,3 @@ services:
         - ~
         - BdE\WeiBundle\Entity\Bungalow
         - ~
-    calls:
-        - [ setTranslationDomain, [BdEWeiBundle]]

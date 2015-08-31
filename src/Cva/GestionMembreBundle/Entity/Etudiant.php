@@ -15,6 +15,34 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Etudiant
 {
+
+    public static $YEARS = array(
+        '1'         => '1A',
+        '2'         => '2A',
+        '3'         => '3A',
+        '4'         => '4A',
+        '5'         => '5A',
+        '3CYCLE'    => '3C',
+        'Personnel' => 'PERSONNEL',
+        'Autre'     => 'OTHER'
+    );
+    public static $DEPARTMENTS = array(
+        'PC'    => 'Premier Cycle',
+        'BB'    => 'BB',
+        'BIM'   => 'BIM',
+        'GCU'   => 'GCU',
+        'GE'    => 'GE',
+        'GEN'   => 'GEN',
+        'GI'    => 'GI',
+        'GMC'   => 'GMC',
+        'GMD'   => 'GMD',
+        'GMPP'  => 'GMPP',
+        'IF'    => 'IF',
+        'SGM'   => 'SGM',
+        'TC'    => 'TC',
+        ''      => 'Externe'
+    );
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

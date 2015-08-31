@@ -1,9 +1,37 @@
 sonata_block:
-    default_contexts: [cms]
-    blocks:
-        sonata.admin.block.admin_list:
-            contexts:   [admin]
+  default_contexts: [cms]
+  blocks:
+    sonata.user.block.menu:    # used to display the menu in profile pages
+    sonata.user.block.account: # used to display menu option (login option)
+    sonata.block.service.text:
+    sonata.block.service.rss:
+    sonata.admin.block.search_result:
+    sonata.admin.block.admin_list:
+                contexts:   [admin]
 
 sonata_admin:
-    title: Adhésion
-    title_logo: img/bde_white_24.png
+  title: Adhésion
+  title_logo: img/bde_white_24.png
+  templates:
+    layout: SonataAdminBundle::new_standard_layout.html.twig
+  dashboard:
+    blocks:
+      -
+        position: left
+        type: sonata.admin.block.admin_list
+      -
+        position: right
+        type: sonata.block.service.text
+        settings:
+          content: >
+              <h2>Welcome to the Sonata Admin</h2>
+              <p>This is a <code>sonata.block.service.text</code> from the Block
+              Bundle, you can create and add new block in these area by configuring
+              the <code>sonata_admin</code> section.</p> <br /> For instance, here
+              a RSS feed parser (<code>sonata.block.service.rss</code>):
+      -
+        position: right
+        type: sonata.block.service.rss
+        settings:
+            title: Sonata Project's Feeds
+            url: https://sonata-project.org/blog/archive.rss
