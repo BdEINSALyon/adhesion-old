@@ -9,56 +9,6 @@ bde_wei: # Main route, not used, should redirect to bde_wei_inscription_listeAtt
     defaults: { _controller: BdEWeiBundle:Default:index }
 
 #######################################
-###    Gestion WEI
-
-bde_wei_inscription_ajoutDetailsWEI:
-    pattern:  /ajoutDetailsWEI
-    defaults: { _controller: BdEWeiBundle:Default:ajoutDetailsWEI }
-
-bde_wei_clearWEI:
-    pattern:  /clearWEI
-    defaults: { _controller: BdEWeiBundle:Default:clearWEI }
-
-bde_wei_exportAllWEI:
-    pattern:  /exportWEI
-    defaults: { _controller: BdEWeiBundle:Default:exportAllWEI }
-
-bde_wei_writeJSONWEI:
-    pattern:  /writeJSONWEI
-    defaults: { _controller: BdEWeiBundle:Default:writeJSONWEI }
-
-#######################################
-###    Gestions Inscriptions WEI
-
-bde_wei_inscription_ajoutBizuthWEI:
-    pattern:  /ajoutBizuth
-    defaults: { _controller: BdEWeiBundle:Inscription:ajoutBizuth }
-
-bde_wei_inscription_préInscrits:
-    pattern:  /preInscrits
-    defaults: { _controller: BdEWeiBundle:Inscription:preInscrits }
-
-bde_wei_inscription_rechercheBizuthWEI:
-    pattern:  /partants
-    defaults: { _controller: BdEWeiBundle:Inscription:rechercheBizuthWEI }
-
-bde_wei_inscription_listeAttente:
-    pattern:  /listeAttente
-    defaults: { _controller: BdEWeiBundle:Inscription:listeAttente }
-
-bde_wei_inscription_listeAttentePre:
-    pattern:  /listeAttentePre
-    defaults: { _controller: BdEWeiBundle:Inscription:listeAttentePre }
-
-bde_wei_inscription_remboursements:
-    pattern:  /remboursements
-    defaults: { _controller: BdEWeiBundle:Inscription:remboursements }
-
-bde_wei_inscription_remplacer:
-    pattern:  /remplacer
-    defaults: { _controller: BdEWeiBundle:Inscription:remplacer }
-
-#######################################
 ###    Gestion des bus
 
 bde_wei_bus:
