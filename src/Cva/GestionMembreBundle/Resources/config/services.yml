@@ -32,6 +32,15 @@ services:
               - Cva\GestionMembreBundle\Entity\Etudiant
               - ~
 
+    cva.gestion_membre.admin.payments:
+          class: Cva\GestionMembreBundle\Admin\PaymentAdmin
+          tags:
+              - { name: sonata.admin, manager_type: orm, group: "cva", label: "payments" }
+          arguments:
+              - ~
+              - Cva\GestionMembreBundle\Entity\Payment
+              - ~
+
     cva.gestion_membre.admin.produits:
           class: Cva\GestionMembreBundle\Admin\ProduitAdmin
           tags:

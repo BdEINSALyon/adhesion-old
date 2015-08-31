@@ -29,7 +29,11 @@ class EtudiantAdmin extends Admin
             ->add('departement', 'choice', [
                 'choices' => Etudiant::$DEPARTMENTS
             ])
-            ->end();
+            ->end()
+            ->with('payments')
+            ->add('payments', null, array(
+                'disabled' => true
+            ));
     }
 
     protected function configureListFields(ListMapper $list)

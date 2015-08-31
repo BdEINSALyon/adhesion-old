@@ -3,8 +3,11 @@ Products: Produits
 Method: Moyen
 None: Aucun
 contient: contient
+Contient: Contient
 ne contient pas: ne contient pas
+Ne contient pas: Ne contient pas
 est égal à: est égal à
+Est égal à: Est égal à
 
 ###################################################################################################
 # Students
@@ -55,3 +58,18 @@ Active: Activé
 Has Waiting List: A une liste d'attente
 Produit List: Liste des Produits
 Can Not Be Sold With: Ne peux être vendu avec
+
+
+###################################################################################################
+# Paiements
+payments: Paiements
+payment: Paiement
+Payment List: Liste des paiements
+method: Méthode
+CB: Carte Bancaire
+CHQ: Chèque
+ESP: Espèces
+Bill Id: Identifiant de facturation
+Date: Date
+Student: Etudiant
+Product: Produit

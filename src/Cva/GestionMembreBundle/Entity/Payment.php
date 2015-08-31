@@ -174,6 +174,10 @@ class Payment
         return $this->method;
     }
 
+    public function __toString(){
+        return $this->getProduct() ." - ".$this->billId;
+    }
+
     public static function generateUUID(){
         if (function_exists('com_create_guid')){
             return com_create_guid();
