@@ -1,9 +1,11 @@
 wei.nbMaxBizuths: 447
 wei.dateWEI: "2014-09-27"
-wei.produitPreInscritsWEI: 9
-wei.produitInscriptionWEI: 10
-wei.produitListeWEI: 15
-wei.produitListePreWEI: 16
-wei.produitRemboursementWEI: 11
+wei.produitPreInscritsWEI: 23
+wei.produitInscriptionWEI: 24
+wei.produitListeWEI: 25
+wei.produitListePreWEI: 26
+wei.produitRemboursementWEI: 27
 wei.bungMixtes: true
-cva.produitVA: "20,21,22"
+cva.produitVA: "28,29,30"
+bde.mail.sender: "BdE INSA Lyon <contact@bde-insa-lyon.fr>"
+mailgun.domain: "mail.adhesion.bde-insa-lyon.fr"
