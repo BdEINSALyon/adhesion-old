@@ -13,8 +13,6 @@ parameters:
     mailer_password:   "Ask To the Resp OrgaIF in his mail archive"
     mailer_port:       587
     mailer_encryption: tls
-    sendgrid_username: "Get your own"
-    sendgrid_password: "Get your own"
     mailgun_user:      "Get your own"
     mailgun_pass:      "Get your own"
     mailgun_api:       "Get your own"

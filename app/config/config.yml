@@ -97,13 +97,6 @@ doctrine:
 swiftmailer:
     default_mailer: public_mailer
     mailers:
-        sendgrid:
-            transport: smtp
-            host: smtp.sendgrid.net
-            port: 587
-            encryption: ~
-            username: %sendgrid_username%
-            password: %sendgrid_password%
         mailgun:
             transport: smtp
             host: smtp.mailgun.org
