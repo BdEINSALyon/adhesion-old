@@ -34,8 +34,8 @@
                     <div class="col-md-9 row">
                         <!-- Civilité -->
                         <div class="col-md-2">{{ form_row(form.student.civilite) }}</div>
-                        <div class="col-md-5">{{ form_row(form.student.firstName) }}</div>
-                        <div class="col-md-5">{{ form_row(form.student.name) }}</div>
+                        <div class="col-md-4">{{ form_row(form.student.firstName) }}</div>
+                        <div class="col-md-6">{{ form_row(form.student.name) }}</div>
 
                         <!-- Coordonnées -->
                         <div class="col-md-6">
@@ -54,15 +54,18 @@
                         </div>
 
                         <!-- Etudes -->
-                        <div class="col-md-6">
-                            <div class="col-md-12">{{ form_row(form.student.numEtudiant) }}</div>
-                            <div class="col-md-6">{{ form_row(form.student.annee) }}</div>
-                            <div class="col-md-6">{{ form_row(form.student.departement) }}</div>
-                            <div class="col-md-12">{{ form_row(form.student.remarque) }}</div>
-                        </div>
+                        <div class="col-md-6">{{ form_row(form.student.numEtudiant) }}</div>
+                        <div class="col-md-3">{{ form_row(form.student.annee) }}</div>
+                        <div class="col-md-3">{{ form_row(form.student.departement) }}</div>
+                        <div class="col-md-6">{{ form_row(form.student.remarque) }}</div>
                     </div>
                     <div class="col-md-3">
-                        {{ form_row(form.wei) }}
+                        <div class="alert alert-danger" id="warn_va" style="display: none">
+                            {{ icon("warning") }} On ne peut pas ne pas adhérer et partir au WEI !
+                        </div>
+                        <div style="display: none" id="wei">
+                            {{ form_row(form.wei) }}
+                        </div>
                         {{ form_row(form.va) }}
                         <div class="form-group">
                             <label class="control-label required">Total à payer</label>
@@ -73,7 +76,7 @@
         </div>
 
         <nav class="clearfix">
-            <a class="btn btn-default" href="#" onclick="history.back()">&larr; Précédent</a>
+            <a class="btn btn-default" href="{{ url("wizard_search") }}" onclick="">&larr; Précédent</a>
             <button class="btn btn-primary pull-right" type="submit" id="submit">Suivant &rarr;</button>
         </nav>
         {{ form_end(form) }}
@@ -96,7 +99,7 @@
             return false;
         }
         function takeWEI(){
-            var selected = $("#form_va").find("input[type='radio']:checked");
+            var selected = $("#form_wei").find("input[type='radio']:checked");
             if (selected.length > 0) {
                 return "WEI" == selected.val();
             }
@@ -105,11 +108,48 @@
         function sendForm(){
             $('form[name=form]').submit();
         }
-        function computeToPay(){
 
+        function displayWei(){
+            var annee = $("#form_student_annee").val();
+            var $wei = $('#wei');
+            if(annee == "1" || annee == 1){
+                $wei.show();
+            }else {
+                $wei.hide();
+            }
+            $("#form_wei").find("input[type='radio']:checked");
+        }
+
+        function computeToPay(){
+            var price = 0;
+            if(takeVA()){
+                $('#warn_va').hide();
+                var annee = $("#form_student_annee").val();
+                if(annee == 1){
+                    price += parseInt(products['VA2015B'].price);
+                } else {
+                    price += parseInt(products['VA2015A'].price);
+                }
+                if(takeWEI() && annee == 1 ){
+                    price += 35.0;
+                }
+            } else {
+                if(takeWEI()){
+                    $('#warn_va').show(400);
+                } else {
+                    $('#warn_va').hide();
+                }
+            }
+            $("#toPay").html(price.toFixed(2).toLocaleLowerCase().replace(".",","));
         }
         $(function(){
-
+            $("#form_va").find('input').change(computeToPay);
+            $("#form_wei").find('input').change(computeToPay);
+            var $formStudentAnnee = $("#form_student_annee");
+            $formStudentAnnee.change(displayWei);
+            $formStudentAnnee.change(computeToPay);
+            computeToPay();
+            displayWei();
         })
     </script>
 {% endblock %}

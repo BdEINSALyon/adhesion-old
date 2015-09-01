@@ -137,8 +137,6 @@ class ProduitRepository extends EntityRepository
         }
     }
 
-
-
     public function getCurrentWaitingWEIIds()
     {
         return $this->getEntityManager()->getRepository("BdEMainBundle:Config")->get("wei.produitListeWEI", "");
@@ -147,6 +145,21 @@ class ProduitRepository extends EntityRepository
     public function getCurrentPreWaitingWEIIds()
     {
         return $this->getEntityManager()->getRepository("BdEMainBundle:Config")->get("wei.produitListePreWEI", "");
+    }
+
+    /**
+     * Retrieve current VA product for a given type.
+     * @param string $category Category of product, A is for all, B is for first years and K is without KFet
+     * @return Produit
+     */
+    public function getVAProduct($category = 'A'){
+        $products = $this->getCurrentVA();
+        foreach ($products as $p) {
+            $name = $p->getName();
+            if(substr($name, strlen($name)-1, strlen($name)) == $category)
+                return $p;
+        }
+        return $category == 'A' ? null : $this->getVAProduct();
     }
 
 }

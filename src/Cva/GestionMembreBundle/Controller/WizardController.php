@@ -80,6 +80,8 @@ class WizardController extends Controller
                 throw $this->createNotFoundException('Not found student '.$id);
         }
 
+        $preRegisteredForWEI = $this->_is_preregistered_for_wei($student);
+
         $formBuilder = $this->createFormBuilder();
         $formBuilder->add('student',new StudentType(),array(
             'label'=>false,
@@ -88,12 +90,13 @@ class WizardController extends Controller
         $formBuilder->add('wei','choice',[
             "label" => "WEI",
             "choices" => [
-                "WEI" => "Veut s'inscrire au WEI",
-                "NOWEI" => "Ne veut pas s'inscrire au WEI"
+                "WEI" => $preRegisteredForWEI?"Confirme qu'il vient au WEI":"Veut s'inscrire au WEI",
+                "NOWEI" => $preRegisteredForWEI?"Ne veut plus aller au WEI":"Ne veut pas s'inscrire au WEI"
             ],
             "expanded" => true,
             'required'  => true,
-            "multiple" => false
+            "multiple" => false,
+            'data' => $preRegisteredForWEI?"WEI":"NOWEI"
         ]);
         $formBuilder->add('va','choice',[
             "label" => "Adhesion VA",
@@ -103,7 +106,8 @@ class WizardController extends Controller
             ],
             "expanded" => true,
             'required'  => true,
-            "multiple" => false
+            "multiple" => false,
+            'data' => "VA"
         ]);
         $formBuilder->add('methodPayment', 'choice', array(
                 'choices' => array(
@@ -124,9 +128,37 @@ class WizardController extends Controller
 
         if($form->isValid()){
             $data = $form->getData();
+            /** @var Etudiant $student */
             $student = $data['student'];
             $em->persist($student);
             $em->flush();
+            $wantWei = $data['wei'] == 'WEI';
+            $wantVA = $data['va'] == 'VA';
+            $methodPayement = $data['methodPayment'];
+
+            if(!$wantVA){
+                $this->addFlash("warning","L'Etudiant a refusé l'adhésion VA !");
+            } else {
+                $va = null;
+                if($student->getAnnee() == '1'){
+                    $va = $em->getRepository("CvaGestionMembreBundle:Produit")->getVAProduct('B');
+                } else {
+                    $va = $em->getRepository("CvaGestionMembreBundle:Produit")->getVAProduct('A');
+                }
+                $paymentVA = Payment::generate($student, $va, $methodPayement);
+                $em->persist($paymentVA);
+                $this->addFlash("success","L'Etudiant a adhéré à la VA !");
+                if($wantWei && $student->getAnnee() == '1'){
+                    $this->addFlash("success","L'Etudiant est inscrit au WEI !");
+                    $this->get("bde.wei.registration_management")->register($student, $methodPayement);
+                } elseif($student->getAnnee() == '1'){
+                    $this->addFlash("warning","L'Etudiant est désinscrit du WEI !");
+                    $this->get("bde.wei.registration_management")->unregister($student);
+                }
+                $em->flush();
+            }
+
+            return $this->redirectToRoute("wizard_search");
         }
 
         $products = $em->getRepository("CvaGestionMembreBundle:Produit")->createQueryBuilder('p')->where('p.active = true')->getQuery()->getArrayResult();
@@ -142,6 +174,22 @@ class WizardController extends Controller
             'products' => $productsIndexed
         ));
 
+    }
+
+    /**
+     * Determin if the student is already registred to go to the wei
+     * @param Etudiant $student
+     * @return bool True if he's registered
+     */
+    private function _is_preregistered_for_wei(Etudiant $student)
+    {
+        $produitRepository = $this->get("doctrine.orm.entity_manager")->getRepository("CvaGestionMembreBundle:Produit");
+        $validProducts = [
+            $produitRepository->getCurrentWEIPreInscription(),
+            $produitRepository->getCurrentWEIPreWaiting(),
+        ];
+        $intersect = array_intersect($validProducts, $student->getProducts());
+        return count($intersect)>0;
     }
 
 }

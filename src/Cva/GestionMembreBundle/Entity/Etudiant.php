@@ -6,6 +6,7 @@ use BdE\WeiBundle\Entity\Bungalow;
 use BdE\WeiBundle\Entity\Bus;
 use BdE\WeiBundle\Entity\Waiting;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -136,6 +137,14 @@ class Etudiant
      * @ORM\Column(type="datetime")
      */
     protected $dateModification;
+
+    /**
+     * Etudiant constructor.
+     */
+    public function __construct()
+    {
+        $this->payments = new ArrayCollection();
+    }
 
 
     /**
@@ -469,7 +478,7 @@ class Etudiant
     }
 
     /**
-     * @return Payment
+     * @return Payment[]
      */
     public function getPayments()
     {
@@ -536,8 +545,8 @@ class Etudiant
         $this->waiting = $waiting;
     }
 
-    public function isMajeur(){
-        return $this->birthday->diff(new \DateTime())->y >= 18;
+    public function isMajeur($date = 'now'){
+        return $this->birthday->diff(new \DateTime($date))->y >= 18;
     }
 
     public function getFullName(){
@@ -553,6 +562,9 @@ class Etudiant
         $boughtProducts = array();
         /** @var Payment[] $payments */
         $payments = $this->getPayments();
+        if(!$payments){
+            return $boughtProducts;
+        }
         foreach ($payments as $payment) {
             $boughtProducts[] = $payment->getProduct();
         }

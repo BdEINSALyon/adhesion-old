@@ -45,6 +45,7 @@ class MenuBuilder
             return $menu;
         }
         if($this->acl->isGranted("ROLE_PERM")) {
+            $menu->addChild("Chaine Inscription", array('route' => 'wizard_search'));
             $membres = $menu->addChild('Gestion des Membres');
             $membres->addChild("Actuels", array('route' => 'cva_membership_students_current'));
             $membres->addChild("Anciens", array('route' => 'cva_membership_students_old'));

@@ -61,6 +61,23 @@ class Payment
     private $method;
 
     /**
+     * @param $student Etudiant
+     * @param $product Produit
+     * @param string $method
+     * @return Payment
+     */
+    public static function generate($student, $product, $method = 'CHQ')
+    {
+        $payment = new Payment();
+        $payment->setBillId(self::generateUUID());
+        $payment->setDate(new \DateTime());
+        $payment->setStudent($student);
+        $payment->setProduct($product);
+        $payment->setMethod($method);
+        return $payment;
+    }
+
+    /**
      * @return Produit
      */
     public function getProduct()
