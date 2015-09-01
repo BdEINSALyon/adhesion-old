@@ -16,8 +16,7 @@ use Doctrine\ORM\UnexpectedResultException;
 class WaitingRepository extends EntityRepository
 {
     public function nextTicket(Payment $produit, Etudiant $student){
-        $qb = $this->createQueryBuilder('waiting')->select("MAX(waiting.rank)")
-            ->join("waiting.payment","payment")->where("payment.product=?1")->setParameter(1,$produit->getProduct());
+        $qb = $this->createQueryBuilder('waiting')->select("MAX(waiting.rank)");
         $ticket = new Waiting();
         $ticket->setStudent($student);
         $ticket->setPayment($produit);

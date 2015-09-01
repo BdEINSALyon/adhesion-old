@@ -53,6 +53,7 @@ class RegistrationManagement
         $filterBy = $this->em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIRemboursement();
         $query = $this->em->createQueryBuilder()->select("student")->from("CvaGestionMembreBundle:Etudiant","student")
             ->join("student.payments", "payments")->where("payments.product = ?1")
+            // Remove students refunded
             ->andWhere("NOT EXISTS (SELECT 1 FROM CvaGestionMembreBundle:Etudiant e LEFT JOIN e.payments pay WHERE pay.product = ?2 AND e = student)")
             ->setParameter(1, $product)->setParameter(2, $filterBy);
         if($product->hasWaitingList())
@@ -77,8 +78,7 @@ class RegistrationManagement
         foreach ($tickets as $ticket) {
             // Create an update query
             $update = $this->em->getRepository("BdEWeiBundle:Waiting")->createQueryBuilder('waiting')->getQuery();
-            $update->setDQL("UPDATE BdEWeiBundle:Waiting w SET w.rank = w.rank - 1 WHERE w.rank > ?1 AND w.payment IN ".
-                "(SELECT p.id FROM CvaGestionMembreBundle:Payment p WHERE p.product = ?2)");
+            $update->setDQL("UPDATE BdEWeiBundle:Waiting w SET w.rank = w.rank - 1 WHERE w.rank > ?1");
             $update->setParameter(1, $ticket->getRank());
             $update->setParameter(2, $ticket->getPayment()->getProduct());
 
