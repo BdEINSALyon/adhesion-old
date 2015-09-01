@@ -1,0 +1,116 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="col-md-12 row">
+                <div class="panel panel-default panel-success text-justify">
+                    <div class="panel-heading" data-toggle="collapse" data-target="#help-body">
+                        <h3 class="panel-title">{{ icon("question-sign") }}&nbsp;Aide</h3>
+                    </div>
+                    <div class="panel-body collapse" id="help-body">
+                        <p>Sur cette page tu peux editer un adhérent.</p>
+                        <p>Tu as deux cas :</p>
+                        <ul>
+                            <li>Les infos sont déjà rentrés : verifie les avec lui et éventuellement met son mail insa ;-)</li>
+                            <li>Il y a rien : alors remplis les informations en lui demendant gentillement.</li>
+                        </ul>
+                        <p>Les informations obligatoires sont :</p>
+                        <ul>
+                            <li>Un nom et prénom (ben oui)</li>
+                            <li>Est-ce un gars ou une fille ?</li>
+                            <li>Une adresse mail</li>
+                            <li>Un numéro étudiant</li>
+                            <li>Un numéro de téléphone (bizuth 1A)</li>
+                        </ul>
+                    </div>
+                </div>
+        </div>
+
+        {{ form_start(form) }}
+        <div class="col-md-12 row">
+                    <div class="col-md-12">
+                        {{ form_errors(form, { 'global_errors': true }) }}
+                    </div>
+                    <div class="col-md-9 row">
+                        <!-- Civilité -->
+                        <div class="col-md-2">{{ form_row(form.student.civilite) }}</div>
+                        <div class="col-md-5">{{ form_row(form.student.firstName) }}</div>
+                        <div class="col-md-5">{{ form_row(form.student.name) }}</div>
+
+                        <!-- Coordonnées -->
+                        <div class="col-md-6">
+                            <div class="form-group{% if form.student.mail.vars.errors|length > 0 %} has-error{% endif %}">
+                                {{ form_label(form.student.mail) }}
+                                <div class="input-group">
+                                    {{ form_widget(form.student.mail) }}
+                                    <span class="input-group-btn">
+                                    <button class="btn btn-danger" data-mail="insa" type="button">{{ icon('envelope') }} INSA</button>
+                                </span>
+                                </div>
+                                {{ form_errors(form.student.mail) }}
+                            </div>
+                            {{ form_row(form.student.tel) }}
+                            {{ form_row(form.student.birthday) }}
+                        </div>
+
+                        <!-- Etudes -->
+                        <div class="col-md-6">
+                            <div class="col-md-12">{{ form_row(form.student.numEtudiant) }}</div>
+                            <div class="col-md-6">{{ form_row(form.student.annee) }}</div>
+                            <div class="col-md-6">{{ form_row(form.student.departement) }}</div>
+                            <div class="col-md-12">{{ form_row(form.student.remarque) }}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        {{ form_row(form.wei) }}
+                        {{ form_row(form.va) }}
+                        <div class="form-group">
+                            <label class="control-label required">Total à payer</label>
+                            <p><span id="toPay">0,00</span>€</p>
+                        </div>
+                        {{ form_row(form.methodPayment) }}
+                    </div>
+        </div>
+
+        <nav class="clearfix">
+            <a class="btn btn-default" href="#" onclick="history.back()">&larr; Précédent</a>
+            <button class="btn btn-primary pull-right" type="submit" id="submit">Suivant &rarr;</button>
+        </nav>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts
+    '@CvaGestionMembreBundle/Resources/views/js/mailINSA.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script>
+        var products = {{ products|json_encode|raw }};
+        function takeVA(){
+            var selected = $("#form_va").find("input[type='radio']:checked");
+            if (selected.length > 0) {
+                return "VA" == selected.val();
+            }
+            return false;
+        }
+        function takeWEI(){
+            var selected = $("#form_va").find("input[type='radio']:checked");
+            if (selected.length > 0) {
+                return "WEI" == selected.val();
+            }
+            return false;
+        }
+        function sendForm(){
+            $('form[name=form]').submit();
+        }
+        function computeToPay(){
+
+        }
+        $(function(){
+
+        })
+    </script>
+{% endblock %}
+

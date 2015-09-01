@@ -8,6 +8,7 @@
 
 namespace Cva\GestionMembreBundle\Controller;
 
+use Cva\GestionMembreBundle\Entity\Etudiant;
 use Cva\GestionMembreBundle\Entity\Payment;
 use Cva\GestionMembreBundle\Form\EtudiantType;
 use Cva\GestionMembreBundle\Form\PaymentType;
@@ -67,6 +68,79 @@ class WizardController extends Controller
      * @return \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     public function studentAction($id, Request $request){
+
+        $em = $this->get('doctrine.orm.entity_manager');
+        $students = $em
+            ->getRepository("CvaGestionMembreBundle:Etudiant");
+        if($id == "new"){
+            $student = new Etudiant();
+        } else {
+            $student = $students->find($id);
+            if(!$student)
+                throw $this->createNotFoundException('Not found student '.$id);
+        }
+
+        $formBuilder = $this->createFormBuilder();
+        $formBuilder->add('student',new StudentType(),array(
+            'label'=>false,
+            'data' => $student
+        ));
+        $formBuilder->add('wei','choice',[
+            "label" => "WEI",
+            "choices" => [
+                "WEI" => "Veut s'inscrire au WEI",
+                "NOWEI" => "Ne veut pas s'inscrire au WEI"
+            ],
+            "expanded" => true,
+            'required'  => true,
+            "multiple" => false
+        ]);
+        $formBuilder->add('va','choice',[
+            "label" => "Adhesion VA",
+            "choices" => [
+                "VA" => "Veut adhérer à la VA",
+                "NOVA" => "Ne veut pas adhérer à la VA"
+            ],
+            "expanded" => true,
+            'required'  => true,
+            "multiple" => false
+        ]);
+        $formBuilder->add('methodPayment', 'choice', array(
+                'choices' => array(
+                    'CHQ' => 'Cheque',
+                    'CB' => 'Carte Bancaire',
+                    'ESP' => 'Espèces'
+                ),
+                'mapped' => true,
+                'required'  => true,
+                'expanded' => true,
+                'label' => "Moyen de paiement"
+            )
+        );
+        $formBuilder->add('target','hidden');
+        $form = $formBuilder->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isValid()){
+            $data = $form->getData();
+            $student = $data['student'];
+            $em->persist($student);
+            $em->flush();
+        }
+
+        $products = $em->getRepository("CvaGestionMembreBundle:Produit")->createQueryBuilder('p')->where('p.active = true')->getQuery()->getArrayResult();
+        $productsIndexed = [];
+        foreach ($products as $product) {
+            if(isset($product['name']))
+            $productsIndexed[$product['name']] = $product;
+        }
+
+
+        return $this->render("CvaGestionMembreBundle:Wizard:edit.html.twig",array(
+            'form' => $form->createView(),
+            'products' => $productsIndexed
+        ));
 
     }
 
