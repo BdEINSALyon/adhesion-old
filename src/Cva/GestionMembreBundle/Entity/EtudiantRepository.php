@@ -43,4 +43,17 @@ class EtudiantRepository extends EntityRepository
         $va = $em->getRepository("BdEMainBundle:Config")->get("cva.produitVA","1");
         return explode(",",$va);
     }
+
+    /**
+     * @param $search string Search for a student in this repository
+     * @return Etudiant[]
+     */
+    public function search($search)
+    {
+        $search = '%'.$search.'%';
+        $q = $this->createQueryBuilder("s")->where("s.firstName LIKE ?1")->orWhere("s.name LIKE ?1")
+                ->orderBy("s.annee")->getQuery();
+        $q->setParameter(1, $search);
+        return $q->getResult();
+    }
 }

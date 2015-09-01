@@ -1,0 +1,10 @@
+
+    <div class="list-group">
+        {% for student in result %}
+            <a href="{{ url('wizard_student', {id:student.id}) }}" class="list-group-item">
+                {{ student.name | upper }}&nbsp;{{ student.firstName }}
+                <span class="badge">{{ student.departement }}</span>
+                <span class="badge">{{ student.annee }}{% if student.annee|length == 1 %}A{% endif %}</span>
+            </a>
+        {% endfor %}
+    </div>

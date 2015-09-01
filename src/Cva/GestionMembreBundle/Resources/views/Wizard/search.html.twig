@@ -1,0 +1,69 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-2">
+                {{ form(search) }}
+                <div id="result">
+                {% if (result) > 0 %}
+                    {% include '@CvaGestionMembre/Wizard/searchResult.html.twig' %}
+                {% endif %}
+                </div>
+                <a class="btn btn-block btn-success" href="{{ url("wizard_student",{id:"new"}) }}">{{ icon('plus') }}&nbsp;Ajouter un adhérent</a>
+            </div>
+            <div class="col-md-3 row">
+                <div class="col-md-11">
+                    <div class="panel panel-default text-justify">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Aide</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>Sur cette page tu peux rechercher un adhérent.
+                                A partir de 3 carctères tapés, le système cherchera
+                                sur le nom ou le prénom (n'entre que un des deux).</p>
+                            <p>Pour que ça fonctionne du premier coup :</p>
+                            <ul>
+                                <li>Entre le début du nom ou du prénom</li>
+                                <li>Si le nom est composé alors n'entre qu'une partie du nom</li>
+                            </ul>
+                            <p>Si après un à deux essaies tu ne trouves pas la personne, c'est
+                                qu'il/elle n'est pas inscrit(e). Tu peux donc utiliser le
+                                boutton "Ajouter un adhérent".</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function hideResults(){
+            $("#result").stop().hide();
+        }
+        function showResults(){
+            $("#result").show(0);
+        }
+        $(function(){
+            var $formSearch = $('#form_search');
+            $formSearch.on('keyup',function(){
+                var search = ($formSearch.val());
+                if(search.length > 2) {
+                    $.post("{{ url('wizard_search') }}", {form: {search: search}}).done(function (data) {
+                        $("#result").html(data);
+                        showResults()
+                    })
+                } else {
+                    hideResults()
+                }
+            });
+            $formSearch.focus();
+
+        })
+    </script>
+{% endblock %}
