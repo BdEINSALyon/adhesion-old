@@ -34,6 +34,10 @@ class RegistrationManagement
         return $this->getMaxStudent() - $this->countForWEIProduct($this->em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEI());
     }
 
+    public function getPreSeatsLeft(){
+        return $this->getMaxStudent() - $this->countForWEIProduct($this->em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIPreInscription());
+    }
+
     public function getMaxStudent(){
         return intval($this->em->getRepository("BdEMainBundle:Config")->get("wei.nbMaxBizuths","450"));
     }

@@ -33,7 +33,7 @@ class Waiting
     /**
      * @var Payment
      * @ORM\ManyToOne(targetEntity="Cva\GestionMembreBundle\Entity\Payment")
-     * @ORM\JoinColumn(name="payment_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="payment_id", referencedColumnName="id")
      */
     private $payment;
 
