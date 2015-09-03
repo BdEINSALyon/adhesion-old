@@ -108,7 +108,7 @@ class RegistrationManagement
 
         // If it's a pre-registered, put it in the WEI ;-)
         if (in_array($products->getCurrentWEIPreInscription(), $studentProducts)){
-            if ($this->getSeatsLeft() > 0){
+            if ($this->getSeatsLeft() <= 0){
                 throw new Exception("No seats in WEI for PreRegistered students");
             };
             return $this->_registerToWei($student, $paymentMethod)?1:0;
@@ -189,7 +189,7 @@ class RegistrationManagement
         }
     }
 
-    private function _registerToWei(Etudiant $student){
+    private function _registerToWei(Etudiant $student, $paymentMethod = null){
         $products = $this->em->getRepository("CvaGestionMembreBundle:Produit");
         $allowedProducts = [
             $products->getCurrentWEIPreInscription(),
@@ -208,7 +208,7 @@ class RegistrationManagement
                 }
                 $newPayment = new Payment();
                 $newPayment->setBillId($payment->getBillId());
-                $newPayment->setMethod($payment->getMethod());
+                $newPayment->setMethod($paymentMethod == null?$payment->getMethod():$paymentMethod);
                 $newPayment->setStudent($payment->getStudent());
                 $newPayment->setDate($payment->getDate());
                 $newPayment->setProduct($products->getCurrentWEI());
