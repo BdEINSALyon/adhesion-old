@@ -51,6 +51,7 @@ security:
 
     access_control:
         - { path: ^/email, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/w, roles: ROLE_PERM }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/wei, roles: ROLE_COWEI }
         - { path: ^/config, roles: ROLE_EDIT_CONFIG }
