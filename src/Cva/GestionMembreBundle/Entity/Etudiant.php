@@ -570,4 +570,14 @@ class Etudiant
         }
         return $boughtProducts;
     }
+
+    /**
+     * Check if this student has bough a product.
+     * @param $product Produit The product to check.
+     * @return bool true if this student has bough this product
+     */
+    public function hasProduct($product)
+    {
+        return in_array($product,$this->getProducts());
+    }
 }

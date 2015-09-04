@@ -44,6 +44,11 @@ class RegistrationManagement
         return intval($this->em->getRepository("BdEMainBundle:Config")->get("wei.nbMaxBizuths","450"));
     }
 
+    /**
+     * Count number of student who has bought a product which has not been refunded.
+     * @param Produit $product The product to count
+     * @return mixed Number of student who has this product and are not refunded
+     */
     public function countForWEIProduct(Produit $product)
     {
         $filterBy = $this->em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIRemboursement();
@@ -54,7 +59,11 @@ class RegistrationManagement
         return $query->getQuery()->getSingleScalarResult();
     }
 
-
+    /**
+     * Get all students who has bought a product and has not been refunded.
+     * @param Produit $product The product to select
+     * @return array The Students who has this product and has not been refunded
+     */
     public function getStudentsForWEIProduct(Produit $product){
         $filterBy = $this->em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIRemboursement();
         $query = $this->em->createQueryBuilder()->select("student")->from("CvaGestionMembreBundle:Etudiant","student")
@@ -67,6 +76,12 @@ class RegistrationManagement
         return $query->getQuery()->getResult();
     }
 
+    /**
+     * Remove a student from the waiting list.
+     * The student will lost his rank and all student after him will up by one rank.
+     * @param Etudiant $student The student to remove from the waiting ticketing
+     * @param Produit $product The product which has been ticketed
+     */
     public function removeFromWaitingList(Etudiant $student, Produit $product){
         // Retrieve the related ticket
         $tickets = $this->em->getRepository("BdEWeiBundle:Waiting")->findBy([
@@ -97,6 +112,17 @@ class RegistrationManagement
     }
 
     /**
+     * Count number of student which are in front of a student in waiting list.
+     * @param Etudiant $student The student (the function assumes that he has a waiting ticket)
+     * @return int The number of student
+     */
+    private function countStudentsWithBetterRank(Etudiant $student){
+        $query = $this->em->createQueryBuilder()->select("COUNT(e)")->from("CvaGestionMembreBundle:Etudiant","e")
+            ->join("e.waiting","waiting")->where("waiting.rank < ?1")->getQuery();
+        return $query->getSingleScalarResult();
+    }
+
+    /**
      * @param $student Etudiant
      * @param string $paymentMethod
      * @return int
@@ -115,8 +141,12 @@ class RegistrationManagement
         }
 
         // If it's a pre-registered in Waiting List
-        if (in_array($products->getCurrentWEIPreWaiting(), $studentProducts)) {
-            if ($this->countForWEIProduct($products->getCurrentWEIPreInscription()) + $this->countForWEIProduct($products->getCurrentWEI()) < $this->getMaxStudent()) {
+        if (in_array($products->getCurrentWEIPreWaiting(), $studentProducts)){
+            $numberOfStudentHavingPriority =
+                $this->countStudentsWithBetterRank($student) + // Student with a better rank on waiting list
+                $this->countForWEIProduct($products->getCurrentWEIPreInscription()) + // Student pre-register has priority on waiting students
+                $this->countForWEIProduct($products->getCurrentWEI()); // Students registered to WEI
+            if ($numberOfStudentHavingPriority < $this->getMaxStudent()) {
                 // There is enough seats in WEI to register this user
                 return $this->_registerToWei($student, $paymentMethod)?1:0;
             } else {
@@ -140,29 +170,23 @@ class RegistrationManagement
             return 3; // Can not be registered because it's already
         }
 
-        // Now we are sure that's someone who has not registered
-        $studentCount = $this->countForWEIProduct($products->getCurrentWEI()) +
-            $this->countForWEIProduct($products->getCurrentWEIWaiting()) +
-            $this->countForWEIProduct($products->getCurrentWEIPreWaiting()) +
-            $this->countForWEIProduct($products->getCurrentWEIPreInscription());
-
-        // If we have enought place for every one
-        if($studentCount < $this->getMaxStudent()){
-            return $this->_registerToWei($student)?1:0;
+        // If the student is not registred to a product, put him in a waiting list
+        $payment = null;
+        if($paymentMethod == null){ // Register in pre-registered Waiting List if he pays nothing - Case not usual
+            $payment = Payment::generate($student, $products->getCurrentWEIPreWaiting());
         } else {
-        // Else Go to the waiting list
-            $payment = null;
-            if($paymentMethod == null){ // Register in pre-registered Waiting List
-                $payment = Payment::generate($student, $products->getCurrentWEIPreWaiting());
-            } else {
-                $payment = Payment::generate($student, $products->getCurrentWEIWaiting(), $paymentMethod);
-            }
-            $this->em->persist($payment);
-            $this->em->flush();
-            return 2;
+            $payment = Payment::generate($student, $products->getCurrentWEIWaiting(), $paymentMethod);
         }
+        $this->em->persist($payment);
+        $this->em->flush();
+        return 2;
     }
 
+    /**
+     * Unregister a student from the WEI.
+     * This function will look for all products related to the WEI and will refund it, if it's not.
+     * @param Etudiant $student The student to refund
+     */
     public function unregister(Etudiant $student){
         $products = $this->em->getRepository("CvaGestionMembreBundle:Produit");
         $weiWithoutRefundProducts = [
@@ -173,6 +197,9 @@ class RegistrationManagement
             $products->getCurrentWEI(),
             $products->getCurrentWEIWaiting()
         ];
+        if($student->hasProduct($products->getCurrentWEIRemboursement())){
+            return;
+        }
         foreach($student->getPayments() as $payment){
             if(in_array($payment->getProduct(), $weiWithoutRefundProducts)){
                 $this->em->remove($payment);
@@ -187,6 +214,7 @@ class RegistrationManagement
                 $this->em->persist($payment);
             }
         }
+        $this->em->flush();
     }
 
     private function _registerToWei(Etudiant $student, $paymentMethod = null){

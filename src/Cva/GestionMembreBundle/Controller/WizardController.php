@@ -149,8 +149,22 @@ class WizardController extends Controller
                 $em->persist($paymentVA);
                 $this->addFlash("success","L'Etudiant a adhéré à la VA !");
                 if($wantWei && $student->getAnnee() == '1'){
-                    $this->addFlash("success","L'Etudiant est inscrit au WEI !");
-                    $this->get("bde.wei.registration_management")->register($student, $methodPayement);
+                    $result = $this->get("bde.wei.registration_management")->register($student, $methodPayement);
+                    switch($result){
+                        case 1:
+                            $this->addFlash("success","L'Etudiant est inscrit au WEI (Il part !) !");
+                            break;
+                        case 3:
+                            $this->addFlash("success","L'Etudiant été déjà inscrit au WEI !");
+                            break;
+                        case 2:
+                            $this->addFlash("success","L'Etudiant est en liste d'attente pour partir au WEI !");
+                            break;
+                        case 0:
+                        default:
+                            $this->addFlash("error","Erreur d'inscription au WEI, on a besoin d'un CoWEI !");
+
+                    }
                 } elseif($student->getAnnee() == '1'){
                     $this->addFlash("warning","L'Etudiant est désinscrit du WEI !");
                     $this->get("bde.wei.registration_management")->unregister($student);
