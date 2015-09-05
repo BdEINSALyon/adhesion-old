@@ -1,0 +1,384 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+        
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>Mail VA</title> 
+    <style type="text/css">
+        h1{
+            margin-bottom: 0;
+        }
+        h2{
+            text-transform: uppercase;
+        }
+        h4{
+            text-transform: uppercase;
+            color: #ef2f40;
+            font-size: 14px;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        h5{
+            text-transform: uppercase;
+            color: #ef2f40;
+            font-size: 22px;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        h6{
+
+        }
+        em{
+            font-weight: bolder;
+            font-style: normal;
+            text-transform: uppercase;
+        }
+        p{
+            text-align: justify;
+        }
+    </style>
+</head>
+<body style="background:#FFF; color:#000;font-family:Arial, Helvetica, sans-serif; font-size:12px"
+      bgcolor="#000000" alink="black" text="#000">
+    <table align="center" width="750px">
+        <tr>
+            <td style="text-align: center">
+                Impossible de lire correctement ce mail ? <a
+                        style="transition: opacity 0.2s ease-in;text-decoration: none;color: #999;font-weight: bold"
+                        href="{{ url('bde_main_mail_show', {data: config.mail_id}) }}">Version web</a>
+            </td>
+        </tr>
+    </table>
+    <table style="" align="center">
+        <tr>
+            <td>
+    <img src="{{ asset('bundles/bdemain/img/mail/header_mail.png') }}" alt="Vie Asso du Campus"
+         style="width: 750px !important; margin: 5px auto"/>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: center">
+                <h1>Découvre tout ce qui se cache derrière ta carte VA !</h1>
+            </td>
+        </tr>
+    </table>
+    <table cellpadding="5px" width="600px" align="center" style="width: 700px !important;">
+        <tr>
+            <td colspan="3">
+                {{ content | raw }}
+                <h2>Une vie associative riche...</h2>
+                <p>L’INSA est une école qui bouge ! En effet, ses associations sont porteuses de nombreux projets et
+                    organisatrices de multiples évènements durant l’année. On compte plus de <em>120 associations</em> et près
+                    de <em>200 évènements</em> par an.</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div style="background: #bde7df; border-radius: 10px; padding: 10px; margin-right: 20px"
+                        id="org_that_corresponds">
+                    <h2 style="margin-top: 0">trouve l’asso qui te correspond</h2>
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+                        <tr>
+                            <td><img style="margin-right: 5px; width: 16px; height: 16px" src="{{ asset('bundles/bdemain/img/mail/book.png') }}" alt="R"/></td>
+                            <td>Viens chercher un Bot’INSA au BdE !</td>
+                            <td rowspan="2"><img style="width: 16px; height: 16px" src="{{ asset('bundles/bdemain/img/mail/social.png') }}" alt="R"/></td>
+                            <td rowspan="2" style="text-align: right">Retrouve les à la MdE<br>
+                                au Forum des Clubs<br>
+                                le 8 Octobre 2015</td>
+                        </tr>
+                        <tr>
+                            <td><img  style="margin-right: 5px; width: 16px; height: 16px" src="{{ asset('bundles/bdemain/img/mail/chrome.png') }}" alt="R"/></td>
+                            <td>Consulte le en ligne sur <a href="http://vie.asso.insa-lyon.fr">http://vie.asso.insa-lyon.fr</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td style="width: 145px">
+                <img src="{{ asset('bundles/bdemain/img/mail/vie_asso.png') }}"
+                     alt="Vie Asso" align="middle" height="75"
+                        style="margin: auto; width: 145px; height: 75px"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1">
+                <h2>...soutenue par la carte va</h2>
+                <p>Une partie des fonds récoltés avec les cotisations permet de subventionner chaque année de nombreux
+                    projets et événements qui font la richesse de notre vie associative. En effet, des étudiants membres
+                    de diverses associations siègeant au Conseil de la Vie Associative (CVA) représentent les
+                    associations vis-à-vis de la direction et distribue chaque année environ 80 000 € de subventions à
+                    des projets associatifs sur le campus.</p>
+            </td>
+            <td colspan="2" style="width: 260px">
+                <img src="{{ asset('bundles/bdemain/img/mail/carte_va.png') }}" alt="Carte VA, Combien ?"
+                        style="" width="260px"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div style="background: #bde7df; border-radius: 10px; padding: 10px;"
+                     id="foundation">
+                    <h2 style="margin-top: 0">la fondation, quésaco ?</h2>
+                    <p>Créée en 2009 dans le but d’accompagner le développement de l’INSA Lyon, la Fondation INSA Lyon
+                        compte parmi ses axes importants de financement le soutien à la vie associative insalienne.
+                        Ainsi, elle reverse chaque année une dotation d’environ 20&nbsp;000 euros au Conseil de la
+                        Vie Associative (CVA).</p>
+                    <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 5px;">
+                        <tr>
+                            <td><img style="margin-right: 5px; width: 16px; height: 16px;" src="{{ asset('bundles/bdemain/img/mail/chrome.png') }}" alt="R" /></td>
+                            <td><a href="http://fondation.insa-lyon.fr">http://fondation.insa-lyon.fr/</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <h2>pourquoi adhérer ?</h2>
+                <p>Tout au long de l’année, de nombreuses manifestations sont organisées sur le campus par les
+                    associations insaliennes. Toutes les manifestations qui sont subventionnées par le CVA proposent des
+                    avantages aux participants porteurs de la carte. En renouvelant ton adhésion, tu continueras de
+                    bénéficier par exemple de tarifs réduits sur les spectacles de la TTI, les sorties du Ski Club, les
+                    préventes des 24h mais la liste n’est pas exhaustive ! Plusieurs fois par an, le BdE et la K-Fêt
+                    s’associent pour organiser des soirées mémorables, la carte VA est alors indispensable !
+                    Et bien sûr, comme tu es adhérent au BdE et à l’ARGIL, tu peux profiter de leurs services.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <table cellspacing="5" cellpadding="10" border="0">
+                    <tr>
+                        <td><img src="{{ asset('bundles/bdemain/img/mail/together.png') }}" alt="Asso" width="35" height="35" align=""/></td>
+                        <td style="padding-left: 10px;">
+                            <h4>événements sur le campus</h4>
+                            <p style="margin-top:2px; margin-bottom: 2px;">La carte VA te permettra de profiter de réductions et de tarifs préférentiels pour
+                                participer aux spectacles, animations et événements organisés tout au long de l’année
+                                sur ton campus.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="{{ asset('bundles/bdemain/img/mail/drink.png') }}" alt="Asso" width="35" height="35" align=""/></td>
+                        <td style="padding-left: 10px;">
+                            <h4>K-Fêt (ARGIL)</h4>
+                            <p style="margin-top:2px; margin-bottom: 2px;">
+                                C’est le foyer des étudiants qui te permet de te détendre autour d’un café, de participer à de nombreuses animations
+                                comme des blind-tests, des concerts, des tournois de coinche ou encore de baby-foot... Tu peux y passer entre 12h
+                                et 14h du lundi au vendredi, le lundi soir de 19h à 01h et du mardi au vendredi de 18h à 01h.
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="margin-top: 10px">
+                        <td><img src="{{ asset('bundles/bdemain/img/mail/coop.png') }}" alt="Asso" width="35" height="35" align=""/></td>
+                        <td style="padding-left: 10px;">
+                            <h4>COOP</h4>
+                            <p style="margin-top:2px; margin-bottom: 2px;">
+                                Besoin de dentifrice en urgence, d’un stylo ou encore de Nutella avant les partiels ? La COOP, l’épicerie étudiante du
+                                campus est ouverte entre midi et 14h tous les jours (16h le jeudi) pour te dépanner !
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="margin-top: 10px">
+                        <td><img src="{{ asset('bundles/bdemain/img/mail/laundry.png') }}" alt="Asso" width="35" height="35" align=""/></td>
+                        <td style="padding-left: 10px;">
+                            <h4>laveries</h4>
+                            <p style="margin-top:2px; margin-bottom: 2px;">
+                                Situés au pied des résidences B, D, E, F, G/J, H, I des laveries automatiques sont disponibles sur le campus, pour les utiliser
+                                il suffit d’acheter des jetons pour 2€ au BdE.
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="margin-top: 10px">
+                        <td><img src="{{ asset('bundles/bdemain/img/mail/printer.png') }}" alt="Asso" width="35" height="35" align=""/></td>
+                        <td style="padding-left: 10px;">
+                            <h4>photocopies</h4>
+                            <p style="margin-top:2px; margin-bottom: 2px;">
+                                Besoin d’imprimer un document ? De photocopier un passeport ? De relier un rapport ? 4 photocopieurs sont disponibles
+                                au BdE à tarif réduit grâce au système à carte du BdE ou à l’aide du Pass Impression INSA.
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="{{ asset('bundles/bdemain/img/mail/barbecue.png') }}" alt="Asso" width="35" height="35" align=""/></td>
+                        <td style="padding-left: 10px;">
+                            <h4>Prêt et location de matériel</h4>
+                            <p style="margin-top:2px; margin-bottom: 2px;">
+                                Le BdE te propose en prêt : ballons et frisbees pour les plus sportifs et barbecues pour les gourmands. Tu trouveras aussi
+                                en location pour la modique somme de 3€ : crépières, appareils à raclette ou fondue ou encore gaufriers.
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><img src="{{ asset('bundles/bdemain/img/mail/insashop.png') }}" alt="Asso" width="35" height="35" align=""/></td>
+                        <td style="padding-left: 10px;">
+                            <h4>insa shop</h4>
+                            <p style="margin-top:2px; margin-bottom: 2px;">
+                                Depuis 2009 le BdE propose une ligne textile aux couleurs de l’INSA : sweat, t-shirts, mugs,... Rendez-vous à l’étage de
+                                la MdE du lundi au vendredi de 12h15 à 13h45 pour les découvrir..
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <table border="0" cellpadding="5" width="100%">
+                    <tr>
+                        <td rowspan="2" style="padding: 0">
+                            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                <tr>
+                                    <td style="vertical-align: top;">
+                                        <img src="{{ asset('img/bde.png') }}" alt="BDE" align="top" style="" height="64"/>
+                                    </td>
+                                    <td>
+                                        <div style="background: #bde7df; border-radius: 10px; padding: 10px; height: 175px">
+                                            <table cellpadding="5">
+                                                <tr>
+                                                    <td><img src="{{ asset('bundles/bdemain/img/mail/contract.png') }}"
+                                                             alt="" height="16" width="16" align="middle"
+                                                             style=""/></td>
+                                                    <td>Bat. Le Thélème - 18, Avenue des arts<br/>69100 Villeurbanne</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><img src="{{ asset('bundles/bdemain/img/mail/phone.png') }}"
+                                                             alt="" height="16" width="16" align="middle"
+                                                             style=""/></td>
+                                                    <td>04 72 43 82 29</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><img src="{{ asset('bundles/bdemain/img/mail/printer_small.png') }}"
+                                                             alt="" height="16" width="16" align="middle"
+                                                             style=""/></td>
+                                                    <td>04 72 44 37 53</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><img src="{{ asset('bundles/bdemain/img/mail/mail.png') }}"
+                                                             alt="" height="16" width="16" align="middle"
+                                                             style=""/></td>
+                                                    <td>bde.courrier@insa-lyon.fr</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><img src="{{ asset('bundles/bdemain/img/mail/clock.png') }}"
+                                                             alt="" height="16" width="16" align="middle"
+                                                             style=""/></td>
+                                                    <td>Du lundi au mercredi : 10h-19h<br>
+                                                        le jeudi : 10h-18h le vendredi : 10h-14h</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <h5>COOP</h5>
+                            <div style="background: #bde7df; border-radius: 10px; padding: 10px;">
+                                <table cellpadding="5">
+                                    <tr>
+                                        <td><img src="{{ asset('bundles/bdemain/img/mail/clock.png') }}"
+                                                 alt="" height="16" width="16" align="middle"
+                                                 style=""/></td>
+                                        <td>Du lundi au vendredi : 12h-14h<br>
+                                            Du lundi au mercredi : 18h-19h<br>
+                                            Le jeudi : 12h-16h</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td style="">
+                            <h5>INSA SHOP</h5>
+                            <div style="background: #bde7df; border-radius: 10px; padding: 10px;">
+                                <table cellpadding="5">
+                                    <tr>
+                                        <td><img src="{{ asset('bundles/bdemain/img/mail/clock.png') }}"
+                                                 alt="" height="16" width="16" align="middle"
+                                                 style=""/></td>
+                                        <td>Du lundi au vendredi : 12h15-13h45</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <h5>infirmerie</h5>
+                            <div style="background: #bde7df; border-radius: 10px; padding: 10px;">
+                                <table cellpadding="5">
+                                    <tr>
+                                        <td><img src="{{ asset('bundles/bdemain/img/mail/contract.png') }}"
+                                                 alt="" height="16" width="16" align="middle"
+                                                 style=""/></td>
+                                        <td>Bâtiment Camille Claudel</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="{{ asset('bundles/bdemain/img/mail/clock.png') }}"
+                                                 alt="" height="16" width="16" align="middle"
+                                                 style=""/></td>
+                                        <td>Lundi, mardi, jeudi, vendredi : 7h30-18h<br/>
+                                            Mercredi : 7h30-12h, 13h30-18h</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div style="background: #ef2f40; color: #FFFFFF; border-radius: 10px; padding: 10px;"
+                     id="AIDIL">
+                    <h2 style="margin-top: 0">AIDIL</h2>
+                    <p>Retrouvez aussi l’Association des Ingénieurs et Diplômés de l’INSA Lyon (AIDIL). Et oui, tu peux faire partie de cette grande famille
+                        d’Ingénieurs et Diplômés de l’INSA Lyon (gratuitement pour les élèves du Premier Cycle) ! Visites d’entreprises (les «Jeudis de l’AIDIL»),
+                        réunions techniques, aides, soutiens et informations sur le métier d’ingénieur, etc ...Tout cela est à ta disposition, alors ne t’en prive pas !
+                        Clique sur le lien ci-dessous, remplis le questionnaire et retourne-le à l’AIDIL. Tu recevras alors toutes les informations relatives à ton
+                        Association.</p>
+                    <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 5px; width: 100%;">
+                        <tr>
+                            <td><img style="margin-right: 5px; width: 16px; height: 16px;" src="{{ asset('bundles/bdemain/img/mail/chrome_w.png') }}" alt="R" /></td>
+                            <td><a href="http://www.ingenieur-insa.fr/web/625-adherer-a-ton-association-d-ingenieurs-insa-lyon.php">http://www.ingenieur-insa.fr/web/625-adherer-a-ton-association-d-ingenieurs-insa-lyon.php</a></td>
+                            <td><img style="float: right;" width="100" src="{{ asset('bundles/bdemain/img/mail/aidil.png') }}" alt="AIDIL Logo"/></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div style="background: #e1e1df; border-radius: 10px; padding: 10px;"
+                     id="Sites">
+                    <img src="{{ asset('bundles/bdemain/img/mail/insa.png') }}" alt="INSA" style="float: right" height="25px"/>
+                    <img src="{{ asset('bundles/bdemain/img/mail/cva.png') }}" alt="CVA" style="float: right; margin-right: 5px" height="25px"/>
+                    <h2 style="margin-top: 0">Sites</h2>
+                    http://vie.asso.insa-lyon.fr/<br>
+                    Le site de la Vie Associative recensant toutes les associations et leurs contacts où tu trouveras aussi le Bot’INSA<br>
+                    http://bde.insa-lyon.fr/<br>
+                    http://villeurbanne.fr/<br>
+                    Site de la mairie de Villeurbanne<br>
+                    http://www.onlylyon.org/<br>
+                    L’office du tourisme de Lyon pour découvrir la ville.<br>
+                    http://www.tcl.fr/<br>
+                    Le site des Transports en Commun Lyonnais<br>
+                    http://www.velov.grandlyon.com/<br>
+                    Sauvez les ours blanc, faites du vélo !<br>
+                    http://www.insa-lyon.fr/<br>
+                    Le site web de l’INSA<br>
+                    http://cipcnet.insa-lyon.fr/<br>
+                    L’intranet du PC, avec trombi et emplois du temps<br>
+                    https://planete.insa-lyon.fr<br>
+                    L’intranet de l’INSA, avec annuaire, demande de support et solde de restauration<br>
+                    http://moodle.insa-lyon.fr/<br>
+                    Indispensable en partiel, le site moodle compile les cours de tous les départements<br>
+                    http://paiement.insa-lyon.fr/<br>
+                    Pour payer toutes tes factures de restauration, d’hébergement, ...
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

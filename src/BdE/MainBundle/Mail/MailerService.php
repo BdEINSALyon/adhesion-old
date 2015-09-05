@@ -53,7 +53,7 @@ class MailerService
             )
         );
         $subject = ($mail->getSubject());
-        $message = $this->_twig->render("@BdEMain/Mail/common.html.twig",array(
+        $message = $this->_twig->render("@BdEMain/Mail/bde.html.twig",array(
             'content' => $twig->render("mail.".$mail->getId(),array(
                 'student'=>$student
             )),

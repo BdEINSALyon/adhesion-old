@@ -3,6 +3,10 @@ bde_main_azure_link:
   type: annotation
   prefix: /azureLinkManagement
 
+bde_main_mail_demo:
+  pattern: /e/demo
+  defaults: { _controller: BdEMainBundle:Mail:demo }
+
 bde_main_mail_show:
   pattern: /email/{data}
   defaults: { _controller: BdEMainBundle:Mail:show }

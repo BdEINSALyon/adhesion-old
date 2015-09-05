@@ -114,6 +114,7 @@ class MailAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->add('id')
             ->addIdentifier('name')
         ;
     }

@@ -19,4 +19,11 @@ class MailController extends Controller
         return new Response($mail['body']);
     }
 
+    public function demoAction(){
+        $mail = $this->get("bde.main.mailer_service")->generateMailFromData(
+            $this->get('doctrine.orm.entity_manager')->getRepository('BdEMainBundle:Mail')->find(2),
+            $this->get('doctrine.orm.entity_manager')->getRepository('CvaGestionMembreBundle:Etudiant')->find(229)
+            );
+        return new Response($mail['body']);
+    }
 }
