@@ -1,7 +1,7 @@
 
     <div class="list-group">
         {% for student in result %}
-            <a href="{{ url('wizard_student', {id:student.id}) }}" class="list-group-item">
+            <a href="{{ url('wizard_student', {id:student.id}) }}" class="list-group-item{% if va.checkVA(student) %}  list-group-item-success{% endif %}">
                 {{ student.name | upper }}&nbsp;{{ student.firstName }}
                 <span class="badge">{{ student.departement }}</span>
                 <span class="badge">{{ student.annee }}{% if student.annee|length == 1 %}A{% endif %}</span>
