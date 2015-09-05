@@ -20,7 +20,7 @@ class ConfigAdmin extends Admin
         $formMapper
             ->add('name')
             ->add('value')
-            ->add('description')
+            ->add('description', 'textarea')
         ;
     }
 
