@@ -144,7 +144,7 @@ class WizardController extends Controller
                 $this->addFlash("warning","L'Etudiant a refusé l'adhésion VA !");
             } else if($wantVA) {
                 $va = null;
-                if($this->get("bde.va_check")->checkVA($student)) {
+                if(!$this->get("bde.va_check")->checkVA($student)) { // if the current user is not VA
                     if ($student->getAnnee() == '1') {
                         $va = $em->getRepository("CvaGestionMembreBundle:Produit")->getVAProduct('B');
                     } else {

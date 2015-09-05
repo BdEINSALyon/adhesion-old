@@ -53,9 +53,9 @@
                             <th>Département</th>
                             <th>Quantité</th>
                         </tr>
-                        {% for department in ['PC','BB','BIM','GCU','GE','GEN','GI','GMC','GMD','GMPP','IF','SGM','TC'] %}
+                        {% for department in ['PC','BB','BIM','GCU','GE','GEN','GI','GMC','GMD','GMPP','IF','SGM','TC', ''] %}
                             <tr>
-                                <td>{{ department }}</td>
+                                <td>{% if department == '' %}Non INSA{% else %}{{ department }}{% endif %}</td>
                                 <td>{{ statsByDepartment[department]|default(0) }}</td>
                             </tr>
                         {% endfor %}
