@@ -119,7 +119,7 @@ class RegistrationManagement
     private function countStudentsWithBetterRank(Etudiant $student){
         $query = $this->em->createQueryBuilder()->select("COUNT(e)")->from("CvaGestionMembreBundle:Etudiant","e")
             ->join("e.waiting","waiting")->where("waiting.rank < ?1")->getQuery();
-        return $query->getSingleScalarResult();
+        return $query->setParameter(1, $student->getRank())->getSingleScalarResult();
     }
 
     /**

@@ -583,4 +583,20 @@ class Etudiant
     {
         return in_array($product,$this->getProducts());
     }
+
+    /**
+     * Auto-retrieve the worst rank for this user.
+     * @return int|null
+     */
+    public function getRank()
+    {
+        $rank = null;
+        foreach ($this->waiting as $w) {
+            $r=$w->getRank();
+            if($rank == null || $r > $rank){
+                $rank = $r;
+            }
+        }
+        return $rank;
+    }
 }
