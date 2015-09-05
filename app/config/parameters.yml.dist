@@ -20,6 +20,8 @@ parameters:
     locale:            fr
     secret:            ThisTokenIsNotSoSecretChangeIt
 
+    site_url: http://adhesion.bde-insa-lyon.fr
+
     azure.client_id:        "Go to https://manage.windowsazure.com/bde-insa-lyon.fr#Workspaces/ActiveDirectoryExtension/directory"
     azure.client_secret:    "Go to https://manage.windowsazure.com/bde-insa-lyon.fr#Workspaces/ActiveDirectoryExtension/directory"
     azure.app:              'http://adhesion.bde-insa-lyon.fr'
