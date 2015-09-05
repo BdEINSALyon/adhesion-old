@@ -50,14 +50,16 @@ class WizardController extends Controller
                 ->search($search);
             if($request->isXmlHttpRequest()){
                 return $this->render("@CvaGestionMembre/Wizard/searchResult.html.twig",[
-                    'result' => $result
+                    'result' => $result,
+                    'va' => $this->get('bde.va_check')
                 ]);
             }
         }
 
         return $this->render("CvaGestionMembreBundle:Wizard:search.html.twig",array(
             'search' => $searchForm->createView(),
-            'result' => isset($result)?$result:false
+            'result' => isset($result)?$result:false,
+            'va' => $this->get('bde.va_check')
         ));
 
     }
@@ -96,7 +98,8 @@ class WizardController extends Controller
             "expanded" => true,
             'required'  => true,
             "multiple" => false,
-            'data' => $preRegisteredForWEI?"WEI":"NOWEI"
+            'data' => $preRegisteredForWEI?"WEI":"NOWEI",
+            'disabled' => $student->hasProduct($em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEI())
         ]);
         $formBuilder->add('va','choice',[
             "label" => "Adhesion VA",
@@ -107,6 +110,7 @@ class WizardController extends Controller
             "expanded" => true,
             'required'  => true,
             "multiple" => false,
+            "disabled" => $this->get("bde.va_check")->checkVA($student),
             'data' => "VA"
         ]);
         $formBuilder->add('methodPayment', 'choice', array(
@@ -132,22 +136,24 @@ class WizardController extends Controller
             $student = $data['student'];
             $em->persist($student);
             $em->flush();
-            $wantWei = $data['wei'] == 'WEI';
-            $wantVA = $data['va'] == 'VA';
+            $wantWei = isset($data['wei']) ? $data['wei'] == 'WEI' : false;
+            $wantVA = isset($data['va']) ? $data['va'] == 'VA' : false;
             $methodPayement = $data['methodPayment'];
 
-            if(!$wantVA){
+            if(!$wantVA && !$this->get("bde.va_check")->checkVA($student)){
                 $this->addFlash("warning","L'Etudiant a refusé l'adhésion VA !");
-            } else {
+            } else if($wantVA) {
                 $va = null;
-                if($student->getAnnee() == '1'){
-                    $va = $em->getRepository("CvaGestionMembreBundle:Produit")->getVAProduct('B');
-                } else {
-                    $va = $em->getRepository("CvaGestionMembreBundle:Produit")->getVAProduct('A');
+                if($this->get("bde.va_check")->checkVA($student)) {
+                    if ($student->getAnnee() == '1') {
+                        $va = $em->getRepository("CvaGestionMembreBundle:Produit")->getVAProduct('B');
+                    } else {
+                        $va = $em->getRepository("CvaGestionMembreBundle:Produit")->getVAProduct('A');
+                    }
+                    $paymentVA = Payment::generate($student, $va, $methodPayement);
+                    $em->persist($paymentVA);
+                    $this->addFlash("success", "L'Etudiant a adhéré à la VA !");
                 }
-                $paymentVA = Payment::generate($student, $va, $methodPayement);
-                $em->persist($paymentVA);
-                $this->addFlash("success","L'Etudiant a adhéré à la VA !");
                 if($wantWei && $student->getAnnee() == '1'){
                     $result = $this->get("bde.wei.registration_management")->register($student, $methodPayement);
                     switch($result){

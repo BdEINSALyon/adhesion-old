@@ -124,7 +124,7 @@ class UserProvider implements UserProviderInterface, AccountConnectorInterface, 
                 "authorization: Bearer ".$response->getAccessToken())));
             $userRoles = json_decode($r->getContent());
             if(!property_exists($userRoles,'value')){
-                throw new \OAuthException("Can not load groups.");
+                throw new UsernameNotFoundException(sprintf("Impossible to log you !", $response->getRealName()));
             }
             $userRoles = $userRoles->value;
             foreach($userRoles as $userRole){

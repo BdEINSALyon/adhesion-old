@@ -13,6 +13,10 @@ services:
       class: Cva\GestionMembreBundle\Service\StatsService
       arguments: [@doctrine.orm.entity_manager]
 
+    bde.va_check:
+      class: Cva\GestionMembreBundle\Service\VACheck
+      arguments: [@doctrine.orm.entity_manager]
+
     cva.gestion_membre.products:
       class: Cva\GestionMembreBundle\Service\Products
       arguments: [@service_container]

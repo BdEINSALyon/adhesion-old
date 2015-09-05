@@ -162,6 +162,9 @@ class Etudiant
     public function setModificationDateValue()
     {
         $this->dateModification = new \DateTime();
+        if($this->annee == '1' or $this->annee == '2'){
+            $this->departement = 'PC';
+        }
     }
 
 

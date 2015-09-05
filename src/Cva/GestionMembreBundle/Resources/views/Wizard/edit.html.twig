@@ -69,7 +69,7 @@
                         {{ form_row(form.va) }}
                         <div class="form-group">
                             <label class="control-label required">Total à payer</label>
-                            <p><span id="toPay">0,00</span>€</p>
+                            <p><span id="toPay">0,00</span>&nbsp;€</p>
                         </div>
                         {{ form_row(form.methodPayment) }}
                     </div>
@@ -122,19 +122,22 @@
 
         function computeToPay(){
             var price = 0;
+            var annee = $("#form_student_annee").val();
             if(takeVA()){
                 $('#warn_va').hide();
-                var annee = $("#form_student_annee").val();
-                if(annee == 1){
+                if($("#form_va").find("input[type='radio']:disabled").length > 0){
+                    price += 0; // Already bought
+                } else if(annee == 1){
                     price += parseInt(products['VA2015B'].price);
                 } else {
                     price += parseInt(products['VA2015A'].price);
                 }
                 if(takeWEI() && annee == 1 ){
-                    price += 35.0;
+                    if($("#form_wei").find("input[type='radio']:disabled").length <= 0)
+                        price += 35.0;
                 }
             } else {
-                if(takeWEI()){
+                if(takeWEI() && annee == 1){
                     $('#warn_va').show(400);
                 } else {
                     $('#warn_va').hide();

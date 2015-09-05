@@ -36,16 +36,7 @@ class Products
         $em = $this->container->get("doctrine.orm.entity_manager");
         $productsRepository = $em->getRepository("CvaGestionMembreBundle:Produit");
         if($checker->isGranted("ROLE_COWEI")){
-            $seatsLeft = $this->container->get("bde.wei.registration_management")->getSeatsLeft();
-            $hasWaitings = $em->getRepository("BdEWeiBundle:Waiting")->createQueryBuilder('waiting')->select('COUNT(waiting)')
-                ->leftJoin("waiting.payment","payment")->where('payment.product IN (?1)')
-                ->setParameter(1, $productsRepository->getWaitingProductFor($productsRepository->getCurrentWEI()))
-                ->getQuery()->getSingleScalarResult();
-            if($seatsLeft>0 && $hasWaitings == 0){
-                $products[] = $productsRepository->getCurrentWEI();
-            } else {
-                $products[] = $productsRepository->getCurrentWEIWaiting();
-            }
+            $products[] = $productsRepository->getCurrentWEIWaiting();
             $products[] = $productsRepository->getCurrentWEIPreInscription();
             $products[] = $productsRepository->getCurrentWEIPreWaiting();
             $products[] = $productsRepository->getCurrentWEIRemboursement();
@@ -61,7 +52,6 @@ class Products
     }
 
     public function getProductsFor(Etudiant $student){
-        $return = [];
         $products = $this->getProducts();
         $boughtProducts = $student->getProducts();
         /** @var Produit $product */
