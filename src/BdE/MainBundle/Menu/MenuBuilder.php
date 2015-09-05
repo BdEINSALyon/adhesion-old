@@ -67,7 +67,8 @@ class MenuBuilder
             $wei->addChild("Inscrits", array('route' => 'bde_wei_registration_index'));
             $wei->addChild("Liste Attente", array('route' => 'bde_wei_registration_index_waiting'));
             $this->addDivider($wei);
-//            $wei->addChild("A rembourser",array('route'=>'bde_wei_inscription_remboursements'));
+            $wei->addChild("A rembourser",array('route'=>'bde_wei_registration_refunded'));
+            $this->addDivider($wei);
             $wei->addChild("Bus",array('route'=>'bde_wei_bus'));
             $wei->addChild("Bungalows",array('route'=>'bde_wei_bungalow'));
             if($this->acl->isGranted("ROLE_EDIT_CONFIG")) {

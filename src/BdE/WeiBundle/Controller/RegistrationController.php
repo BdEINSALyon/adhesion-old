@@ -72,6 +72,22 @@ class RegistrationController extends Controller
     }
 
     /**
+     * @Route("/refunded",name="bde_wei_registration_refunded")
+     * @Template()
+     */
+    public function refundedAction(Request $request)
+    {
+        $em = $this->get("doctrine.orm.entity_manager");
+        $product = $em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEI();
+        $this->get("bde.wei.registration_management")->countForWEIProduct($product);
+
+        return array(
+            'adherent' => $this->get("bde.wei.registration_management")->getStudentsForWEIProduct($product),
+            'seatsLeft' => $this->get("bde.wei.registration_management")->getSeatsLeft()
+        );
+    }
+
+    /**
      * @Route("/registered",name="bde_wei_registration_index")
      * @Template()
      */

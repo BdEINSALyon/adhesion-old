@@ -591,6 +591,7 @@ class Etudiant
     public function getRank()
     {
         $rank = null;
+        /** @var Waiting $w */
         foreach ($this->waiting as $w) {
             $r=$w->getRank();
             if($rank == null || $r > $rank){
