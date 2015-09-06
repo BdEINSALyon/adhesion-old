@@ -99,7 +99,8 @@ class RegistrationController extends Controller
 
         return array(
             'students' => $this->get("bde.wei.registration_management")->getStudentsForWEIProduct($product),
-            'seatsLeft' => $this->get("bde.wei.registration_management")->getSeatsLeft()
+            'seatsLeft' => $this->get("bde.wei.registration_management")->getSeatsLeft(),
+            'dateWei' => $em->getRepository("BdEMainBundle:Config")->get('wei.dateWEI')
         );
     }
 
