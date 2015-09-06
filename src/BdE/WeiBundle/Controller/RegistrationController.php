@@ -78,7 +78,7 @@ class RegistrationController extends Controller
     public function refundedAction(Request $request)
     {
         $em = $this->get("doctrine.orm.entity_manager");
-        $product = $em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEI();
+        $product = $em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIRemboursement();
         $this->get("bde.wei.registration_management")->countForWEIProduct($product);
 
         return array(
