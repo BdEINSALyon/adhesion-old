@@ -142,6 +142,10 @@ class WizardController extends Controller
             $data = $form->getData();
             /** @var Etudiant $student */
             $student = $data['student'];
+            if($student->getAnnee() == '1' && $student->getAnnee() == '2'){
+                $student->setDepartement('PC');
+                $this->addFlash('info',"L'étudiant a été réaffecté en Premier Cycle car il est en 1A ou 2A");
+            }
             $em->persist($student);
             $em->flush();
             $wantWei = isset($data['wei']) ? $data['wei'] == 'WEI' : false;
