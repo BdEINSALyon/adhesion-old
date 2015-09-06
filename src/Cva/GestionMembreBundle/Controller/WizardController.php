@@ -92,44 +92,47 @@ class WizardController extends Controller
             'label'=>false,
             'data' => $student
         ));
-        $formBuilder->add('wei','choice',[
-            "label" => "WEI",
-            "choices" => [
-                "WEI" => $preRegisteredForWEI?"Confirme qu'il vient au WEI":"Veut s'inscrire au WEI",
-                "NOWEI" => $preRegisteredForWEI?"Ne veut plus aller au WEI":"Ne veut pas s'inscrire au WEI"
-            ],
-            "expanded" => true,
-            'required'  => true,
-            "multiple" => false,
-            'data' => $preRegisteredForWEI?"WEI":"NOWEI",
-            'disabled' => $student->hasProduct($em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEI())
-                            || $student->hasProduct($em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIWaiting())
-        ]);
-        $formBuilder->add('va','choice',[
-            "label" => "Adhesion VA",
-            "choices" => [
-                "VA" => "Veut adhérer à la VA",
-                "NOVA" => "Ne veut pas adhérer à la VA"
-            ],
-            "expanded" => true,
-            'required'  => true,
-            "multiple" => false,
-            "disabled" => $this->get("bde.va_check")->checkVA($student),
-            'data' => "VA"
-        ]);
-        $formBuilder->add('methodPayment', 'choice', array(
-                'choices' => array(
-                    'CHQ' => 'Cheque',
-                    'CB' => 'Carte Bancaire',
-                    'ESP' => 'Espèces'
-                ),
-                'mapped' => true,
-                'required'  => true,
-                'expanded' => true,
-                'label' => "Moyen de paiement",
-                'data' => 'CHQ'
-            )
-        );
+        if(!$this->get("bde.va_check")->checkVA($student)) {
+            $formBuilder->add('wei', 'choice', [
+                "label" => "WEI",
+                "choices" => [
+                    "WEI" => $preRegisteredForWEI ? "Confirme qu'il vient au WEI" : "Veut s'inscrire au WEI",
+                    "NOWEI" => $preRegisteredForWEI ? "Ne veut plus aller au WEI" : "Ne veut pas s'inscrire au WEI"
+                ],
+                "expanded" => true,
+                'required' => true,
+                "multiple" => false,
+                'data' => $preRegisteredForWEI ? "WEI" : "NOWEI",
+                'disabled' => $student->hasProduct($em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEI())
+                    || $student->hasProduct($em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIWaiting())
+            ]);
+            $formBuilder->add('va', 'choice', [
+                "label" => "Adhesion VA",
+                "choices" => [
+                    "VA" => "Veut adhérer à la VA",
+                    "NOVA" => "Ne veut pas adhérer à la VA"
+                ],
+                "expanded" => true,
+                'required' => true,
+                "multiple" => false,
+                "disabled" => $this->get("bde.va_check")->checkVA($student),
+                'data' => "VA"
+            ]);
+            $formBuilder->add('methodPayment', 'choice', array(
+                    'choices' => array(
+                        'CHQ' => 'Cheque',
+                        'CB' => 'Carte Bancaire',
+                        'ESP' => 'Espèces'
+                    ),
+                    'mapped' => true,
+                    'required' => true,
+                    'expanded' => true,
+                    "disabled" => $this->get("bde.va_check")->checkVA($student),
+                    'label' => "Moyen de paiement",
+                    'data' => 'CHQ'
+                )
+            );
+        }
         $formBuilder->add('target','hidden');
         $form = $formBuilder->getForm();
 
@@ -179,7 +182,9 @@ class WizardController extends Controller
 
         return $this->render("CvaGestionMembreBundle:Wizard:edit.html.twig",array(
             'form' => $form->createView(),
-            'products' => $productsIndexed
+            'products' => $productsIndexed,
+            'va' => $this->get('bde.va_check'),
+            'student' => $student
         ));
 
     }

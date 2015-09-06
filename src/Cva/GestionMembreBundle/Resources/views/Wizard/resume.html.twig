@@ -18,7 +18,7 @@
                         {{ student.numEtudiant | default("(Sans numéro étudiant)") }}
                     <li class="list-group-item">{{ icon('blackboard') }} {{ student.annee }}{% if student.annee|length != 1 %}&nbsp;{% endif %}{{ student.departement|default("Non INSA") }}</li>
                     <li class="list-group-item{% if not (student.mail ends with 'insa-lyon.fr') %} list-group-item-warning{% endif %}">{{ icon('envelope') }}&nbsp;{{ student.mail }}</li>
-                    <li class="list-group-item{% if student.tel|length == 0 %} list-group-item-danger{% endif %}">{{ icon('phone') }}&nbsp;{{ student.tel | default("(Pas de téléphone)") }}</li>
+                    <li class="list-group-item{% if student.tel|length == 0 %} list-group-item-warning{% endif %}">{{ icon('phone') }}&nbsp;{{ student.tel | default("(Pas de téléphone)") }}</li>
 
                     <!-- Remarques -->
                     {% if student.remarque|length > 0 %}
@@ -33,6 +33,11 @@
                         <li class="list-group-item list-group-item-success">Est membre du BdE et de la KFet</li>
                     {% else %}
                         <li class="list-group-item list-group-item-danger">N'est <b>PAS</b> membre du BdE et de la KFet</li>
+                    {% endif %}
+
+                    <!-- Mineur! -->
+                    {% if not student.majeur %}
+                        <li class="list-group-item list-group-item-danger">{{ icon('warning-sign') }}&nbsp;Cet étudiant est mineur !</li>
                     {% endif %}
 
                     <!-- WEI -->

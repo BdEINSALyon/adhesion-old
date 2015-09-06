@@ -31,10 +31,14 @@ class VACheck
     }
 
     public function checkVA(Etudiant $student){
-        $products = $this->em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentVA();
+        $products = $this->em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentVAIds();
         $studentProducts = $student->getProducts();
-        $intersect = array_intersect($products, $studentProducts);
-        return (count($intersect)>0);
+        foreach ($studentProducts as $prod) {
+            if(in_array($prod->getId(),$products)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

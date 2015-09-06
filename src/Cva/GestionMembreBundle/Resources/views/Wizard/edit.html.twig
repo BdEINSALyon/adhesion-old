@@ -31,7 +31,7 @@
                     <div class="col-md-12">
                         {{ form_errors(form, { 'global_errors': true }) }}
                     </div>
-                    <div class="col-md-9 row">
+                    <div class="{% if va.checkVA(student) %}col-md-12{% else %}col-md-9{% endif %} row">
                         <!-- Civilité -->
                         <div class="col-md-2">{{ form_row(form.student.civilite) }}</div>
                         <div class="col-md-4">{{ form_row(form.student.firstName) }}</div>
@@ -59,6 +59,7 @@
                         <div class="col-md-3">{{ form_row(form.student.departement) }}</div>
                         <div class="col-md-6">{{ form_row(form.student.remarque) }}</div>
                     </div>
+            {% if not va.checkVA(student) %}
                     <div class="col-md-3">
                         <div class="alert alert-danger" id="warn_va" style="display: none">
                             {{ icon("warning") }} On ne peut pas ne pas adhérer et partir au WEI !
@@ -73,6 +74,7 @@
                         </div>
                         {{ form_row(form.methodPayment) }}
                     </div>
+            {% endif %}
         </div>
 
         <nav class="clearfix">
