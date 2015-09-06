@@ -1,0 +1,84 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Résumé{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Résumé de {{ student }}</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-2">
+
+                <ul class="list-group">
+                    <!-- Identity -->
+                    <li class="list-group-item">{{ icon('user') }}&nbsp;{{ student.civilite == 'M'?"Mr":"Mme" }}&nbsp;{{ student }}</li>
+                    <li class="list-group-item{% if student.numEtudiant|length == 0 %} list-group-item-danger{% endif %}">{{ icon('credit-card') }}
+                        {{ student.numEtudiant | default("(Sans numéro étudiant)") }}
+                    <li class="list-group-item">{{ icon('blackboard') }} {{ student.annee }}{% if student.annee|length != 1 %}&nbsp;{% endif %}{{ student.departement|default("Non INSA") }}</li>
+                    <li class="list-group-item{% if not (student.mail ends with 'insa-lyon.fr') %} list-group-item-warning{% endif %}">{{ icon('envelope') }}&nbsp;{{ student.mail }}</li>
+                    <li class="list-group-item{% if student.tel|length == 0 %} list-group-item-warning{% endif %}">{{ icon('phone') }}&nbsp;{{ student.tel | default("(Pas de téléphone)") }}</li>
+
+                    <!-- Remarques -->
+                    {% if student.remarque|length > 0 %}
+                        <li class="list-group-item list-group-item-info">
+                            <h4 class="list-group-item-heading">Remarques&nbsp;:</h4>
+                            <p class="list-group-item-text">{{ student.remarque }}</p>
+                        </li>
+                    {% endif %}
+
+                    <!-- VA -->
+                    {% if va %}
+                        <li class="list-group-item list-group-item-success">Est membre du BdE et de la KFet</li>
+                    {% else %}
+                        <li class="list-group-item list-group-item-danger">N'est <b>PAS</b> membre du BdE et de la KFet</li>
+                    {% endif %}
+
+                    <!-- Mineur! -->
+                    {% if not student.majeur %}
+                        <li class="list-group-item list-group-item-danger">{{ icon('warning-sign') }}&nbsp;Cet étudiant est mineur !</li>
+                    {% endif %}
+
+                    <!-- WEI -->
+                    {% if student.annee == '1' %}
+                        {% set w = wei.registrationStatus(student) %}
+                        {% if w.status == constant('UNREGISTERED',wei) %}
+                            <li class="list-group-item list-group-item-info">N'est <b>PAS</b> inscrit au WEI</li>
+                        {% elseif w.status == constant('REGISTERED',wei) %}
+                            <li class="list-group-item list-group-item-success">Est inscrit au WEI</li>
+                        {% elseif w.status == constant('WAITING',wei) %}
+                            <li class="list-group-item list-group-item-success">Est inscrit sur la liste d'attente du WEI à la place {{ student.rank }}</li>
+                        {% elseif w.status == constant('PRE_WAITING',wei) %}
+                            <li class="list-group-item list-group-item-danger">Est en pré-liste d'attente (pas normal !)</li>
+                        {% elseif w.status == constant('PRE_REGISTERED',wei) %}
+                            <li class="list-group-item list-group-item-danger">Est en pré-inscription (pas normal !)</li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+                <div class="row">
+                    <div class="col-md-4">
+                        <a class="btn btn-block btn-success" href="{{ url('wizard_search') }}">Retour à la recherche</a>
+                    </div>
+                    <div class="col-md-offset-4 col-md-4">
+                        <a class="btn btn-block btn-danger" href="{{ url('wizard_student', {id:student.id}) }}">Y a un problème !</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-offset-1 col-md-3 row">
+                <div class="col-md-11">
+                    <div class="panel panel-default text-justify">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Aide</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>Sur cette page, on te résume les information sur la personne que tu viens de modifier.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

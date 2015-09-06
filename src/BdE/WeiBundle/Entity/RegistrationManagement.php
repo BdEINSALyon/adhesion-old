@@ -18,6 +18,12 @@ use Symfony\Component\Security\Acl\Exception\Exception;
 class RegistrationManagement
 {
 
+    const UNREGISTERED = 0;
+    const REGISTERED = 1;
+    const PRE_REGISTERED = 2;
+    const WAITING = 3;
+    const PRE_WAITING = 4;
+
     /**
      * @var EntityManager
      */
@@ -30,6 +36,28 @@ class RegistrationManagement
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
+    }
+
+    public function getRegistrationStatus(Etudiant $student){
+        $wei_status = array(
+            'status' => self::UNREGISTERED,
+            'waiting' => $student->getRank()
+        );
+        $products = $this->em->getRepository("CvaGestionMembreBundle:Produit");
+        $studentProducts = $student->getProducts();
+        if(in_array($products->getCurrentWEIRemboursement(),$studentProducts)){
+            return $wei_status;
+        }
+        if(in_array($products->getCurrentWEI(), $studentProducts)){
+            $wei_status['status'] = self::REGISTERED;
+        } elseif(in_array($products->getCurrentWEIWaiting(), $studentProducts)){
+            $wei_status['status'] = self::WAITING;
+        } elseif(in_array($products->getCurrentWEIPreInscription(), $studentProducts)){
+            $wei_status['status'] = self::PRE_REGISTERED;
+        } elseif(in_array($products->getCurrentWEIPreWaiting(), $studentProducts)){
+            $wei_status['status'] = self::PRE_WAITING;
+        }
+        return $wei_status;
     }
 
     public function getSeatsLeft(){
