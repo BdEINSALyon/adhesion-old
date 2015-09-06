@@ -76,13 +76,16 @@ class WizardController extends Controller
             ->getRepository("CvaGestionMembreBundle:Etudiant");
         if($id == "new"){
             $student = new Etudiant();
+            $student->setDepartement("PC");
         } else {
             $student = $students->find($id);
             if(!$student)
                 throw $this->createNotFoundException('Not found student '.$id);
         }
 
-        $preRegisteredForWEI = $this->_is_preregistered_for_wei($student);
+        $preRegisteredForWEI = $this->_is_preregistered_for_wei($student) ||
+            $student->hasProduct($em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEI())
+            || $student->hasProduct($em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIWaiting());
 
         $formBuilder = $this->createFormBuilder();
         $formBuilder->add('student',new StudentType(),array(
@@ -100,6 +103,7 @@ class WizardController extends Controller
             "multiple" => false,
             'data' => $preRegisteredForWEI?"WEI":"NOWEI",
             'disabled' => $student->hasProduct($em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEI())
+                            || $student->hasProduct($em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIWaiting())
         ]);
         $formBuilder->add('va','choice',[
             "label" => "Adhesion VA",
@@ -122,7 +126,8 @@ class WizardController extends Controller
                 'mapped' => true,
                 'required'  => true,
                 'expanded' => true,
-                'label' => "Moyen de paiement"
+                'label' => "Moyen de paiement",
+                'data' => 'CHQ'
             )
         );
         $formBuilder->add('target','hidden');
@@ -152,33 +157,16 @@ class WizardController extends Controller
                     }
                     $paymentVA = Payment::generate($student, $va, $methodPayement);
                     $em->persist($paymentVA);
-                    $this->addFlash("success", "L'Etudiant a adhéré à la VA !");
                 }
                 if($wantWei && $student->getAnnee() == '1'){
-                    $result = $this->get("bde.wei.registration_management")->register($student, $methodPayement);
-                    switch($result){
-                        case 1:
-                            $this->addFlash("success","L'Etudiant est inscrit au WEI (Il part !) !");
-                            break;
-                        case 3:
-                            $this->addFlash("success","L'Etudiant été déjà inscrit au WEI !");
-                            break;
-                        case 2:
-                            $this->addFlash("success","L'Etudiant est en liste d'attente pour partir au WEI !");
-                            break;
-                        case 0:
-                        default:
-                            $this->addFlash("error","Erreur d'inscription au WEI, on a besoin d'un CoWEI !");
-
-                    }
+                    $this->get("bde.wei.registration_management")->register($student, $methodPayement);
                 } elseif($student->getAnnee() == '1'){
-                    $this->addFlash("warning","L'Etudiant est désinscrit du WEI !");
                     $this->get("bde.wei.registration_management")->unregister($student);
                 }
                 $em->flush();
             }
 
-            return $this->redirectToRoute("wizard_search");
+            return $this->redirectToRoute("wizard_student_abstract",array('id'=>$student->getId()));
         }
 
         $products = $em->getRepository("CvaGestionMembreBundle:Produit")->createQueryBuilder('p')->where('p.active = true')->getQuery()->getArrayResult();
@@ -194,6 +182,27 @@ class WizardController extends Controller
             'products' => $productsIndexed
         ));
 
+    }
+
+
+    /**
+     * @Route(path="/abstract/{id}", name="wizard_student_abstract")
+     * @param Request $request
+     * @return \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    public function abstractAction($id, Request $request){
+
+        $student = $this->get("doctrine.orm.entity_manager")->getRepository("CvaGestionMembreBundle:Etudiant")->find($id);
+
+        if(!$student){
+            throw $this->createNotFoundException("User ".htmlentities($id)." not found!");
+        }
+
+        return $this->render("@CvaGestionMembre/Wizard/resume.html.twig",array(
+            'student' => $student,
+            'va' => $this->get("bde.va_check")->checkVA($student),
+            'wei' => $this->get("bde.wei.registration_management")
+        ));
     }
 
     /**

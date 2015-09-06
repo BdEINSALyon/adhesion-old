@@ -145,13 +145,28 @@
             }
             $("#toPay").html(price.toFixed(2).toLocaleLowerCase().replace(".",","));
         }
+        function disableDeparts(){
+            var annee = $("#form_student_annee").val();
+            $("#form_student_departement").find("option").each(function()
+            {
+                var $this = $(this);
+                var value = $this.val();
+                if(annee==1 || annee==2){
+                    $this.prop('disabled', value != 'PC');
+                }else{
+                    $this.prop('disabled', value == 'PC');
+                }
+            });
+        }
         $(function(){
             $("#form_va").find('input').change(computeToPay);
             $("#form_wei").find('input').change(computeToPay);
             var $formStudentAnnee = $("#form_student_annee");
             $formStudentAnnee.change(displayWei);
             $formStudentAnnee.change(computeToPay);
+            $formStudentAnnee.change(disableDeparts);
             computeToPay();
+            disableDeparts();
             displayWei();
         })
     </script>
