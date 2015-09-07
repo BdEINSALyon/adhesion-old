@@ -25,14 +25,14 @@ class AffectationType extends AbstractType
                 'choices'=>$options['bungalow'],
                 'property'=>'id',
                 'choice_label' => function(Bungalow $bungalow){
-                    return '('.$bungalow->getId() .") ".$bungalow->getNom();
+                    return $bungalow->getNom().' ('.$bungalow->getAmountOfRegisteredEtudiants().'/'.$bungalow->getNbPlaces().')';
                 }
             ))
             ->add('bus','entity',array(
                 'class'=>'BdE\WeiBundle\Entity\Bus',
                 'choices'=>$options['bus'],
                 'choice_label' => function(Bus $bus){
-                    return '('.$bus->getId() .") ".$bus->getNom();
+                    return $bus->getNom().' ('.$bus->getAmountOfRegisteredEtudiants().'/'.$bus->getNbPlaces().')';
                 }
             ))
             ->add('actions', 'form_actions', [
