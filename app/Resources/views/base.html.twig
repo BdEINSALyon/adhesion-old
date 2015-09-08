@@ -41,5 +41,21 @@
 	<script type="text/javascript" src="{{ asset('js/sonic.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/sonic.js') }}"></script>
 	{% block javascripts %}{% endblock %}
+	<script type="application/javascript">
+		(function () {
+			var forms = document.getElementsByTagName('form');
+			for (var i = 0; i < forms.length; i++) {
+				forms[i].noValidate = true;
+
+				forms[i].addEventListener('submit', function(event) {
+					//Prevent submission if checkValidity on the form returns false.
+					if (!event.target.checkValidity()) {
+						event.preventDefault();
+						//Implement you own means of displaying error messages to the user here.
+					}
+				}, false);
+			}
+		})();
+	</script>
     </body>
 </html>
