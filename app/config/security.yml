@@ -62,3 +62,6 @@ security:
         - { path: ^/profil, roles: ROLE_USER }
         - { path: ^/asso, roles: ROLE_CONSULT}
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/register, roles: ROLE_ADMIN}
+        - { path: ^/resetting, roles: ROLE_ADMIN}
+        - { path: ^/, roles: ROLE_USER }
