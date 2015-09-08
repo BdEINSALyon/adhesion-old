@@ -19,8 +19,7 @@
 						<th>ID</th>
 						<th>Nom</th>
 						<th>Type</th>
-						<th>Etudiants inscrits</th>
-						<th>Nombre places</th>
+						<th>Remplissage</th>
 						<th width="107px"></th>
 					</tr>
 					</thead>
@@ -30,8 +29,14 @@
 							<td>{{ bungalow.id }}</td>
 							<td>{{ bungalow.nom }}</td>
 							<td>{{ bungalow.humanReadableSexe }}</td>
-							<td>{{ bungalow.amountOfRegisteredEtudiants }}</td>
-							<td>{{ bungalow.nbPlaces }}</td>
+							<td>
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ 100*bungalow.amountOfRegisteredEtudiants/bungalow.nbPlaces | number_format }}%;">
+
+									</div>
+								</div>
+								<div class="text-center">{{ bungalow.amountOfRegisteredEtudiants }} sur {{ bungalow.nbPlaces }}</div>
+							</td>
 							<td>
 								<div class="btn-group">
 									<a href="{{ url("bde_wei_bungalow_edit",{id:bungalow.id}) }}" class="btn btn-default">
