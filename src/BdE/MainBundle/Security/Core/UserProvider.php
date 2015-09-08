@@ -96,7 +96,9 @@ class UserProvider implements UserProviderInterface, AccountConnectorInterface, 
             $request['groupIds'][] = $group['azureGid'];
         }
         // Load groups for this user
-        $client = new Browser(new Curl());
+        $client = new Curl();
+        $client->setTimeout(20000);
+        $client = new Browser($client);
         $uid = $response->getResponse()['oid'];
         $uri = "https://graph.microsoft.com".
             "/beta/".$this->tenant."/users('".$uid."')/checkMemberGroups";

@@ -46,6 +46,7 @@ class Azure
         $token = $this->getAccessToken();
         if($token == "") return array();
         $client = new Curl();
+        $client->setTimeout(20000);
         $req = new Request(Request::METHOD_GET,"/beta/" . $this->tenant . "/groups","https://graph.microsoft.com");
         $req->addHeader("authorization: Bearer " . $token);
         $res = new Response();
@@ -114,7 +115,9 @@ class Azure
             "resource" => "https://graph.microsoft.com"
         ));
         $res = new Response();
-        (new Curl())->send($req,$res);
+        $client = (new Curl());
+        $client->setTimeout(20000);
+        $client->send($req,$res);
         if($res->getStatusCode() == 200){
             $data = json_decode($res->getContent());
             $user->setAzureAccessToken($data->access_token);
@@ -139,6 +142,7 @@ class Azure
         $req = new Request(Request::METHOD_GET,"/beta/" . $this->tenant . "/groups/".$id,"https://graph.microsoft.com");
         $req->addHeader("authorization: Bearer " . $token);
         $res = new Response();
+        $client->setTimeout(20000);
         $client->send($req,$res);
         if($res->getStatusCode() < 299){
             return json_decode($res->getContent());
