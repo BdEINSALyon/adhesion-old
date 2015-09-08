@@ -92,7 +92,10 @@ class WizardController extends Controller
             'label'=>false,
             'data' => $student
         ));
-        if(!$this->get("bde.va_check")->checkVA($student)) {
+        $hasVa = $this->get("bde.va_check")->checkVA($student);
+        $hasWei = $student->hasProduct($em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEI())
+            || $student->hasProduct($em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIWaiting());
+        if(!$hasVa) {
             $formBuilder->add('wei', 'choice', [
                 "label" => "WEI",
                 "choices" => [
@@ -103,8 +106,7 @@ class WizardController extends Controller
                 'required' => true,
                 "multiple" => false,
                 'data' => $preRegisteredForWEI ? "WEI" : "NOWEI",
-                'disabled' => $student->hasProduct($em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEI())
-                    || $student->hasProduct($em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEIWaiting())
+                'disabled' => $hasWei
             ]);
             $formBuilder->add('va', 'choice', [
                 "label" => "Adhesion VA",
@@ -148,8 +150,9 @@ class WizardController extends Controller
             }
             $em->persist($student);
             $em->flush();
-            $wantWei = isset($data['wei']) ? $data['wei'] == 'WEI' : false;
-            $wantVA = isset($data['va']) ? $data['va'] == 'VA' : false;
+
+            $wantWei = isset($data['wei']) ? $data['wei'] == 'WEI' && !$hasWei : false;
+            $wantVA = isset($data['va']) ? $data['va'] == 'VA' && !$hasVa : false;
             $methodPayement = $data['methodPayment'];
 
             if(!$wantVA && !$this->get("bde.va_check")->checkVA($student)){
