@@ -2,6 +2,8 @@
 
 namespace BdE\WeiBundle\Controller;
 
+use BdE\WeiBundle\Entity\Bungalow;
+use BdE\WeiBundle\Entity\Bus;
 use BdE\WeiBundle\Form\AffectationType;
 use Cva\GestionMembreBundle\Entity\Etudiant;
 use Cva\GestionMembreBundle\Entity\Payment;
@@ -222,20 +224,45 @@ class RegistrationController extends Controller
     public function handleAffectationForm(Request $request, Etudiant $student)
     {
         $em = $this->get('doctrine.orm.entity_manager');
-        $bungalowNotFull = $em->getRepository("BdEWeiBundle:Bungalow")->getAllNotFullByGender($student->getCivilite());
         $busNotFull = $em->getRepository("BdEWeiBundle:Bus")->getAllNotFull();
-        if($student->getBungalow() != null && !in_array($student->getBungalow(),$bungalowNotFull)){
-            $bungalowNotFull[] = $student->getBungalow();
-        }
         if($student->getBus() != null && !in_array($student->getBus(),$busNotFull)){
             $busNotFull[] = $student->getBus();
         }
-        $options = array(
-            'bungalow' => $bungalowNotFull,
-            'bus' => $busNotFull,
+
+        $affectation = $this->createFormBuilder($student,[
             'action' => $this->generateUrl("bde_wei_registration_sidebar",array('id'=>$student->getId()))
-        );
-        $affectation = $this->createForm(new AffectationType(), $student, $options);
+        ]);
+
+        $affectation->add('bus', 'entity', [
+            'class' => 'BdE\WeiBundle\Entity\Bus',
+            'choices' => $busNotFull,
+            'choice_label' => function(Bus $bus){
+                return $bus->getNom().' ('.$bus->getAmountOfRegisteredEtudiants().'/'.$bus->getNbPlaces().')';
+            },
+            'required' => false
+        ]);
+
+        if($student->getBus()){
+            $bungalowNotFull = $em->getRepository("BdEWeiBundle:Bungalow")->getAllNotFullByGenderAndBus($student->getCivilite(), $student->getBus());
+            if($student->getBungalow() != null && !in_array($student->getBungalow(),$bungalowNotFull)){
+                $bungalowNotFull[] = $student->getBungalow();
+            }
+            $affectation->add('bungalow', 'entity', [
+                'class' => 'BdE\WeiBundle\Entity\Bungalow',
+                'choices' => $bungalowNotFull,
+                'choice_label' => function(Bungalow $bungalow){
+                    return $bungalow->getNom().' ('.$bungalow->getAmountOfRegisteredEtudiants().'/'.$bungalow->getNbPlaces().')';
+                },
+                'required' => false
+            ]);
+        }
+        $affectation->add('actions', 'form_actions', [
+            'buttons' => [
+                'save' => ['type' => 'submit', 'options' => ['label' => 'button.save', 'attr'=>['class'=>'btn-block']]]
+            ]
+        ]);
+
+        $affectation = $affectation->getForm();
 
         $affectation->handleRequest($request);
 

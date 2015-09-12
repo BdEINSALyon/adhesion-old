@@ -57,4 +57,22 @@ class BungalowRepository extends EntityRepository
         $qb->leftJoin("b.students","e");
         return intval($qb->getQuery()->getSingleScalarResult());
     }
+
+    public function getAllNotFullByGenderAndBus($sex, $bus)
+    {
+        if($sex!=Bungalow::BOYS&&$sex!=Bungalow::GIRLS&&$sex!=Bungalow::NOT_DETERMINED){
+            throw new \InvalidArgumentException("Sex should be a valid value from Bungalow::BOYS or Bungalow::GIRLS");
+        }
+        $qb = $this->createQueryBuilder('b');
+        $qb->leftJoin('b.students','e');
+        $qb->select('b');
+        $qb->where("b.sexe = ?1 OR b.sexe IS NULL OR b.sexe = ?2");
+        $qb->andWhere("b.bus = ?3 OR b.bus IS NULL");
+        $qb->groupBy("b.id");
+        $qb->having("b.nbPlaces > COUNT(e.id)");
+        $qb->setParameter(1, $sex);
+        $qb->setParameter(2, Bungalow::NOT_DETERMINED);
+        $qb->setParameter(3, $bus);
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -9,6 +9,8 @@ Il reste {{ seatsLeft }} place(s).
     <th class="col-md-3">Bungalow</th>
     <th class="col-md-3">Bus</th>
     <th></th>
+    <th class="hidden"></th>
+    <th class="hidden"></th>
 {% endblock %}
 {% block table_body %}
 {% for adh in students %}
@@ -18,6 +20,8 @@ Il reste {{ seatsLeft }} place(s).
         <td>{{ adh.bungalow.nom|default('Aucun!') }}</td>
         <td>{{ adh.bus.nom|default('Aucun!') }}</td>
         <td style="text-align:center;">{% if not adh.majeur(dateWei) %}<img src="{{ asset('img/18.jpg') }}" height="20" width="20"> {% endif %}</td>
+        <td class="hidden">{% if not adh.majeur(dateWei) %}mineur{% else %}majeur{% endif %}</td>
+        <td class="hidden">{% if adh.civilite == 'M' %}homme{% else %}femme{% endif %}</td>
     </tr>
 {% endfor %}
 {% endblock %}
