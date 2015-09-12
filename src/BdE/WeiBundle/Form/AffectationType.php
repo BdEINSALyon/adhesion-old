@@ -20,14 +20,6 @@ class AffectationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('bungalow','entity',array(
-                'class'=>'BdE\WeiBundle\Entity\Bungalow',
-                'choices'=>$options['bungalow'],
-                'property'=>'id',
-                'choice_label' => function(Bungalow $bungalow){
-                    return $bungalow->getNom().' ('.$bungalow->getAmountOfRegisteredEtudiants().'/'.$bungalow->getNbPlaces().')';
-                }
-            ))
             ->add('bus','entity',array(
                 'class'=>'BdE\WeiBundle\Entity\Bus',
                 'choices'=>$options['bus'],

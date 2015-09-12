@@ -12,13 +12,15 @@
 		</div>
 		{{ form(form, { 'style': 'horizontal' }) }}
 		{{ form_end(form) }}
+		<h3>Liste des étudiants dans ce bungalow</h3>
+		{% if form.vars.value.students | length > 0%}
+		<ul>
+			{% for student in form.vars.value.students %}
+			<li>{{ student }}</li>
+			{% endfor %}
+		</ul>
+		{% else %}
+		Aucun étudiant affecté
+		{% endif %}
 	</div>
-{% endblock %}
-{% block javascripts %}
-	<script>
-		$.documentReady(function(){
-			console.log($("form>button[type='reset']").click());
-			$(".backOnClick").html("HAHAH");
-		})
-	</script>
 {% endblock %}

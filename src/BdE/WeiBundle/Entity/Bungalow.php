@@ -67,11 +67,38 @@ class Bungalow
     private $students;
 
     /**
+     * Designate the bus from which students comes.
+     *
+     * @var Bus
+     * @ORM\ManyToOne(targetEntity="BdE\WeiBundle\Entity\Bus", inversedBy="bungalows")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $bus;
+
+    /**
      * Bus constructor.
      */
     public function __construct()
     {
         $this->students = new ArrayCollection();
+    }
+
+    /**
+     * @return Bus
+     */
+    public function getBus()
+    {
+        return $this->bus;
+    }
+
+    /**
+     * @param Bus $bus
+     * @return Bungalow
+     */
+    public function setBus($bus)
+    {
+        $this->bus = $bus;
+        return $this;
     }
 
     public static function getSexChoices()
@@ -229,6 +256,11 @@ class Bungalow
     public function canBeDeletedSafely(){
         return $this->getAmountOfRegisteredEtudiants() <= 0; // Inferior to 0 will be strange but we doesn't let as
         // a functional bug
+    }
+
+    public function removeStudents()
+    {
+        $this->students = new ArrayCollection();
     }
 
 }

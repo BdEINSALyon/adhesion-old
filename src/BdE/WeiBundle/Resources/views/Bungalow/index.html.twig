@@ -6,6 +6,8 @@
 			<h1>Bungalows
 				<div class="pull-right">
 					<div class="btn-group" style="">
+						<a class="btn btn-primary" href="{{ url("bde_wei_bungalow_assign") }}">{{ icon('refresh') }} Affecter les étudiants</a>
+						<a class="btn btn-danger" data-toggle="modal" data-target="#confirm-unasign" href="#" data-href="{{ url("bde_wei_bungalow_unassign") }}">{{ icon('trash') }} Effacer les affectations</a>
 						<a class="btn btn-success" href="{{ url("bde_wei_bungalow_add") }}">{{ icon('plus') }}</a>
 					</div>
 				</div>
@@ -19,6 +21,7 @@
 						<th>ID</th>
 						<th>Nom</th>
 						<th>Type</th>
+						<th>Bus</th>
 						<th>Remplissage</th>
 						<th width="107px"></th>
 					</tr>
@@ -29,6 +32,7 @@
 							<td>{{ bungalow.id }}</td>
 							<td>{{ bungalow.nom }}</td>
 							<td>{{ bungalow.humanReadableSexe }}</td>
+							<td>{{ bungalow.bus | default('Aucun bus affecté') }}</td>
 							<td>
 								<div class="progress">
 									<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{ 100*bungalow.amountOfRegisteredEtudiants/bungalow.nbPlaces | number_format }}%;">
@@ -74,6 +78,22 @@
 		</div>
 		<script>
 		</script>
+	</div>
+	<div class="modal fade" id="confirm-unasign" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					Zone de Danger !
+				</div>
+				<div class="modal-body">
+					Voulez-vous supprimer l'affectation des étudiants dans les bungalow ?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+					<a class="btn btn-danger btn-ok" href="{{ url("bde_wei_bungalow_unassign") }}">Oui</a>
+				</div>
+			</div>
+		</div>
 	</div>
 {% endblock %}
 

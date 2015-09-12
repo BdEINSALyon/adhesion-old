@@ -4,6 +4,8 @@ namespace BdE\WeiBundle\Controller;
 
 use BdE\WeiBundle\Entity\Bungalow;
 use BdE\WeiBundle\Form\BungalowType;
+use Cva\GestionMembreBundle\Entity\Etudiant;
+use Doctrine\ORM\NoResultException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,6 +23,96 @@ class BungalowController extends Controller
         $em = $this->getDoctrine()->getManager();
         $bungalows = $em->getRepository("BdEWeiBundle:Bungalow")->findAll();
         return $this->render("@BdEWei/Bungalow/index.html.twig",array('bungalows'=>$bungalows));
+    }
+
+    /**
+    * @Route("/assign",name="bde_wei_bungalow_assign")
+    * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    */
+    public function assignAction(){
+        $em = $this->getDoctrine()->getManager();
+        $weiProduct = $em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentWEI();
+        $students = $em->getRepository("CvaGestionMembreBundle:Etudiant")->createQueryBuilder('etudiant')
+            ->leftJoin('etudiant.payments','payment')->where('payment.product = ?1')
+            ->setParameter(1, $weiProduct)->getQuery()->getResult();
+        $bungalowsWithBus = $em->getRepository("BdEWeiBundle:Bungalow")->createQueryBuilder('bungalow')
+            ->where('bungalow.bus IS NOT NULL')
+            ->having('bungalow.nbPlaces > COUNT(etudiants.id)')
+            ->leftJoin('bungalow.students','etudiants')
+            ->groupBy('bungalow.id')
+            ->getQuery()->getResult();
+        $bungalowsWithoutBus = $em->getRepository("BdEWeiBundle:Bungalow")->createQueryBuilder('bungalow')
+            ->where('bungalow.bus IS NULL')
+            ->having('bungalow.nbPlaces > COUNT(etudiants.id)')
+            ->leftJoin('bungalow.students','etudiants')
+            ->groupBy('bungalow.id')
+            ->getQuery()->getResult();
+        $fuller = array();
+        /** @var Bungalow $bungalow */
+        foreach(array_merge($bungalowsWithBus,$bungalowsWithoutBus) as $bungalow){
+            $fuller[$bungalow->getId()] = $bungalow->getAmountOfRegisteredEtudiants();
+        }
+        /** @var Etudiant $student */
+        foreach ($students as $student) {
+            if($student->getBungalow())
+                break;
+            /** @var Bungalow $bungalow */
+            foreach($bungalowsWithBus as $key => $bungalow){
+
+                if($fuller[$bungalow->getId()] >= $bungalow->getNbPlaces()) {
+                    unset($bungalowsWithBus[$key]);
+                    continue;
+                }
+
+                if($bungalow->getSexe() == Bungalow::NOT_DETERMINED OR $bungalow->getSexe() == ($student->getCivilite()=='M'?Bungalow::BOYS:Bungalow::GIRLS)){
+                    if($bungalow->getBus() == $student->getBus()){
+                        $fuller[$bungalow->getId()]++;
+                        $student->setBungalow($bungalow);
+                        $bungalow->addStudent($student);
+                        break;
+                    }
+                }
+            }
+            if($student->getBungalow() == null){
+                foreach($bungalowsWithoutBus as $key => $bungalow){
+
+                    if($fuller[$bungalow->getId()] >=  $bungalow->getNbPlaces()) {
+                        unset($bungalowsWithoutBus[$key]);
+                        continue;
+                    }
+
+                    if($bungalow->getSexe() == Bungalow::NOT_DETERMINED OR $bungalow->getSexe() == ($student->getCivilite()=='M'?Bungalow::BOYS:Bungalow::GIRLS)){
+                        $fuller[$bungalow->getId()]++;
+                        $student->setBungalow($bungalow);
+                        $bungalow->addStudent($student);
+                        break;
+                    }
+                }
+            }
+            $em->persist($student);
+        }
+        $em->flush();
+        return $this->redirectToRoute("bde_wei_bungalow");
+    }
+
+    /**
+    * @Route("/unassign",name="bde_wei_bungalow_unassign")
+    * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+    */
+    public function unassignAction(){
+        // Load data
+        $em = $this->getDoctrine()->getManager();
+        $bungalows = $em->getRepository("BdEWeiBundle:Bungalow")->findAll();
+        foreach ($bungalows as $bungalow) {
+            /** @var Etudiant $student */
+            foreach($bungalow->getStudents() as $student){
+                $student->setBungalow(null);
+            }
+            $em->persist($bungalow);
+        }
+        $em->flush();
+        $this->addFlash('success', "Les étudiants ont été viré des bungalow !");
+        return $this->redirectToRoute("bde_wei_bungalow");
     }
 
     /**

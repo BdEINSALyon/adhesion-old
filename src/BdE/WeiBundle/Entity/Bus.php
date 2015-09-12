@@ -59,6 +59,15 @@ class Bus
     private $students;
 
     /**
+     * Describe bungalows in which students of this bus should be affected
+     *
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="BdE\WeiBundle\Entity\Bungalow", mappedBy="bus")
+     */
+    private $bungalows;
+
+    /**
      * Bus constructor.
      */
     public function __construct()
