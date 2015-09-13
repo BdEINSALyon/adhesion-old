@@ -4,10 +4,11 @@
 Il reste {{ seatsLeft }} place(s).
 {% endblock %}
 {% block head_table %}
-    <th class="col-md-3">Nom</th>
+    <th class="col-md-2">Nom</th>
     <th class="col-md-2">Prénom</th>
-    <th class="col-md-3">Bungalow</th>
-    <th class="col-md-3">Bus</th>
+    <th class="col-md-1">Bungalow</th>
+    <th class="col-md-2">Bus</th>
+    <th class="col-md-4">Remarques</th>
     <th></th>
     <th class="hidden"></th>
     <th class="hidden"></th>
@@ -19,6 +20,7 @@ Il reste {{ seatsLeft }} place(s).
         <td>{{ adh.firstName }}</td>
         <td>{{ adh.bungalow.nom|default('Aucun!') }}</td>
         <td>{{ adh.bus.nom|default('Aucun!') }}</td>
+        <td>{{ adh.remarque }}</td>
         <td style="text-align:center;">{% if not adh.majeur(dateWei) %}<img src="{{ asset('img/18.jpg') }}" height="20" width="20"> {% endif %}</td>
         <td class="hidden">{% if not adh.majeur(dateWei) %}mineur{% else %}majeur{% endif %}</td>
         <td class="hidden">{% if adh.civilite == 'M' %}homme{% else %}femme{% endif %}</td>

@@ -142,8 +142,7 @@
 
 		{% block javascripts %}
             {{ parent() }}
-            <script src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
-            <script src="https://cdn.datatables.net/1.10.8/js/dataTables.bootstrap.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/r/bs/jszip-2.5.0,pdfmake-0.1.18,dt-1.10.9,af-2.0.0,b-1.0.3,b-colvis-1.0.3,b-flash-1.0.3,b-html5-1.0.3,b-print-1.0.3,cr-1.2.0,fc-3.1.0,fh-3.0.0,kt-2.0.0,r-1.0.7,rr-1.0.0,sc-1.3.0,se-1.0.1/datatables.min.js"></script>
             {% javascripts
             '@CvaGestionMembreBundle/Resources/views/js/students.js'
             '@CvaGestionMembreBundle/Resources/views/js/sendModalForm.js'
@@ -187,36 +186,63 @@
                 });
                 $(function(){
                     $("#editStudent").hide();
-                    $('#wei_table').DataTable({
-                        language:{
-                            "sProcessing":     "Traitement en cours...",
-                            "sSearch":         "Rechercher&nbsp;:",
-                            "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
-                            "sInfo":           "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
-                            "sInfoEmpty":      "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
-                            "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
-                            "sInfoPostFix":    "",
+                    var table = $('#wei_table').DataTable({
+                        language: {
+                            "sProcessing": "Traitement en cours...",
+                            "sSearch": "",
+                            "sLengthMenu": "Afficher _MENU_ &eacute;l&eacute;ments",
+                            "sInfo": "Affichage de l'&eacute;l&eacute;ment _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                            "sInfoEmpty": "Affichage de l'&eacute;l&eacute;ment 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                            "sInfoFiltered": "(sur _MAX_)",
+                            "sInfoPostFix": "",
                             "sLoadingRecords": "Chargement en cours...",
-                            "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
-                            "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+                            "sZeroRecords": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                            "sEmptyTable": "Aucune donn&eacute;e disponible dans le tableau",
                             "oPaginate": {
-                                "sFirst":      "Premier",
-                                "sPrevious":   "Pr&eacute;c&eacute;dent",
-                                "sNext":       "Suivant",
-                                "sLast":       "Dernier"
+                                "sFirst": "Premier",
+                                "sPrevious": "Pr&eacute;c&eacute;dent",
+                                "sNext": "Suivant",
+                                "sLast": "Dernier"
                             },
                             "oAria": {
-                                "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                                "sSortAscending": ": activer pour trier la colonne par ordre croissant",
                                 "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
                             }
-                        }
+                        },
+                        dom:
+                        "<'row'<'col-sm-3'l><'col-sm-6 text-center btn-group'i><'col-sm-3'f>>" +
+                        "<'row'<'col-sm-5'B><'col-sm-7'p>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-2'><'block-center col-sm-7'p>>",
+                        but:{
+
+                        },
+                        buttons: [
+                            {
+                                extend: 'csvHtml5', className
+                            :
+                                'btn btn-primary'
+                            }
+                            ,
+                            {
+                                extend: 'pdfHtml5', className
+                            :
+                                'btn btn-primary'
+                            }
+                            ,
+                            {
+                                extend: 'excelHtml5', className
+                            :
+                                'btn btn-primary'
+                            }
+                        ]
                     });
                 })
             </script>
         {% endblock %}
 {% block stylesheets %}
     {{ parent() }}
-    <link href="https://cdn.datatables.net/1.10.8/css/dataTables.bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs/jszip-2.5.0,pdfmake-0.1.18,dt-1.10.9,af-2.0.0,b-1.0.3,b-colvis-1.0.3,b-flash-1.0.3,b-html5-1.0.3,b-print-1.0.3,cr-1.2.0,fc-3.1.0,fh-3.0.0,kt-2.0.0,r-1.0.7,rr-1.0.0,sc-1.3.0,se-1.0.1/datatables.min.css"/>
     <style>
     </style>
 {% endblock %}

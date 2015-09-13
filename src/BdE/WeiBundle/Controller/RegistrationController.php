@@ -243,7 +243,7 @@ class RegistrationController extends Controller
         ]);
 
         if($student->getBus()){
-            $bungalowNotFull = $em->getRepository("BdEWeiBundle:Bungalow")->getAllNotFullByGenderAndBus($student->getCivilite(), $student->getBus());
+            $bungalowNotFull = $em->getRepository("BdEWeiBundle:Bungalow")->getAllNotFullByGender($student->getCivilite());
             if($student->getBungalow() != null && !in_array($student->getBungalow(),$bungalowNotFull)){
                 $bungalowNotFull[] = $student->getBungalow();
             }
