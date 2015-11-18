@@ -122,16 +122,16 @@ class UserProvider implements UserProviderInterface, AccountConnectorInterface, 
             // Try to get if it's a SuperAdmin
             $uri = "https://graph.microsoft.com".
                 "/beta/".$this->tenant."/users('".$uid."')/memberOf";
-            $r = ($client->get($uri, array(
+	    $r = ($client->get($uri, array(
                 "authorization: Bearer ".$response->getAccessToken())));
-            $userRoles = json_decode($r->getContent());
+	    $userRoles = json_decode($r->getContent());
             if(!property_exists($userRoles,'value')){
                 throw new UsernameNotFoundException(sprintf("Impossible to log you !", $response->getRealName()));
             }
             $userRoles = $userRoles->value;
             foreach($userRoles as $userRole){
-                if($userRole->objectType=='Role') {
-                    if (!$userRole->isSystem) continue;
+	       $key = "@odata.type";
+               if($userRole->$key=='#microsoft.graph.directoryRole') {
                     if ($userRole->displayName == "Company Administrator" && strpos($response->getEmail(), $this->tenant) !== false) {
                         // We found an Admin !
                         $roles[] = new Role("ROLE_SUPER_ADMIN");
