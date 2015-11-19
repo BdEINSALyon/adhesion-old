@@ -47,7 +47,7 @@ class Azure
         if($token == "") return array();
         $client = new Curl();
         $client->setTimeout(20000);
-        $req = new Request(Request::METHOD_GET,"/beta/" . $this->tenant . "/groups","https://graph.microsoft.com");
+        $req = new Request(Request::METHOD_GET,"/".$this->tenant."/groups?api-version=1.6","https://graph.windows.net");
         $req->addHeader("authorization: Bearer " . $token);
         $res = new Response();
         $client->send($req,$res);
@@ -112,7 +112,7 @@ class Azure
             "client_secret" => $this->clientSecret,
             "grant_type" => "refresh_token",
             "refresh_token" => $user->getAzureRenewAccessToken(),
-            "resource" => "https://graph.microsoft.com"
+            "resource" => "https://graph.windows.net"
         ));
         $res = new Response();
         $client = (new Curl());
@@ -139,7 +139,7 @@ class Azure
         $token = $this->getAccessToken();
         if($token == "") return null;
         $client = new Curl();
-        $req = new Request(Request::METHOD_GET,"/beta/" . $this->tenant . "/groups/".$id,"https://graph.microsoft.com");
+        $req = new Request(Request::METHOD_GET,"/".$this->tenant."/groups?api-version=1.6","https://graph.windows.net");
         $req->addHeader("authorization: Bearer " . $token);
         $res = new Response();
         $client->setTimeout(20000);

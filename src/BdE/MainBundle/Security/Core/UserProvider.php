@@ -100,11 +100,12 @@ class UserProvider implements UserProviderInterface, AccountConnectorInterface, 
         $client->setTimeout(20000);
         $client = new Browser($client);
         $uid = $response->getResponse()['oid'];
-        $uri = "https://graph.microsoft.com".
-            "/beta/".$this->tenant."/users('".$uid."')/checkMemberGroups";
+        $uri = "https://graph.windows.net".
+            "/".$this->tenant."/me/checkMemberGroups?api-version=1.6";
         $r = ($client->post($uri, array(
-            "authorization: Bearer ".$response->getAccessToken(),
-            "Content-Type: application/json"
+            "Authorization: Bearer ".$response->getAccessToken()."",
+            "Content-Type: application/json",
+            "Accept: application/json"
         ), json_encode($request)));
         $r = json_decode($r->getContent());
         $groups = $r->value;
@@ -120,8 +121,8 @@ class UserProvider implements UserProviderInterface, AccountConnectorInterface, 
         $roles = array_unique($roles);
         if(sizeof($roles)==0){
             // Try to get if it's a SuperAdmin
-            $uri = "https://graph.microsoft.com".
-                "/beta/".$this->tenant."/users('".$uid."')/memberOf";
+            $uri = "https://graph.windows.net".
+                "/".$this->tenant."/me/memberOf?api-version=1.6";
 	    $r = ($client->get($uri, array(
                 "authorization: Bearer ".$response->getAccessToken())));
 	    $userRoles = json_decode($r->getContent());
@@ -130,8 +131,7 @@ class UserProvider implements UserProviderInterface, AccountConnectorInterface, 
             }
             $userRoles = $userRoles->value;
             foreach($userRoles as $userRole){
-	       $key = "@odata.type";
-               if($userRole->$key=='#microsoft.graph.directoryRole') {
+               if($userRole->objectType=='Role') {
                     if ($userRole->displayName == "Company Administrator" && strpos($response->getEmail(), $this->tenant) !== false) {
                         // We found an Admin !
                         $roles[] = new Role("ROLE_SUPER_ADMIN");
