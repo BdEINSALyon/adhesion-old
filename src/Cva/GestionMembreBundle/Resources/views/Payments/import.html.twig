@@ -1,0 +1,137 @@
+{% extends '::base.html.twig' %}
+
+	{% block title %} Import en masse {% endblock %}
+
+	{% block content %}
+
+        <div class="container">
+            <div class="page-header">
+                <h1>{% block head_title %}Importer{% endblock %} <small>{% block head_small %}Importer des utilisateurs{% endblock %}</small>
+
+                    <div class="pull-right">
+                        <div class="btn-group" style="">
+                            <a class="btn btn-success" href="#" onclick="document.getElementById('bigForm').submit()">Importer {{ icon('play') }}</a>
+                        </div>
+                    </div>
+                </h1>
+            </div>
+            <p>Cette page permet d'affecter un produit VA à des utilisateurs multiples, pour cela veuillez fournir un CSV séparé par des virgules et contenant
+            colonnes suivantes :</p>
+                <ul>
+                    <li><em>firstname</em> : Prénom de la personne</li>
+                    <li><em>lastname</em> : Nom de la personne</li>
+                    <li><em>mail</em> : Email de la personne (mettre "insa" si mail INSA Lyon)</li>
+                    <li><em>depart</em> : Département d'étude (IF, TC, GI, GE, GMC, GMD, BB, BIM, GCU, GE, GEN, GMPP)</li>
+                    <li><em>year</em> : Année d'étude (3, 4 ou 5)</li>
+                    <li><em>student</em> : Le numéro d'étudiant de la personne (important! cf. plus bas)</li>
+                    <li><em>sex</em> : Le sexe de la personne</li>
+                    <li><em>birthday</em> : La date de naissance</li>
+                    <li><em>payment</em> : Le mode de paiement (CB, ESP, CHQ)</li>
+                </ul>
+            <p>Le numéro étudiant est important car si ce dernier est déjà présent dans la base alors l'application ne
+            mettra à jour que l'année d'étude et le département, dans le cas contraire, il crée une nouvelle entrée pour
+            la personne.</p>
+            <!-- File picker -->
+            <div id="container">
+                <label for="filePicker">Sélectionnez un fichier CSV :</label>
+                <input type="file" id="filePicker">
+            </div>
+
+            <form id="bigForm" action="" method="post">
+                <!-- Table where data will be output -->
+                <table id="resultTable">
+                </table>
+            </form>
+        </div>
+
+    {% endblock %}
+
+		{% block javascripts %}
+            {{ parent() }}
+            <script>
+                /*
+                 Take data from a CSV and fill an HTML table
+                 Copyright (C) 2015  Gabriel Augendre
+                 */
+
+                /**
+                 * Data contained in the CSV file.
+                 * @typedef {Object} CSVLine
+                 * @property {string} mail - The person's mail
+                 * @property {string} firstName - The person's first name
+                 * @property {string} lastName - The person's last name
+                 */
+
+                /**
+                 * Parse CSV and put data in table.
+                 */
+                function parseCSV(filePath) {
+                    // Read file and then (callback) fill the table
+                    readFile(filePath, function(e) {
+                        var data = $.csv.toObjects(e.target.result);
+                        var table = $('#resultTable');
+                        table.empty();
+                        fillArray(data, table);
+                    });
+                }
+
+                /**
+                 * Fill the table with the given data.
+                 * @param {[CSVLine]} data Contains the lines of the CSV file.
+                 * @param table An HTML table, preferably empty. Title and data will be appended to it.
+                 */
+                function fillArray(data, table) {
+                    table.html("<tr><th>Prénom</th><th>Nom</th><th>Mail</th><th>Dep.</th><th>Année</th><th>ID</th><th>Sexe</th><th>Naissance</th><th>Paiement</th></tr>");
+                    var lastRow = table.find('tr:last');
+                    data.forEach(function (value, index) {
+                        lastRow.after('<tr>' +
+                                addCell(index, "firstname", value, 2) +
+                                addCell(index, "lastname", value, 2) +
+                                addCell(index, "mail", value, 2) +
+                                addCell(index, "depart", value,1) +
+                                addCell(index, "year", value, 1) +
+                                addCell(index, "student", value, 1) +
+                                addCell(index, "sex", value, 0) +
+                                addCell(index, "birthday", value, 1) +
+                                addCell(index, "payment", value, 1)
+                        );
+                        lastRow = table.find('tr:last');
+                    });
+                }
+
+                function addCell(index, name, value, num){
+                    if(name == 'mail' && value[name] == 'insa'){
+                        value[name] = accentsTidy(value['firstname'].trim())+'.'+accentsTidy(value['lastname'].trim())+'@insa-lyon.fr';
+                    }
+                    return '<td class="col-md-'+num+'" style="padding-left:0; padding-right:0"><input class="form-control" type="text" value="'+value[name]+'" name="students['+index+']['+ name + ']" id="'+ name + index + '"></td>';
+                }
+
+                /**
+                 * read text input
+                 */
+                function readFile(filePath, onLoadCallback) {
+                    var reader = new FileReader();
+                    reader.onload = onLoadCallback;
+                    if(filePath.files && filePath.files[0]) {
+                        reader.readAsText(filePath.files[0]);
+                    }
+                }
+
+                $(function(){
+                    $('#filePicker').change(function(){
+                        parseCSV($('#filePicker')[0]);
+                    });
+                })
+            </script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+
+            {% javascripts
+            '@CvaGestionMembreBundle/Resources/views/js/mailINSA.js' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.datatables.net/1.10.8/css/dataTables.bootstrap.min.css" rel="stylesheet" media="screen">
+    <style>    </style>
+{% endblock %}

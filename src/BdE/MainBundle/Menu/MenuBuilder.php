@@ -51,6 +51,8 @@ class MenuBuilder
             $membres->addChild("Anciens", array('route' => 'cva_membership_students_old'));
             $this->addDivider($membres);
             $membres->addChild('Ajouter Adhérent', array('route' => 'cva_membership_student_new'));
+            if($this->acl->isGranted("ROLE_SONATA_ADMIN"))
+                $membres->addChild('Importer en masse', array('route' => 'cva_membership_payments_import'));
             $this->addDivider($membres);
             $membres->addChild("Tous les Adhérents", array('route' => 'cva_membership_students'));
         } else if($this->acl->isGranted("ROLE_SOIREE")) {

@@ -8,13 +8,10 @@
 
 namespace Cva\GestionMembreBundle\Controller;
 
+use Cva\GestionMembreBundle\Entity\Etudiant;
 use Cva\GestionMembreBundle\Entity\Payment;
 use Cva\GestionMembreBundle\Entity\Produit;
-use Cva\GestionMembreBundle\Form\EtudiantType;
-use Cva\GestionMembreBundle\Form\PaymentType;
 use Cva\GestionMembreBundle\Form\StudentPaymentType;
-use Cva\GestionMembreBundle\Form\StudentType;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +20,76 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PaymentsController extends Controller
 {
+
+    /**
+     * @Route(path="/import", name="cva_membership_payments_import")
+     * @param Request $request
+     * @return \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    public function importAction(Request $request){
+        if($request->isMethod('POST')){
+            $out="";
+            $var = $request->request->get('students');
+            $em = $this->get('doctrine.orm.entity_manager');
+            $em->beginTransaction();
+            $product = $em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentVA()[0];
+            $out.= '<b>Importation de '. count($var).' étudiant(s) :</b><br>';
+            if($var!=null) {
+                foreach ($var as $student) {
+                    if ($student['student'] == '') {
+                        $out .= '<span class="text-error">'.$student['firstname'].' '.$student['lastname'].' ('
+                            .$student['mail'].') est déjà adhérant</span><br>';
+                        continue;
+                    }
+                    $new = false;
+                    $r = $em->getRepository("CvaGestionMembreBundle:Etudiant")->findOneBy(array('numEtudiant' => $student['student']));
+                    if ($r == null) {
+                        $r = new Etudiant();
+                        $r->setFirstName($student['firstname']);
+                        $r->setName($student['lastname']);
+                        $r->setCivilite($student['sex']);
+                        $r->setMail($student['mail']);
+                        $r->setNumEtudiant($student['student']);
+                        if ($student['birthday'] != null) {
+                            $birthday = new \DateTime();
+                            $birthday->setTimestamp(strtotime($student['birthday']));
+                            $r->setBirthday($birthday);
+                        }
+                        $new = true;
+                    } else {
+                        $c = $em->getRepository("CvaGestionMembreBundle:Payment")->createQueryBuilder('p')
+                            ->select('COUNT(p.id)')
+                            ->where('p.student = ?1')->andWhere('p.product IN (?2)')
+                            ->setParameter(1, $r)->setParameter(2, $em->getRepository("CvaGestionMembreBundle:Produit")->getCurrentVAIds())
+                            ->getQuery()->getSingleScalarResult();
+                        if ($c > 0) {
+                            $out .= '<span class="text-warning">'.$r.' ('
+                                .$r->getNumEtudiant().') est déjà adhérant</span><br>';
+                            continue;
+                        }
+                    }
+                    $r->setAnnee($student['year']);
+                    $r->setDepartement($student['depart']);
+                    $em->persist($r);
+                    $payment = Payment::generate($r, $product, $student['payment']);
+                    $em->persist($payment);
+                    $out .= '<span class="text-'.($new?'success':'info').'">'
+                        .$r.' ('
+                        .$r->getNumEtudiant().')' .
+                        ($new ? ' a été créé et' : '') . ' a acheté le produit ' . $product->getName() . '</span><br>';
+
+                }
+            }
+            $em->flush();
+            $em->commit();
+
+            return $this->render("CvaGestionMembreBundle:Payments:importResult.html.twig",array(
+                'out'=>$out
+            ));
+        } else {
+            return $this->render("CvaGestionMembreBundle:Payments:import.html.twig");
+        }
+    }
 
     /**
      * @Route(path="/", name="cva_membership_payments")
