@@ -7,7 +7,6 @@ parameters:
     database_password: 
     password.iterations: 1337
 
-    mailer_transport:  smtp
     mailer_host:       smtp.office365.com
     mailer_user:       adhesion@bde-insa-lyon.fr
     mailer_password:   "Ask To the Resp OrgaIF in his mail archive"
