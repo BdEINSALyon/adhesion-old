@@ -1,21 +1,14 @@
 parameters:
-    database_driver:   pdo_mysql
-    database_host:     127.0.0.1
-    database_port:     ~
-    database_name:     adhesion
-    database_user:     root
-    database_password: 
+    database_url: "mysql://root@localhost/adhesion"
     password.iterations: 1337
 
-    mailer_transport:  smtp
     mailer_host:       smtp.office365.com
     mailer_user:       adhesion@bde-insa-lyon.fr
     mailer_password:   "Ask To the Resp OrgaIF in his mail archive"
     mailer_port:       587
     mailer_encryption: tls
-    mailgun_user:      "Get your own"
-    mailgun_pass:      "Get your own"
     mailgun_api:       "Get your own"
+    mailgun_domain:       "Get your own"
 
     locale:            fr
     secret:            ThisTokenIsNotSoSecretChangeIt

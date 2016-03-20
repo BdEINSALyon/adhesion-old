@@ -6,5 +6,5 @@ web/bundles
 web/js
 bin/*
 .idea
-composer.lock
+#composer.lock
 *~

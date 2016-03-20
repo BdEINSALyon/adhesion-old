@@ -79,12 +79,7 @@ assetic:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   %database_driver%
-        host:     %database_host%
-        port:     %database_port%
-        dbname:   %database_name%
-        user:     %database_user%
-        password: %database_password%
+        url:   %database_url%
         charset:  UTF8
         # if using pdo_sqlite as your database driver, add the path in parameters.yml
         # e.g. database_path: %kernel.root_dir%/data/data.db3
@@ -99,15 +94,15 @@ doctrine:
 swiftmailer:
     default_mailer: public_mailer
     mailers:
-        mailgun:
+        mailgun: # Fall back of public_mailer for compatibilies issues
             transport: smtp
-            host: smtp.mailgun.org
-            port: 587
-            encryption: ~
-            username: %mailgun_user%
-            password: %mailgun_pass%
+            host:      %mailer_host%
+            username:  %mailer_user%
+            password:  %mailer_password%
+            port:       %mailer_port%
+            encryption:  %mailer_encryption% # The encryption mode. Valid values are tls, ssl, or null (indicating no encryption).
         public_mailer:
-            transport: %mailer_transport%
+            transport: smtp
             host:      %mailer_host%
             username:  %mailer_user%
             password:  %mailer_password%
