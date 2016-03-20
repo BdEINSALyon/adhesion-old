@@ -77,12 +77,11 @@
     "AZURE_RESOURCE": {
       "description": "Resource demandé en autorisation.",
       "value": "https://graph.microsoft.com"
-    },
+    }
   },
   "image": "heroku/ruby",
   "addons": [
-    "openredis",
-    "mongolab:shared-single-small"
+    "heroku-postgresql"
   ],
   "buildpacks": [
     {
