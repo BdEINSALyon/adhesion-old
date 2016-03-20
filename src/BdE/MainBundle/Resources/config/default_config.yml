@@ -8,4 +8,4 @@ wei.produitRemboursementWEI: 27
 wei.bungMixtes: true
 cva.produitVA: "28,29,30"
 bde.mail.sender: "BdE INSA Lyon <contact@bde-insa-lyon.fr>"
-mailgun.domain: "mail.adhesion.bde-insa-lyon.fr"
+mailgun.domain: %mailgun_domain%
