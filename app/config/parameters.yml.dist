@@ -7,9 +7,8 @@ parameters:
     mailer_password:   "Ask To the Resp OrgaIF in his mail archive"
     mailer_port:       587
     mailer_encryption: tls
-    mailgun_user:      "Get your own"
-    mailgun_pass:      "Get your own"
     mailgun_api:       "Get your own"
+    mailgun_domain:       "Get your own"
 
     locale:            fr
     secret:            ThisTokenIsNotSoSecretChangeIt
