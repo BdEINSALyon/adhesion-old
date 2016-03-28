@@ -1,10 +1,10 @@
 {
   "name": "Adhesion",
-  "description": "Gestion des adhérants d'un bureau des élèves.",
+  "description": "Gestion des adhérents d'un bureau des Élèves.",
   "keywords": [
     "adhesion",
     "bde",
-    "adhérant"
+    "adhérent"
   ],
   "website": "https://www.bde-insa-lyon.fr",
   "repository": "https://github.com/BdEINSALyon/adhesion",
@@ -43,11 +43,11 @@
       "value": "tls"
     },
     "MAILGUN_API" : {
-      "description": "MailGun (mail de bienvenu), clef d'api.",
+      "description": "MailGun (mail de bienvenue), clef d'api.",
       "value": ""
     },
     "MAILGUN_DOMAIN" : {
-      "description": "MailGun (mail de bienvenu), domaine d'expédition.",
+      "description": "MailGun (mail de bienvenue), domaine d'expédition.",
       "value": ""
     },
     "LOCAL": {
