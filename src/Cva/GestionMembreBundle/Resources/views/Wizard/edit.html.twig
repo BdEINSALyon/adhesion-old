@@ -130,9 +130,9 @@
                 if($("#form_va").find("input[type='radio']:disabled").length > 0){
                     price += 0; // Already bought
                 } else if(annee == 1){
-                    price += parseInt(products['VA2015B'].price);
+                    price += parseInt(products['VA2016B'].price);
                 } else {
-                    price += parseInt(products['VA2015A'].price);
+                    price += parseInt(products['VA2016A'].price);
                 }
                 if(takeWEI() && annee == 1 ){
                     if($("#form_wei").find("input[type='radio']:disabled").length <= 0)
