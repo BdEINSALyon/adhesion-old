@@ -8,15 +8,23 @@
             <h1>Connexion <small>vous devez vous connecter pour continuer</small></h1>
         </div>
         <div class="row">
-            {#<div class="col-md-6  col-md-offset-3">#}
-                {#<a onclick="document.getElementById('login').style.display = 'block'; this.style.display='none'" style="margin-top: 20px;width: 100%;" class="btn btn-primary">Se connecter avec un compte Système</a>#}
-            {#</div>#}
-            {#<div class="col-md-3"></div>#}
-            <div class="col-md-6 col-md-offset-3" id="login" style="margin-top: 20px;">
-                {% if error %}
+            {% if error %}
+                <div class="col-md-6 com-md-offset-3">
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
+                </div>
+            {% endif %}
 
+            <div class="col-md-6 col-md-offset-3">
+                <a href="{{ url("hwi_oauth_service_redirect",{service:"bde_azure"}) }}" class="btn btn-primary btn-block">Se connecter avec un compte BdE INSA Lyon</a>
+            </div>
+            <div class="col-md-3"></div>
+
+            <div class="col-md-6 col-md-offset-3">
+                <a onclick="document.getElementById('login').style.display = 'block'; this.style.display='none'" style="margin-top: 20px;" class="btn btn-block btn-default">Se connecter avec un compte Système</a>
+            </div>
+            <div class="col-md-3"></div>
+            
+            <div class="col-md-6 col-md-offset-3" id="login" style="display: none; margin-top: 20px;">
                 <form action="{{ path("fos_user_security_check") }}" method="post" class="form-horizontal">
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
                     <div class="form-group">
@@ -37,10 +45,6 @@
                     </div>
                 </form>
             </div>
-            <div class="col-md-6  col-md-offset-3">
-                <a href="{{ url("hwi_oauth_service_redirect",{service:"bde_azure"}) }}" style="width: 100%;" class="btn btn-default">Se connecter avec un compte BdE INSA Lyon (cassé!)</a>
-            </div>
-            <div class="col-md-3"></div>
         </div>
     </div>
 {% endblock fos_user_content %}
