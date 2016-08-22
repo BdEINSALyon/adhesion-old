@@ -79,7 +79,7 @@
       "value": "https://graph.microsoft.com"
     }
   },
-  "image": "heroku/ruby",
+  "image": "heroku/php",
   "addons": [
     "heroku-postgresql"
   ],
