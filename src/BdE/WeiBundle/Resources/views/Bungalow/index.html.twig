@@ -15,7 +15,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<table id="table_bungalow" class="table table-bordered table-hover table-striped">
+				<table id="table_bungalow" class="table dt-responsive table-bordered table-hover table-striped">
 					<thead>
 					<tr id="search">
 						<th>ID</th>
@@ -99,8 +99,10 @@
 
 {% block javascripts %}
 
-	<script src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
-	<script src="https://cdn.datatables.net/1.10.8/js/dataTables.bootstrap.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+	<script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+	<script src="https://cdn.datatables.net/responsive/2.1.0/js/responsive.bootstrap.min.js"></script>
 	<script>
 		$(function () {
 			$('#confirm-delete').on('show.bs.modal', function(e) {

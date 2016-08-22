@@ -15,7 +15,7 @@
 					<h3 id="nomEcran">Liste d'Attente Inscrits</h3>
 				</div>
 				<div class="span9">
-					<table class="table table-bordered table-hover table-striped" id="table_adherent">
+					<table class="table dt-responsive table-bordered table-hover table-striped" id="table_adherent">
 					  <thead>
  						<tr id="search">
 							<th>Place en LA</th>
@@ -88,7 +88,10 @@
 		{% endblock %}
 		       {% block javascripts %}
 			   {{ parent() }}
-				<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>	
+				   <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+				   <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+				   <script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
+				   <script src="https://cdn.datatables.net/responsive/2.1.0/js/responsive.bootstrap.min.js"></script>
 			{% javascripts
 				'@CvaGestionMembreBundle/Resources/views/js/tableau.js'  %}				
 				<script type="text/javascript" src="{{ asset_url }}"></script>
